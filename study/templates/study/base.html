@@ -67,18 +67,14 @@
         {% block content %}
         {% endblock %}
       </div>
-
-      <!-- study/base.htmlからここコメントアウトしただけ -->
-      <!-- <div class="col-md-4">
+      <div class="col-md-4">
         <ul class="list-group">
           <li class="list-group-item bg-info text-white">カテゴリ一覧</li>
           {% for category in category_list %}
           <li class="list-group-item"><a href="{% url 'study:category' category.pk %}">{{ category }}</a></li>
           {% endfor %}
         </ul>
-      </div> -->
-
-
+      </div>
     </div>
   </div>
 

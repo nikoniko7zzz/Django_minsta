@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'register.apps.RegisterConfig',
-    # 'register',s
-    # 'study',
     'study.apps.StudyConfig',
 ]
 
@@ -74,11 +72,13 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            # viewから直接自分で渡さなくてもテンプレート上で変数を使えるようにするもの
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'study.context_processors.common',  # context_processors.pyの変数を読み込む
             ],
         },
     },

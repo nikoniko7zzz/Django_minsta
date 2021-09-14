@@ -11,7 +11,7 @@
         {{ field.errors }}
         <hr>
         {% endfor %}
-        <button type="submit" class="btn btn-success btn-lg btn-block">ログイン</button>
+        <button type="submit" class="btn btn-info btn-lg btn-block">ログイン</button>
         <input type="hidden" name="next" value="{{ next }}" />
         {% csrf_token %}
       </form>
@@ -21,8 +21,8 @@
   <!-- 右側、会員登録エリア -->
   <div class="card col-md-6">
     <div class="card-body">
-      <a href="{% url 'register:user_create' %}" class="btn btn-success btn-lg btn-block">会員登録</a>
-      <a href="{% url 'register:password_reset' %}" class="btn btn-success btn-lg btn-block">パスワードを忘れた方</a>
+      <a href="{% url 'register:user_create' %}" class="btn btn-info btn-lg btn-block">会員登録</a>
+      <a href="{% url 'register:password_reset' %}" class="btn btn-info btn-lg btn-block">パスワードを忘れた方</a>
     </div>
   </div><!-- 右側、会員登録エリアおわり -->
 </div>

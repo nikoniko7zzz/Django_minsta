@@ -3,11 +3,16 @@
 {% block content %}
 {% for post in post_list %}
 <div class="card mb-3">
-  <h2 class="card-header bg-dark text-white">{{ post.title }}</h2>
   <div class="card-body">
-    <p>{{ post.created_at }}, {{ post.category }}</p>
-    <a href="{% url 'study:detail' post.pk %}" class="btn btn-dark">続きを読む</a>
+    <div class="row">
+
+      <p class="btn btn-dark">{{ post.category }}</p>
+      <p>{{ post.created_at }}</p>
+      <a href="{% url 'study:detail' post.pk %}" class="btn btn-dark">見る</a>
+    </div>
   </div>
+  <p class="card-header bg-dark text-white">{{ post.title }}</p>
+  <!-- <h2 class="card-header bg-dark text-white">{{ post.title }}</h2> -->
 </div>
 {% endfor %}
 

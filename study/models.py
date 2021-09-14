@@ -12,7 +12,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    # ブログの記事
+    # 問題の投稿
     title = models.CharField('タイトル', max_length=255)
     text = models.TextField('本文')
     created_at = models.DateTimeField('作成日', default=timezone.now)

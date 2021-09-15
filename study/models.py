@@ -6,6 +6,7 @@ class Category(models.Model):
     # カテゴリ
     name = models.CharField('カテゴリ名', max_length=255)
     created_at = models.DateTimeField('作成日', default=timezone.now)
+    # 管理サイトでの一覧表示用
 
     def __str__(self):
         return self.name
@@ -13,11 +14,12 @@ class Category(models.Model):
 
 class Post(models.Model):
     # 問題の投稿
-    title = models.CharField('タイトル', max_length=255)
-    text = models.TextField('本文')
+    title = models.TextField('問題', max_length=255)
+    text = models.TextField('答え')
     created_at = models.DateTimeField('作成日', default=timezone.now)
     category = models.ForeignKey(
         Category, verbose_name='カテゴリ', on_delete=models.PROTECT)
+    # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
 
     def __str__(self):
         return self.title
@@ -26,7 +28,7 @@ class Post(models.Model):
 class Comment(models.Model):
     # ブログのコメント
     name = models.CharField('お名前', max_length=30, default='名無し')
-    text = models.TextField('本文')
+    text = models.TextField('コメント')
     post = models.ForeignKey(Post, verbose_name='紐づく記事',
                              on_delete=models.PROTECT)
     created_at = models.DateTimeField('作成日', default=timezone.now)

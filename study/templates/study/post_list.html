@@ -1,20 +1,33 @@
 {% extends 'study/base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-{% for post in post_list %}
-<div class="card mb-3">
-  <div class="card-body">
-    <div class="row">
-
-      <p class="btn btn-dark">{{ post.category }}</p>
-      <p>{{ post.created_at }}</p>
-      <a href="{% url 'study:detail' post.pk %}" class="btn btn-dark">見る</a>
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" style="height:300px; background-color: aquamarine;">
+      <div class="container">
+        <h3>START</h5>
+      </div>
     </div>
+    {% for post in post_list %}
+    <div class="carousel-item active" style="height:300px; background-color: aquamarine;">
+      <p>{{ post.category }}</p>
+    </div>
+    <div class="carousel-item active" style="height:300px; background-color: aquamarine;">
+      <p>{{ post.title }}</p>
+    </div>
+    {% endfor %}
   </div>
-  <p class="card-header bg-dark text-white">{{ post.title }}</p>
-  <!-- <h2 class="card-header bg-dark text-white">{{ post.title }}</h2> -->
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </a>
 </div>
-{% endfor %}
+
 
 {% include 'study/page.html' %}
 

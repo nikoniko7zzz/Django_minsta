@@ -1,6 +1,4 @@
-import itertools
 from .models import Category
-from django.conf import settings
 
 
 def common(request: object) -> object:

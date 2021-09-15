@@ -1,0 +1,28 @@
+{% extends 'study/base.html' %}
+
+{% block content %}
+{% for post in post_list %}
+<div class="card mb-3">
+  <div class="card-body">
+    <table>
+      <tbody>
+        <tr>
+          <td style="width: 100px;">
+            <p class="btn btn-dark">{{ post.category }}</p>
+          </td>
+          <td style="width: 400px;">
+            <p>{{ post.created_at }}</p>
+          </td>
+          <td style="width: 100px;"><a href="{% url 'study:detail' post.pk %}">見る</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="card-header bg-dark text-white">{{ post.title }}</p>
+  <!-- <h2 class="card-header bg-dark text-white">{{ post.title }}</h2> -->
+</div>
+{% endfor %}
+
+{% include 'study/page.html' %}
+
+{% endblock %}

@@ -1,3 +1,6 @@
+{% load django_bootstrap5 %}
+
+
 <!doctype html>
 <html lang="ja">
 
@@ -5,83 +8,104 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-    integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
   <title>minsta-test</title>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-    <a class="navbar-brand" href="{% url 'register:top' %}">minsta</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'study:index' %}">Home</a>
-        </li>
-        {% if user.is_superuser %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-        </li>
-        {% endif %}
-        {% if user.is_authenticated %}
-        <li>
-          <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
-        </li>
-        <li>
-          <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
-        </li>
-        <li>
-          <a class="nav-item nav-link" href="{% url 'register:logout' %}">ログアウト</a>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'register:login' %}">
-            ログイン
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-      <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'study:index' %}">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
-        <button class="btn btn-primary" type="submit">Search</button>
-        <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
-      </form>
+  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-5" href="{% url 'register:top' %}">minsta</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'study:index' %}">Home</a>
+          </li>
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+          </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li>
+            <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
+          </li>
+          <li>
+            <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
+          </li>
+          <li>
+            <a class="nav-item nav-link" href="{% url 'register:logout' %}">Log out</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-item nav-link" href="{% url 'register:login' %}">Log in</a>
+          </li>
+          {% endif %}
+        </ul>
+        <form class="d-flex" method="GET" action="{% url 'study:index' %}">
+          <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
     </div>
   </nav>
 
-  <div class="jumbotron">
-    <h1 class="display-3">minsta!</h1>
-    <p class="lead">(๑•̀ㅂ•́)و✧ みんなでSTUDY</p>
-    <!-- <hr class="my-2"> -->
-  </div>
-
   <div class="container">
     <div class="row">
-      <div class="col-md-8">
+      <div class="container col-md-3 mt-3">
+        <h1 class="display-3" style="text-align:center;">minsta!</h1>
+        <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
+        <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
+
+        <div class="d-flex justify-content-evenly mb-3">
+          <a class="btn btn-info" href="#" role="button">書く</a>
+          <a class="btn btn-info" href="#" role="button">解く</a>
+        </div>
+        <!-- <p style="width: 50px; height: 50px; border-radius: 50%; background: skyblue;">ユーザー</p> -->
+        <div class="container" style="margin-left: 0.5em; margin-right: 0.5em;">
+          <div class="row">
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+          </div>
+          <div class="row">
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+          </div>
+          <div class="row">
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
+          </div>
+        </div>
+      </div>
+      <div class="container col-md-6 mt-3">
         {% block content %}
         {% endblock %}
       </div>
-
-      <!-- study/base.htmlからここコメントアウトしただけ -->
-      <div class="col-md-4">
-        <ul class="list-group">
-          <li class="list-group-item bg-info text-white">カテゴリ一覧</li>
-          {% for category in category_list %}
-          <li class="list-group-item"><a href="{% url 'study:category' category.pk %}">{{ category }}</a></li>
-          {% endfor %}
-        </ul>
+      <div class="container col-md-3 mt-3">
       </div>
-
-
     </div>
   </div>
+
 
   <!-- <footer class="bg-info text-white text-center py-3">
     <p>minsta</p>

@@ -39,11 +39,11 @@
             <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
           </li>
           <li>
-            <a class="nav-item nav-link" href="{% url 'register:logout' %}">ログアウト</a>
+            <a class="nav-item nav-link" href="{% url 'register:logout' %}">Log out</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-item nav-link" href="{% url 'register:login' %}">ログイン</a>
+            <a class="nav-item nav-link" href="{% url 'register:login' %}">Log in</a>
           </li>
           {% endif %}
         </ul>
@@ -61,7 +61,12 @@
         <h1 class="display-3" style="text-align:center;">minsta!</h1>
         <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
         <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
-          <!-- <p style="width: 50px; height: 50px; border-radius: 50%; background: skyblue;">ユーザー</p> -->
+
+        <div class="d-flex justify-content-evenly mb-3">
+          <a class="btn btn-info" href="#" role="button">書く</a>
+          <a class="btn btn-info" href="#" role="button">解く</a>
+        </div>
+        <!-- <p style="width: 50px; height: 50px; border-radius: 50%; background: skyblue;">ユーザー</p> -->
         <div class="container" style="margin-left: 0.5em; margin-right: 0.5em;">
           <div class="row">
             <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
@@ -94,15 +99,54 @@
       </div>
 
       <div class="container col-md-6 mb-3 mt-3">
-        <ul class="nav justify-content-center">
+        <div class="row">
+          <select class="col-xs-2">
+            <option selected> </option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+          <p>月〜</p>
+          <select class="form-select">
+            <option selected> </option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+          <p>月</p>
+        </div>
+
+
+        <ul class="nav nav-tabs justify-content-center">
           {% for category in category_list %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'study:category' category.pk %}">{{ category }}</a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'study:category' category.pk %}"
+              style="background-color: transparent; text-decoration: none; color: inherit;">{{ category}}</a>
           </li>
           {% endfor %}
         </ul>
         {% block content %}
         {% endblock %}
       </div>
+
 
       <div class="container col-md-3 mt-3">
         <p>テキスト</p>

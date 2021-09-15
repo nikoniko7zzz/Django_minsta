@@ -2,31 +2,61 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
-    <div class="carousel-item active" style="height:300px; background-color: aquamarine;">
-      <div class="container">
-        <h3>START</h5>
+    <div class="carousel-item active" style="height:300px; background-color: darkslategrey;">
+      <div class="carousel-caption d-flex align-items-center justify-content-center">
+        <h1>スタート</h1>
       </div>
     </div>
     {% for post in post_list %}
-    <div class="carousel-item active" style="height:300px; background-color: aquamarine;">
-      <p>{{ post.category }}</p>
+    <div class="carousel-item" style="height:300px; background-color: darkslategrey;">
+      <div class="carousel-caption d-flex align-items-center justify-content-center">
+        <h4>{{ post.title }}</h4>
+        <h4>{{ post.created_at }}</h4>
+      </div>
     </div>
-    <div class="carousel-item active" style="height:300px; background-color: aquamarine;">
-      <p>{{ post.title }}</p>
+    <div class="carousel-item" style="height:300px; background-color: darkslategrey;">
+      <div class="carousel-caption d-flex align-items-center justify-content-center">
+        <h4>{{ post.text }}</h4>
+      </div>
     </div>
     {% endfor %}
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-bs-slide="prev">
+
+  <a class=" carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-bs-slide="next">
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </a>
 </div>
+
+
+<!-- <div class="card mb-3">
+  <div class="card-header">
+  </div>
+  <div class="card-body  text-center">
+    <h5 class="card-title"></h5>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          答え
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
 
 
 {% include 'study/page.html' %}

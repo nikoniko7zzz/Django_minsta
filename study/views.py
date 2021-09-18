@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views import generic
 from .forms import CommentCreateForm
 from .models import Post, Category, Comment
+from django.contrib.auth.decorators import login_required
 
 
 class IndexView(generic.ListView):
@@ -22,6 +23,7 @@ class IndexView(generic.ListView):
 
 
 class CategoryView(generic.ListView):
+    # カテゴリ別のリスト
     model = Post
     paginate_by = 10
 
@@ -51,3 +53,8 @@ class CommentView(generic.CreateView):
         comment.post = get_object_or_404(Post, pk=post_pk)
         comment.save()  # ここでDBに保存
         return redirect('study:detail', pk=post_pk)
+
+
+def newView(request):
+    return redirect('study:new')
+

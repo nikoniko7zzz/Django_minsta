@@ -4,9 +4,14 @@ from django.views import generic
 from .forms import CommentCreateForm, PostCreateForm
 from .models import Post, Category, Comment
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
+# render 単純なテンプレートとしてHttpResponseをreturnするときのショートカット
+# reverse url.pyで決めた名前を解析する関数
+# reverse_lazy reverseをクラスベースビューのクラス変数として書くときに利用
 
 class IndexView(generic.ListView):
+    # リスト表示用
     model = Post
     paginate_by = 10
 
@@ -55,27 +60,11 @@ class CommentView(generic.CreateView):
         return redirect('study:detail', pk=post_pk)
 
 
+# class PostIndexView(generic.ListView):
+#     model = Post
 
-# class newView(generic.CreateView):
-#     # model = Post
-#     # #fields = ('name', 'text')
-#     # form_class = PostCreateForm
-#     template_name = 'study/post_input.html' #add
 
-    # def form_valid(self, form):
-    #     comment = form.save(commit=False)  # コメントはDBに保存されていません
-    #     comment.post = get_object_or_404(Post)
-    #     comment.save()  # ここでDBに保存
-    #     # return redirect('study:new')
-    #     return render(request, 'study:new', context)
-
-# class newView(generic.TemplateView):
-#     template_name = 'study/post_input.html'
-
-# class NewView(generic.TemplateView):
-#         template_name = 'post_input.html'
-
-def NewView(request):
+def PostNewView(request):
     # params = {'message': 'newです'}
     params = {'message':'', 'form':None}
     if request.method == 'POST':
@@ -93,5 +82,25 @@ def NewView(request):
         params['form'] = PostCreateForm()
     return render(request, 'study/post_input.html', params)
     # return render(request, 'study/post_input.html', params)
+
+
+    # def NewView(request):
+    # # params = {'message': 'newです'}
+    # params = {'message':'', 'form':None}
+    # if request.method == 'POST':
+    #     form = PostCreateForm(request.POST)
+    #     if form.is_valid(): #フォームに入力された値にエラーがないかをバリデートする
+    #         post = form.save(commit=False)
+    #         post.author = request.user #ログインユーザーをformに入れている
+    #         post.save()
+    #         print('問題を作成しました。')
+    #         # return redirect('new')
+    #     else:
+    #         params['message'] = '再入力してください'
+    #         params['form'] = form
+    # else:
+    #     params['form'] = PostCreateForm()
+    # return render(request, 'study/post_input.html', params)
+
 
 

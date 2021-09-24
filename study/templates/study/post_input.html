@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<p>問題を登録する</p>
+<h3 style="text-align: center">問題を登録する</h3>
 
 <!-- novalidate フォームの入力内容の検証を無効にする -->
 <p>{{ message }}</p>
@@ -16,7 +16,8 @@
         <div class="field">{{field.label_tag}}{{field}}</div>
         {% endfor %}
         <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
-        <button type="submit" class="btn btn-dark">続けて作成する</button>
+        <button type="submit" class="btn btn-dark" name="save_and_add">保存してもう一つ追加</button>
+        <button type="submit" class="btn btn-dark" name="save_and_edit">保存して編集を続ける</button>
       </form>
     </div>
   </div>

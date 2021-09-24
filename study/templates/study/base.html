@@ -10,20 +10,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+
 
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <!-- <script type="text/javascript" src="{% static 'js/script.js' %}"></script> -->
-
-  <!-- カレンダー -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css"> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-
 
   {% bootstrap_css %}
   {% bootstrap_javascript %}
@@ -57,11 +48,11 @@
             <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
           </li>
           <li>
-            <a class="nav-item nav-link" href="{% url 'register:logout' %}">Log out</a>
+            <a class="nav-item nav-link" href="{% url 'register:logout' %}">LOG OUT</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-item nav-link" href="{% url 'register:login' %}">Log in</a>
+            <a class="nav-item nav-link" href="{% url 'register:login' %}">LOG IN</a>
           </li>
           {% endif %}
         </ul>
@@ -82,21 +73,21 @@
         <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
         <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
         <p id="timerLabel" style="color: white; font-size: 50px; text-align: center">00:00</p>
-        <div class="d-flex justify-content-evenly">
-          <button class="btn btn-dark" type="submit" style="width:75px">START</button>
-          <button class="btn btn-dark" type="submit" style="width:75px">STOP</button>
-          <button class="btn btn-dark" type="submit" style="width:75px">RESET</button>
+        <div class="d-flex justify-content-around">
+          <input type="button" class="myButton btn btn-dark" onclick="start()" value="START" id="startBtn">
+          <input type="button" class="myButton btn btn-dark" onclick="stop()" value="STOP">
+          <input type="button" class="myButton btn btn-dark" onclick="reset()" value="RESET">
         </div>
 
 
-        <!-- <input type="button" class="myButton" onclick="start()" value="START" id="startBtn">
-          <input type="button" class="myButton" onclick="stop()" value="STOP">
-          <input type="button" class="myButton" onclick="reset()" value="RESET"> -->
 
         <div class="d-flex justify-content-evenly mb-3">
           <a class="btn btn-light shadow mr-3" href="{% url 'study:new' %}" role="button">書く</a>
           <a class="btn btn-light shadow" href="#" role="button">はじめる</a>
         </div>
+
+        <p id="target">ここの色が変わります</p>
+        <input type="button" value=" ボタン " onclick="changeColor('target');" />
       </div>
 
       <!-- 中央 -->
@@ -117,13 +108,6 @@
     </div>
   </div>
 
-  <script>
-    $('#datepicker').datepicker();
-  </script>
-
-  <!-- Optional JavaScript -->
-
-
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -135,11 +119,7 @@
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
 
-
-  <!-- カレンダー -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
+  <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 
 
 

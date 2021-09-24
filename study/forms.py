@@ -12,11 +12,15 @@ class PostCreateForm(forms.ModelForm):
         model = Post
         fields = ('category', 'title', 'text')
 
-        # 表示ラベルを定義
-        labels = {'category':'教科',
-                  'title': '問題',
-                  'text': '答え',
-                  }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            # widget.attrs htmlで表示されるclass設定をしている
+            self.fields['category'].widget.attrs = {'class': 'form-select mb-3'}
+            self.fields['title'].widget.attrs = {'class': 'form-control mb-3'}
+            self.fields['text'].widget.attrs = {'class': 'form-control mb-3'}
+
+
 
 class CommentCreateForm(forms.ModelForm):
 

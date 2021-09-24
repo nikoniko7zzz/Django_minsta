@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load static %}
 
 
 <!doctype html>
@@ -8,13 +9,30 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <!-- <script type="text/javascript" src="{% static 'js/script.js' %}"></script> -->
+
+  <!-- カレンダー -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css"> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+
+
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   <title>minsta</title>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+<body style="background-color: rgba(201, 210, 221, 0.25)">
+  <!-- ヘッダー -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
       <a class="navbar-brand ms-5" href="{% url 'register:top' %}">minsta</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -49,133 +67,82 @@
         </ul>
         <form class="d-flex" method="GET" action="{% url 'study:index' %}">
           <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
-          <button class="btn btn-outline-light" type="submit">Search</button>
+          <button class="btn btn-outline-dark" type="submit">Search</button>
         </form>
       </div>
     </div>
   </nav>
 
+  <!-- メイン -->
   <div class="container">
     <div class="row">
+      <!-- 右側 -->
       <div class="container col-md-3 mt-3">
         <h1 class="display-3" style="text-align:center;">minsta!</h1>
         <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
         <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
-
-        <div>
-          <div class="d-flex justify-content-evenly mb-3">
-            <a class="btn btn-info mr-3" href={% url 'study:new' %}" role="button">書く</a>
-            <a class="btn btn-info" href="#" role="button">見る</a>
-          </div>
-          <p>テキスト</p>
-          <p>テキスト</p>
-          <p>テキスト</p>
-          <p>テキスト</p>
+        <p id="timerLabel" style="color: white; font-size: 50px; text-align: center">00:00</p>
+        <div class="d-flex justify-content-evenly">
+          <button class="btn btn-dark" type="submit" style="width:75px">START</button>
+          <button class="btn btn-dark" type="submit" style="width:75px">STOP</button>
+          <button class="btn btn-dark" type="submit" style="width:75px">RESET</button>
         </div>
-        <!-- <p style="width: 50px; height: 50px; border-radius: 50%; background: skyblue;">ユーザー</p> -->
+
+
+        <!-- <input type="button" class="myButton" onclick="start()" value="START" id="startBtn">
+          <input type="button" class="myButton" onclick="stop()" value="STOP">
+          <input type="button" class="myButton" onclick="reset()" value="RESET"> -->
+
+        <div class="d-flex justify-content-evenly mb-3">
+          <a class="btn btn-light shadow mr-3" href="{% url 'study:new' %}" role="button">書く</a>
+          <a class="btn btn-light shadow" href="#" role="button">はじめる</a>
+        </div>
       </div>
 
+      <!-- 中央 -->
       <div class="container col-md-6 mb-3 mt-5">
-        <span class="col-md-2 d-flex">
-          <select class="form-select col-md-1 text-align:center">
-            <option selected> </option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          <p>月〜</p>
-          <select class="form-select col-md-1 text-align:center">
-            <option selected> </option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          <p>月</p>
-        </span>
-
-
-        <ul class="nav nav-tabs justify-content-center">
-          {% for category in category_list %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'study:category' category.pk %}"
-              style="background-color: transparent; text-decoration: none; color: inherit;">{{ category}}</a>
-          </li>
-          {% endfor %}
-        </ul>
         {% block content %}
         {% endblock %}
       </div>
 
-
+      <!-- 左側 -->
       <div class="container col-md-3 mt-5">
-        <div class="container" style="margin-left: 0.5em; margin-right: 0.5em;">
-          <div class="row">
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-          </div>
-          <div class="row">
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-          </div>
-          <div class="row">
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-          </div>
-        </div>
+
+        {% block calendar_content %}
+        {% endblock %}
+
+
       </div>
 
     </div>
   </div>
 
-
-  <!-- <footer class="bg-info text-white text-center py-3">
-    <p>minsta</p>
-  </footer> -->
+  <script>
+    $('#datepicker').datepicker();
+  </script>
 
   <!-- Optional JavaScript -->
+
+
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
     crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
+
+
+  <!-- カレンダー -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+
+
 </body>
 
 </html>

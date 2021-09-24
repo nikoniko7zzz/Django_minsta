@@ -10,11 +10,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-  <title>minsta-test</title>
+  <title>minsta</title>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand ms-5" href="{% url 'register:top' %}">minsta</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -62,52 +62,22 @@
         <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
         <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
 
-        <div class="d-flex justify-content-evenly mb-3">
-          <a class="btn btn-info" href="#" role="button">書く</a>
-          <a class="btn btn-info" href="#" role="button">解く</a>
-        </div>
-        <!-- <p style="width: 50px; height: 50px; border-radius: 50%; background: skyblue;">ユーザー</p> -->
-        <div class="container" style="margin-left: 0.5em; margin-right: 0.5em;">
-          <div class="row">
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-          </div>
-          <div class="row">
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-          </div>
-          <div class="row">
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-            <div class="col d-flex rounded border border-secondary" style="background: skyblue;">1</div>
-          </div>
-        </div>
       </div>
-      <div class="container col-md-6 mt-3">
+
+      <div class="container col-md-6 mb-3 mt-5">
         {% block content %}
         {% endblock %}
       </div>
-      <div class="container col-md-3 mt-3">
+
+
+      <div class="container col-md-3 mt-5">
       </div>
+
     </div>
   </div>
 
 
-  <!-- <footer class="bg-info text-white text-center py-3">
+  <!-- <footer class="bg-light text-white text-center py-3">
     <p>minsta</p>
   </footer> -->
 

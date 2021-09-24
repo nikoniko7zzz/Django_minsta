@@ -1,9 +1,10 @@
-<!-- コメント入力フォーム -->
+<!-- 問題入力フォーム -->
 {% extends 'study/base.html' %}
 {% load django_bootstrap5 %}
 
 {% block content %}
-<form action="" method="POST">
+ここに問題投稿画面が入る
+<!-- <form action="" method="POST">
   {{ form.non_field_errors }}
   {% for field in form %}
   <div class="form-group">
@@ -14,6 +15,6 @@
   {% endfor %}
   {% csrf_token %}
   <button type="submit" class="btn btn-dark">送信</button>
-</form>
+</form> -->
 
 {% endblock %}

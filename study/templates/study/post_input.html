@@ -1,0 +1,43 @@
+{% extends 'study/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<p>問題を登録する</p>
+
+<!-- novalidate フォームの入力内容の検証を無効にする -->
+<p>{{ message }}</p>
+<div class="eleven wide column">
+  <div class="ui segment">
+    <div class="content">
+      <form class="ui form" action="" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">{{field.label_tag}}{{field}}</div>
+        {% endfor %}
+        <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
+        <button type="submit" class="btn btn-dark">続けて作成する</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- <label for="exampleFormControlInput1" class="form-label">教科</label>
+  <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">{{PostCreateForm.category}}
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">問題</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{PostCreateForm.title}}</textarea>
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">答え</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{PostCreateForm.text}}</textarea>
+  </div>
+  <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
+  <button type="submit" class="btn btn-dark">続けて作成する</button> -->
+</form>
+
+{% endblock %}

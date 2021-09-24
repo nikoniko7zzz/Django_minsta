@@ -2,24 +2,73 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
+<span class="col-md-2 d-flex">
+  <select class="form-select col-md-1 text-align:center">
+    <option selected> </option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
+  <p>月〜</p>
+  <select class="form-select col-md-1 text-align:center">
+    <option selected> </option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
+  <p>月</p>
+</span>
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+
+<ul class="nav nav-tabs justify-content-center">
+  {% for category in category_list %}
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'study:category' category.pk %}"
+      style="background-color: transparent; text-decoration: none; color: inherit;">{{ category}}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+
+
+
+
+
+<div id="carouselExampleControls" class="carousel slide shadow-lg" data-bs-ride="carousel">
   <div class="carousel-inner">
-    <div class="carousel-item active" style="height:300px; background-color: darkslategrey;">
+    <div class="carousel-item active" style="height:300px; background-color: #f8f9fa;">
       <div class="carousel-caption d-flex align-items-center justify-content-center">
-        <h1>スタート</h1>
+        <h1 style="color:black">スタート</h1>
       </div>
     </div>
     {% for post in post_list %}
-    <div class="carousel-item" style="height:300px; background-color: darkslategrey;">
+    <div class="carousel-item" style="height:300px; background-color: #f8f9fa;">
       <div class="carousel-caption d-flex align-items-center justify-content-center">
-        <h4>{{ post.title }}</h4>
+        <h4 style="color:black">{{ post.title }}</h4>
         <!-- <h4>{{ post.created_at }}</h4> -->
       </div>
     </div>
-    <div class="carousel-item" style="height:300px; background-color: darkslategrey;">
+    <div class="carousel-item" style="height:300px; background-color: #f8f9fa;">
       <div class="carousel-caption d-flex align-items-center justify-content-center">
-        <h4>{{ post.text }}</h4>
+        <h4 style="color:black">{{ post.text }}</h4>
       </div>
     </div>
     {% endfor %}
@@ -34,29 +83,6 @@
     <span class="visually-hidden">Next</span>
   </a>
 </div>
-
-
-<!-- <div class="card mb-3">
-  <div class="card-header">
-  </div>
-  <div class="card-body  text-center">
-    <h5 class="card-title"></h5>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingThree">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-          data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          答え
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-        data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 
 
 {% include 'study/page.html' %}

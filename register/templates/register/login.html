@@ -1,7 +1,6 @@
 {% extends "register/base.html" %}
 {% block content %}
-<!-- <div class="row"> -->
-<!-- 左側、ログインエリア -->
+<!-- ログインエリア -->
 <div class="card mb-3">
   <div class="card-body">
     <form action="{% url 'register:login' %}" method="POST">
@@ -11,18 +10,23 @@
       {{ field.errors }}
       <hr>
       {% endfor %}
-      <button type="submit" class="btn btn-light btn-lg btn-block">ログイン</button>
-      <input type="hidden" name="next" value="{{ next }}" />
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-light btn-lg">ログイン</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+      </div>
       {% csrf_token %}
     </form>
   </div>
-</div><!-- 左側、ログインエリアおわり -->
+</div>
+<!-- 会員登録、パスワード忘れ -->
 <div class="card">
-  <div class="card-body col-6">
-    <p><a href="{% url 'register:user_create' %}" class="btn btn-light btn-lg btn-block mb-3">会員登録</a></p>
-    <p><a href="{% url 'register:password_reset' %}" class="btn btn-light btn-lg btn-block">パスワードを忘れた方</a></p>
+  <div class="card-body">
+    <p><a href="{% url 'register:user_create' %}" class="btn btn-light btn-lg mb-3"
+        style="display: block; text-align: center;">会員登録</a></p>
+    <p><a href="{% url 'register:password_reset' %}" class="btn btn-light btn-lg"
+        style="display: block; text-align: center;">パスワードを忘れた方</a></p>
   </div>
-</div><!-- 左側、ログインエリアおわり -->
+</div>
 
 
 

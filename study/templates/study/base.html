@@ -84,14 +84,16 @@
           {% endif %}
           <!-- インデントを揃えて保存できない なぜ？ -->
 
-
-
-
-
-        <div class="d-flex justify-content-evenly mb-3">
-          <a class="btn btn-light shadow mr-3" href="{% url 'study:new' %}" role="button">問題を書く</a>
-          <a class="btn btn-light shadow" href="{% url 'study:record' %}" role="button">学習の状況</a>
+        <div class="d-flex justify-content-around">
+          <input type="button" class="myButton btn btn-dark" onclick="start()" value="国" id="startBtn">
+          <input type="button" class="myButton btn btn-dark" onclick="stop()" value="数">
+          <input type="button" class="myButton btn btn-dark" onclick="reset()" value="英">
+          <input type="button" class="myButton btn btn-dark" onclick="reset()" value="理">
+          <input type="button" class="myButton btn btn-dark" onclick="reset()" value="社">
         </div>
+
+
+
         <!-- タイマー -->
         <p id="timerLabel" style="color: white; font-size: 50px; text-align: center">00:00</p>
         <div class="d-flex justify-content-around">
@@ -99,6 +101,12 @@
           <input type="button" class="myButton btn btn-dark" onclick="stop()" value="STOP">
           <input type="button" class="myButton btn btn-dark" onclick="reset()" value="RESET">
         </div>
+
+        <div class="d-flex justify-content-evenly mb-3">
+          <a class="btn btn-light shadow mr-3" href="{% url 'study:new' %}" role="button">問題を書く</a>
+          <a class="btn btn-light shadow" href="{% url 'study:record' %}" role="button">学習の状況</a>
+        </div>
+
       </div>
 
       <!-- 中央 -->
@@ -118,14 +126,14 @@
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-    crossorigin="anonymous"></script>
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-    crossorigin="anonymous"></script>
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+    </script>
 
   <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 

@@ -102,5 +102,6 @@ def PostNewView(request):
     #     params['form'] = PostCreateForm()
     # return render(request, 'study/post_input.html', params)
 
-
+def RecordView(request):
+    return render(request, 'study/record_input.html')
 

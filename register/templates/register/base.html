@@ -60,7 +60,14 @@
       <div class="container col-md-3 mt-3">
         <h1 class="display-3" style="text-align:center;">minsta!</h1>
         <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
+        <!-- ログイン済みか判断 -->
+        {% if user.is_authenticated %}
         <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
+          {% else %}
+        <p style="text-align:center;">ログインしてください</ｐ>
+          {% endif %}
+          <!-- インデントを揃えて保存できない なぜ？ -->
+
 
       </div>
 

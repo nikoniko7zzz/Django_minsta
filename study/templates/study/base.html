@@ -35,11 +35,14 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'study:index' %}">Home</a>
           </li>
+          <!-- スーパーユーザーか判断 -->
           {% if user.is_superuser %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
           </li>
           {% endif %}
+
+          <!-- ログイン済みか判断 -->
           {% if user.is_authenticated %}
           <li>
             <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
@@ -69,25 +72,33 @@
     <div class="row">
       <!-- 右側 -->
       <div class="container col-md-3 mt-3">
+
         <h1 class="display-3" style="text-align:center;">minsta!</h1>
         <p class="lead" style="text-align:center;"> みんなでSTUDY</p>
+
+        <!-- ログイン済みか判断 -->
+        {% if user.is_authenticated %}
         <p style="text-align:center;">{{ user.first_name }}がログイン中</ｐ>
+          {% else %}
+        <p style="text-align:center;">ログインしてください</ｐ>
+          {% endif %}
+          <!-- インデントを揃えて保存できない なぜ？ -->
+
+
+
+
+
+        <div class="d-flex justify-content-evenly mb-3">
+          <a class="btn btn-light shadow mr-3" href="{% url 'study:new' %}" role="button">問題を書く</a>
+          <a class="btn btn-light shadow" href="{% url 'study:record' %}" role="button">学習の状況</a>
+        </div>
+        <!-- タイマー -->
         <p id="timerLabel" style="color: white; font-size: 50px; text-align: center">00:00</p>
         <div class="d-flex justify-content-around">
           <input type="button" class="myButton btn btn-dark" onclick="start()" value="START" id="startBtn">
           <input type="button" class="myButton btn btn-dark" onclick="stop()" value="STOP">
           <input type="button" class="myButton btn btn-dark" onclick="reset()" value="RESET">
         </div>
-
-
-
-        <div class="d-flex justify-content-evenly mb-3">
-          <a class="btn btn-light shadow mr-3" href="{% url 'study:new' %}" role="button">書く</a>
-          <a class="btn btn-light shadow" href="#" role="button">はじめる</a>
-        </div>
-
-        <p id="target">ここの色が変わります</p>
-        <input type="button" value=" ボタン " onclick="changeColor('target');" />
       </div>
 
       <!-- 中央 -->
@@ -98,11 +109,8 @@
 
       <!-- 左側 -->
       <div class="container col-md-3 mt-5">
-
         {% block calendar_content %}
         {% endblock %}
-
-
       </div>
 
     </div>

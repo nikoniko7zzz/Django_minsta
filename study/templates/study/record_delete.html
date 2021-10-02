@@ -1,0 +1,13 @@
+{% extends 'study/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<h1>本当に削除しますか?</h1>
+<form method="post">
+  {% csrf_token %}
+  <input type="submit" class="btn btn-danger" value="削除">
+  <!-- <a href="{% url 'study:detail' pk=company.pk %} ">キャンセル</a> -->
+</form>
+
+{% endblock %}

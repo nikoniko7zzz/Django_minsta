@@ -89,7 +89,7 @@ class Record(models.Model):
         ('100', '100分'),
     )
     category = models.CharField(verbose_name='教科', choices=CATEGORY, blank=True, null=True, max_length=10)
-    time = models.CharField(verbose_name="分", choices=TIME, blank=True, null=True, max_length=10)
+    time = models.CharField(verbose_name="分", choices=TIME, blank=True, null=True,  max_length=10)
     created_at = models.DateTimeField('作成日', default=timezone.now)
     # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -97,4 +97,6 @@ class Record(models.Model):
     def __str__(self):
         # '教科 - 時間' のように返す
         return '{} - {}'.format(self.category, self.time)
+
+
 

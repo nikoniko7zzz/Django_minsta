@@ -15,9 +15,7 @@ import datetime
 import numpy as np
 import plotly.io as pio
 import plotly.figure_factory as ff
-
-
-
+from django_pandas.io import read_frame
 
 
 # render 単純なテンプレートとしてHttpResponseをreturnするときのショートカット
@@ -80,7 +78,7 @@ class CommentView(generic.CreateView):
 # class PostIndexView(generic.ListView):
 #     model = Post
 
-
+@login_required
 def PostNewView(request):
     # params = {'message': 'newです'}
     params = {'message':'', 'form':None}
@@ -114,10 +112,8 @@ class RecordListView(generic.ListView):
 class RecordDeleteView(generic.DeleteView):
     model = Record
     template_name = "record_delete.html"
-    print('レコードを削除しました')
     #削除後のリダイレクト先
     success_url = reverse_lazy("study:record_list")
-
 
 def RecordCreatView(request):
     # params = {'message': 'newです'}
@@ -154,59 +150,120 @@ def RecordCreatView(request):
 #     t.save()
 #     return HttpResponseRedirect(reverse('index'))
 
-
+@login_required
 def GraphView(request):
 
-    # np.random.seed(1) #作成した乱数の固定
+        # recordデータの加工///
+    record_data = Record.objects.all()
+    record_df = read_frame(record_data, fieldnames=['author', 'created_at', 'category', 'time'])
+    record_df1 = record_df.replace({'国語':5, '数学':4, '英語':3, '理科':2, '社会':1})
+    record_df1['date'] = record_df1['created_at'].dt.strftime("%Y-%m-%d") # 日付の加工//
+    record_df1['time_int'] = record_df1['time'].str[:-1].astype(int) # 時間の加工
+    record_df2 = record_df1.drop(['created_at', 'time','author'], axis=1) # 列の削除
+
+    # 日付一覧作成
+    base = datetime.date.today() #今日の日付
+    datenum = 14
+    dates = base - np.arange(datenum) * datetime.timedelta(days=1)
+    dates_df = pd.DataFrame({'date':dates})
+    dates_df['category'] = int(1) #日付データにいったんカテゴリ列(国語)を作成
+    dates_df.loc[datenum] = [base,2]
+    dates_df.loc[datenum+1] = [base,3]
+    dates_df.loc[datenum+2] = [base,4]
+    dates_df.loc[datenum+3] = [base,5]
+
+    dates_df['time_int'] = 0 #日付データにいったんカテゴリ列(国語)を作成
+
+    # 結合表作成
+    comb_df = pd.merge(dates_df, record_df2, on=['date','category','time_int'], how='outer') #結合
+    comb_df['date_str'] = comb_df['date'].astype(str)
+    comb_df1 = comb_df.drop(['date'], axis=1) # 列の削除
+    comb_df2 = comb_df1.pivot_table(index='category', columns='date_str', values='time_int', aggfunc='sum') # クロス集計表の作成
+    # cate_list=[1,2,3,4,5]
+    # add_colum = [i for i in cate_list if i not in comb_df2.columns] #集計データにない列を探す
+    # comb_df2[[add_colum]]=int(0) # 集計データにない列を追加する
+
+    # comb_df3 = comb_df2.sort_values('date_str', ascending=False).fillna(0)
+    comb_df3 = comb_df2.fillna(0)
+
+
+
+
 
     subject = ['国語','数学','英語','理科','社会']
 
-    base = datetime.date.today()
-    dates = base - np.arange(30) * datetime.timedelta(days=1) #何日間表示するかの指定 npで日付配列取得
-    z = np.random.poisson(size=(len(subject), len(dates)))
-
+    # z = np.random.poisson(size=(len(subject), len(dates)))
+    z = comb_df3
+    x = dates[::-1] #逆順にする 今日を左にする
+    # y = subject[::-1]
     fig = go.Figure(
         data=go.Heatmap(
             z=z,  #色が変化するデータ
-            y=subject, #X軸
-            x=dates,   #Y軸
-            # y=(10, 20),  # 縦軸ラベルに表示する値、10刻み
+            x=x, #X軸
+            y=subject[::-1],   #Y軸
+            # x=(1, 7),  # 縦軸ラベルに表示する値、10刻み
             # opacity=0.5,  # マップの透明度を0.5に
-            colorscale='Purp'
-            # colorscale=[
-            #     [0, 'blue'],  # NaNに該当する値を灰色にして区別する
-            #     [1, 'rgb(255,4,97)']
+            colorbar=dict(
+                # len=0.8,  # カラーバーの長さを0.8に（デフォルトは1）
+                outlinecolor='gray',  # カラーバーの枠線の色
+                outlinewidth=1,  # カラーバーの枠線の太さ
+                # bordercolor='gray',  # カラーバーとラベルを含むカラーバー自体の枠線の色
+                # borderwidth=1,  # カラーバーとラベルを含むカラーバー自体の枠線の太さ
+                title=dict(
+                    text='分',
+                    side='top',  # カラーバーのタイトルをつける位置（デフォルトはtop）
+                ),
+            ),
+            # colorscale='BuPu'
+            colorscale=[
+                [0, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
+                [1, 'rgb(255,20,147)']
             # # zmin=0,  # カラーバーの最小値
             # # zmax=5,  # カラーバーの最大値
-            # ],
+            ],
         ),
     )
 
-    fig.update_yaxes(
-        title="教科", # X軸タイトルを指定
-    )
-
-    fig.update_xaxes(
-        title="日付",
-        scaleanchor='x', # マス目をxと同じスケールにする
-        scaleratio=1,
-
-
-    )
-    fig.update_layout(
+    layout = go.Layout(
         title='Study day',
         # width=400, #図の幅を指定
-        # height=400,
-
+        # height=50,
+        # xaxis=dict(
+        #     title='subject'
+        # ),
+        yaxis=dict(
+            # title='y'
+            scaleanchor = 'x', # マス目をxと同じスケールにする
+            # scaleratio=1,
+            autorange = 'reversed',
+        ),
+        # xaxis = axis_template,
+        # yaxis = axis_template,
+        # showlegend = False,
+        # width = 700, height = 100,
+        # autosize = False
     )
 
+
+    # )
+    # fig.update_layout(
+    #     title='Study day',
+    #     # width=400, #図の幅を指定
+    #     # height=400,
+
+    # )
+
     fig.update_traces(
-        ygap=1, #y軸の隙間
-        xgap=1, #x軸の隙間
+        ygap=2, #y軸の隙間
+        xgap=2, #x軸の隙間
+        # yaxis=10,
+        # y0=1,
+        # dy=2,
         selector=dict(type='heatmap'))
 
     plot_fig = fig.to_html(fig, include_plotlyjs=False)
     return render(request, "study/graph.html", {
        "graph": plot_fig
     })
+
 

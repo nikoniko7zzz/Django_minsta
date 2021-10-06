@@ -14,6 +14,7 @@ import pandas as pd
 import datetime
 import numpy as np
 import plotly.io as pio
+import plotly.offline as po
 import plotly.figure_factory as ff
 from django_pandas.io import read_frame
 
@@ -150,10 +151,15 @@ def RecordCreatView(request):
 #     t.save()
 #     return HttpResponseRedirect(reverse('index'))
 
+
 @login_required
 def GraphView(request):
 
-        # recordデータの加工///
+
+
+
+
+    # recordデータの加工///
     record_data = Record.objects.all()
     record_df = read_frame(record_data, fieldnames=['author', 'created_at', 'category', 'time'])
     record_df1 = record_df.replace({'国語':5, '数学':4, '英語':3, '理科':2, '社会':1})
@@ -163,14 +169,14 @@ def GraphView(request):
 
     # 日付一覧作成
     base = datetime.date.today() #今日の日付
-    datenum = 14
+    datenum = 28
     dates = base - np.arange(datenum) * datetime.timedelta(days=1)
     dates_df = pd.DataFrame({'date':dates})
     dates_df['category'] = int(1) #日付データにいったんカテゴリ列(国語)を作成
-    dates_df.loc[datenum] = [base,2]
-    dates_df.loc[datenum+1] = [base,3]
-    dates_df.loc[datenum+2] = [base,4]
-    dates_df.loc[datenum+3] = [base,5]
+    dates_df.loc[datenum] = [base,2] # 最後の行にデータ追加 カテゴリを用意
+    dates_df.loc[datenum + 1] = [base,3]
+    dates_df.loc[datenum + 2] = [base,4]
+    dates_df.loc[datenum + 3] = [base,5]
 
     dates_df['time_int'] = 0 #日付データにいったんカテゴリ列(国語)を作成
 
@@ -188,82 +194,77 @@ def GraphView(request):
 
 
 
-
-
     subject = ['国語','数学','英語','理科','社会']
 
     # z = np.random.poisson(size=(len(subject), len(dates)))
     z = comb_df3
     x = dates[::-1] #逆順にする 今日を左にする
     # y = subject[::-1]
-    fig = go.Figure(
-        data=go.Heatmap(
-            z=z,  #色が変化するデータ
-            x=x, #X軸
-            y=subject[::-1],   #Y軸
-            # x=(1, 7),  # 縦軸ラベルに表示する値、10刻み
-            # opacity=0.5,  # マップの透明度を0.5に
-            colorbar=dict(
-                # len=0.8,  # カラーバーの長さを0.8に（デフォルトは1）
-                outlinecolor='gray',  # カラーバーの枠線の色
-                outlinewidth=1,  # カラーバーの枠線の太さ
-                # bordercolor='gray',  # カラーバーとラベルを含むカラーバー自体の枠線の色
-                # borderwidth=1,  # カラーバーとラベルを含むカラーバー自体の枠線の太さ
-                title=dict(
-                    text='分',
-                    side='top',  # カラーバーのタイトルをつける位置（デフォルトはtop）
-                ),
-            ),
-            # colorscale='BuPu'
-            colorscale=[
-                [0, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
-                [1, 'rgb(255,20,147)']
-            # # zmin=0,  # カラーバーの最小値
-            # # zmax=5,  # カラーバーの最大値
-            ],
+
+    # plot =[]
+
+    fig = go.Figure(data=go.Heatmap(
+        # d = go.Heatmap(
+        z=z,  # 色が変化するデータ
+        x=x, # X軸
+        y=subject[::-1],   # Y軸
+        # # x=(1, 7),  # 縦軸ラベルに表示する値、10刻み
+        # # opacity=0.5,  # マップの透明度を0.5に
+        colorbar=dict(
+            thickness=25,
+            thicknessmode='pixels',
+            len=1.1, # カラーバーの長さを0.8に（デフォルトは1）
+            lenmode='fraction',
+            outlinewidth=0,
+            # xanchor = 'right',  # 凡例の表示場所の設定
+            # yanchor = 'middle',
+            # outlinecolor='gray',  # カラーバーの枠線の色
+            # outlinewidth=1,  # カラーバーの枠線の太さ
+            # bordercolor='gray',  # カラーバーとラベルを含むカラーバー自体の枠線の色
+            # borderwidth=1,  # カラーバーとラベルを含むカラーバー自体の枠線の太さ
+            title=dict(
+                text='分',
+                side='top')  # カラーバーのタイトルをつける位置（デフォルトはtop）
         ),
+        colorscale=[
+            [0, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
+            [1, 'rgb(255,20,147)']]))
+    # ))
+
+        # plot.append(d)
+
+        # layout = go.Layout(
+            # autosize = True,   # HTMLで表示したときページに合わせてリサイズするかどうか
+            # width=700, #図の幅を指定
+            # height=450,
+            # margin=dict(l=50, r=50, t=100, b=50, autoexpand=False),
+            # height=450,
+            # width=700,
+
+
+
+    #     # layout = go.Layout(
+    fig.update_layout(
+        # title='Study day',
+        width = 400,
+        height =300,
+        template='plotly_dark',
+
     )
-
-    layout = go.Layout(
-        title='Study day',
-        # width=400, #図の幅を指定
-        # height=50,
-        # xaxis=dict(
-        #     title='subject'
-        # ),
-        yaxis=dict(
-            # title='y'
-            scaleanchor = 'x', # マス目をxと同じスケールにする
-            # scaleratio=1,
-            autorange = 'reversed',
-        ),
-        # xaxis = axis_template,
-        # yaxis = axis_template,
-        # showlegend = False,
-        # width = 700, height = 100,
-        # autosize = False
-    )
-
-
-    # )
-    # fig.update_layout(
-    #     title='Study day',
-    #     # width=400, #図の幅を指定
-    #     # height=400,
-
-    # )
-
     fig.update_traces(
+        # xaxis=dict(showgrid=False),
+        # yaxis=dict(
+        #     showgrid=False,
+        #     scaleanchor=x, #Y軸のスケールをX軸と同じに
+        #     scaleratio =1,
+        #     autorange = 'reversed'),
         ygap=2, #y軸の隙間
-        xgap=2, #x軸の隙間
-        # yaxis=10,
-        # y0=1,
-        # dy=2,
-        selector=dict(type='heatmap'))
+        xgap=2 #x軸の隙間
+    )
+
 
     plot_fig = fig.to_html(fig, include_plotlyjs=False)
     return render(request, "study/graph.html", {
-       "graph": plot_fig
+        "graph": plot_fig
     })
-
 

@@ -8,15 +8,18 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-  <!--  plotly meta Files  -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/sanitize.css' %}">
+  <!--  plotly //////////////////////////////////////////////////  -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <!--  plotly JS Files  -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+
+
+
 
 
   {% bootstrap_css %}
@@ -62,10 +65,10 @@
           </li>
           {% endif %}
         </ul>
-        <form class="d-flex" method="GET" action="{% url 'study:index' %}">
+        <!-- <form class="d-flex" method="GET" action="{% url 'study:index' %}">
           <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
           <button class="btn btn-outline-dark" type="submit">Search</button>
-        </form>
+        </form> -->
       </div>
     </div>
   </nav>
@@ -121,6 +124,7 @@
 
       <!-- 中央 -->
       <div class="container col-md-6 mb-3 mt-5">
+        <!-- <div class="container col-md-9 mb-3 mt-5"> -->
         {% block content %}
         {% endblock %}
       </div>

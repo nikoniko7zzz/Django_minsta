@@ -38,6 +38,7 @@ comb_df2[[add_colum]]=int(0) # 集計データにない列を追加する
 
 
 
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
 
@@ -78,3 +79,25 @@ df_sum[[add_colum]]=int(0) # 集計データにない列を追加する
 # df_dates['created_at'].astype(datetime64)
 # df2 = neo_df.groupby(["dates","国語","数学","英語","理科","社会"], sort=False, as_index=False).agg({"int_time":"sum"})
 df2 = nozero_df.groupby(["date","category"], sort=False, as_index=False).agg({"int_time":"sum"})
+
+
+def RecordCreatView(request):
+    # params = {'message': 'newです'}
+    params = {'message':'', 'form':None}
+    if request.method == 'POST':
+        form = RecordCreateForm(request.POST)
+        if form.is_valid(): #フォームに入力された値にエラーがないかをバリデートする
+            post = form.save(commit=False)
+            post.author = request.user #ログインユーザーをformに入れている
+            post.save()
+            print('時間を作成しました。')
+            # print(post)
+            return redirect('study:record_list')
+        else:
+            params['message'] = '再入力してください'
+            params['form'] = form
+    else:
+        params['form'] = RecordCreateForm()
+    return render(request, 'study/record_input.html', params)
+
+

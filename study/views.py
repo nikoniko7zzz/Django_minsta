@@ -6,6 +6,8 @@ from .forms import CommentCreateForm, PostCreateForm, RecordCreateForm
 from .models import Post, Category, Comment, Record
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
+from django.contrib import messages #ラジオ
+from django.views.generic.edit import FormView
 
 # グラフ用///////////////////////////////
 import plotly.graph_objects as go
@@ -101,6 +103,7 @@ def PostNewView(request):
 
 
 # 一覧画面
+# class RecordListView(TemplateView):
 class RecordListView(generic.ListView):
     # テーブル連携
     model = Record
@@ -115,6 +118,7 @@ class RecordDeleteView(generic.DeleteView):
     template_name = "record_delete.html"
     #削除後のリダイレクト先
     success_url = reverse_lazy("study:record_list")
+
 
 def RecordCreatView(request):
     # params = {'message': 'newです'}
@@ -135,21 +139,7 @@ def RecordCreatView(request):
         params['form'] = RecordCreateForm()
     return render(request, 'study/record_input.html', params)
 
-# def RecordAddView(request):
-#     t1 = Todo()
-#     t1.todo_id = len(Todo.objects.order_by('-todo_id'))+1
-#     t1.update_date = timezone.now()
-#     t = RecordCreateForm(request.POST, instance=t1)
-#     t.save()
-#     return HttpResponseRedirect(reverse('index'))
 
-# def add(request):
-#     t1 = Todo()
-#     t1.todo_id = len(Todo.objects.order_by('-todo_id'))+1
-#     t1.update_date = timezone.now()
-#     t = TodoForm(request.POST, instance=t1)
-#     t.save()
-#     return HttpResponseRedirect(reverse('index'))
 
 
 @login_required
@@ -164,12 +154,14 @@ def GraphView(request):
     record_df = read_frame(record_data, fieldnames=['author', 'created_at', 'category', 'time'])
     record_df1 = record_df.replace({'国語':5, '数学':4, '英語':3, '理科':2, '社会':1})
     record_df1['date'] = record_df1['created_at'].dt.strftime("%Y-%m-%d") # 日付の加工//
-    record_df1['time_int'] = record_df1['time'].str[:-1].astype(int) # 時間の加工
-    record_df2 = record_df1.drop(['created_at', 'time','author'], axis=1) # 列の削除
+    record_df1['time_int'] = record_df1['time'].astype(int) # 時間の加工
+    record_df2 = record_df1.drop(['created_at', 'author'], axis=1) # 列の削除
+    # record_df2.dtypes データの型の確認
+
 
     # 日付一覧作成
     base = datetime.date.today() #今日の日付
-    datenum = 28
+    datenum = 60 #表示したい日数
     dates = base - np.arange(datenum) * datetime.timedelta(days=1)
     dates_df = pd.DataFrame({'date':dates})
     dates_df['category'] = int(1) #日付データにいったんカテゴリ列(国語)を作成
@@ -177,8 +169,8 @@ def GraphView(request):
     dates_df.loc[datenum + 1] = [base,3]
     dates_df.loc[datenum + 2] = [base,4]
     dates_df.loc[datenum + 3] = [base,5]
-
-    dates_df['time_int'] = 0 #日付データにいったんカテゴリ列(国語)を作成
+    dates_df['time_int'] = int(0) #日付データにいったん時間をを作成
+    # dates_df.dtypes データの型の確認
 
     # 結合表作成
     comb_df = pd.merge(dates_df, record_df2, on=['date','category','time_int'], how='outer') #結合
@@ -246,7 +238,7 @@ def GraphView(request):
     #     # layout = go.Layout(
     fig.update_layout(
         # title='Study day',
-        width = 400,
+        width = 1000,
         height =300,
         template='plotly_dark',
 

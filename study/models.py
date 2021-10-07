@@ -2,6 +2,7 @@ from config.settings import STATIC_ROOT
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+
 # from django.contrib.auth.models import User
 
 
@@ -71,26 +72,10 @@ class Comment(models.Model):
 
 class Record(models.Model):
     '''勉強した時間の保存'''
-    CATEGORY = (
-        ('国語', '国語'),
-        ('数学', '数学'),
-        ('英語', '英語'),
-        ('理科', '理科'),
-        ('社会', '社会'),
-    )
-    TIME = (
-        ('30', '30分'),
-        ('40', '40分'),
-        ('50', '50分'),
-        ('60', '60分'),
-        ('70', '70分'),
-        ('80', '80分'),
-        ('90', '90分'),
-        ('100', '100分'),
-    )
-    category = models.CharField(verbose_name='教科', choices=CATEGORY, blank=True, null=True, max_length=10)
-    time = models.CharField(verbose_name="分", choices=TIME, blank=True, null=True,  max_length=10)
+    category = models.CharField(verbose_name='教科', blank=True, null=True, max_length=10)
+    time = models.CharField(verbose_name="分", blank=True, null=True,  max_length=10)
     created_at = models.DateTimeField('作成日', default=timezone.now)
+    # created_at = models.DateField('いつ', blank=True, null=True)
     # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

@@ -1,0 +1,68 @@
+{% extends 'study/base.html' %}
+
+{% load static %}
+
+{% block extra_head %}
+<!-- for admin widgets カレンダーで使う -->
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+{{ test_form.media }}
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+<!-- end for admin widgets -->
+{% endblock %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+{{ test_form }}
+
+<!-- <h3 style="text-align: center">時間を登録する</h3>
+
+<p>{{ message }}</p>
+{% csrf_token %}
+
+<div class="eleven wide column">
+  <div class="ui segment">
+    <div class="content">
+      <form class="ui form" action="" method="POST">
+        {% csrf_token %}
+        <div>
+          <p>教科</p>
+          {% for radiobutton in form.category %}
+          {{ radiobutton }}
+          {% endfor %}
+          <p>時間</p>
+          {% for radiobutton in form.time %}
+          {{ radiobutton }}
+          {% endfor %}
+        </div>
+        <button type=" submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
+        <button type="submit" class="btn btn-dark" name="save_and_add">保存してもう一つ追加</button>
+        <button type="submit" class="btn btn-dark" name="save_and_edit">保存して編集を続ける</button>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+<!-- <label for="exampleFormControlInput1" class="form-label">教科</label>
+  <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">{{PostCreateForm.category}}
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">問題</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{PostCreateForm.title}}</textarea>
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">答え</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{PostCreateForm.text}}</textarea>
+  </div>
+  <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
+  <button type="submit" class="btn btn-dark">続けて作成する</button> -->
+</form>
+
+{% endblock %}

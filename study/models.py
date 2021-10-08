@@ -25,7 +25,8 @@ class Post(models.Model):
     # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
     category = models.ForeignKey(
         Category, verbose_name='カテゴリ', on_delete=models.PROTECT)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -43,45 +44,41 @@ class Comment(models.Model):
         return self.text[:10]
 
 
-# class Record(models.Model):
-#     '''勉強した時間の保存'''
-#     class Meta:
-#         db_table = 'Record_table'
-
-#     CATEGORY = (
-#         ('1', '国語'),
-#         ('2', '数学'),
-#         ('3', '英語'),
-#         ('4', '理科'),
-#         ('5', '社会'),
-#     )
-#     START_STOP = (
-#         ('0', 'START'),
-#         ('1', 'STOP'),
-#     )
-#     category = models.IntegerField(verbose_name='教科', choices=CATEGORY, default=None)
-#     start_stop = models.IntegerField(verbose_name='START/STOP', choices=START_STOP, default=None)
-#     time = models.TimeField(verbose_name="打刻時間")
-#     date = models.DateField(verbose_name='打刻日')
-#     # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
-#     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.time
-
-
 class Record(models.Model):
     '''勉強した時間の保存'''
-    category = models.CharField(verbose_name='教科', blank=True, null=True, max_length=10)
-    time = models.CharField(verbose_name="分", blank=True, null=True,  max_length=10)
+    category = models.CharField(
+        verbose_name='教科', blank=True, null=True, max_length=10)
+    time = models.CharField(verbose_name="分", blank=True,
+                            null=True,  max_length=10)
     created_at = models.DateTimeField('作成日', default=timezone.now)
     # created_at = models.DateField('いつ', blank=True, null=True)
     # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         # '教科 - 時間' のように返す
         return '{} - {}'.format(self.category, self.time)
 
 
+class Test(models.Model):
+    '''テスと結果の保存'''
+    japanese = models.IntegerField(
+        verbose_name='国語', blank=True, null=True)
+    math = models.IntegerField(
+        verbose_name='数学', blank=True, null=True)
+    english = models.IntegerField(
+        verbose_name='英語', blank=True, null=True)
+    science = models.IntegerField(
+        verbose_name='理科', blank=True, null=True)
+    social_studies = models.IntegerField(
+        verbose_name='社会', blank=True, null=True)
+    date = models.DateField('いつまでに', blank=True,
+                            null=True)  # このDateFieldが対象です。
 
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        # '日付 - ユーザー' のように返す
+        return '{} - {}'.format(self.date, self.author)

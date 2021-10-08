@@ -1,6 +1,6 @@
 from django import forms
-from .models import Comment, Post, Record
-from django.contrib.admin.widgets import AdminDateWidget # カレンダー形式で入力
+from .models import Comment, Post, Record, Test
+from django.contrib.admin.widgets import AdminDateWidget  # カレンダー形式で入力
 
 
 class PostCreateForm(forms.ModelForm):
@@ -15,10 +15,10 @@ class PostCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             # widget.attrs htmlで表示されるclass設定をしている
-            self.fields['category'].widget.attrs = {'class': 'form-select mb-3'}
+            self.fields['category'].widget.attrs = {
+                'class': 'form-select mb-3'}
             self.fields['title'].widget.attrs = {'class': 'form-control mb-3'}
             self.fields['text'].widget.attrs = {'class': 'form-control mb-3'}
-
 
 
 class CommentCreateForm(forms.ModelForm):
@@ -74,47 +74,33 @@ TIME_CHOICES = [
     ('100', '100分'),
 ]
 
+
 class RecordCreateForm(forms.ModelForm):
 
-    category=forms.ChoiceField(
+    category = forms.ChoiceField(
         label='教科',
-        required=False, #入力項目を必須項目ではなく、任意の入力項目にする=false
+        required=False,  # 入力項目を必須項目ではなく、任意の入力項目にする=false
         widget=forms.RadioSelect,
-        choices= CATEGORY_CHOICES,
+        choices=CATEGORY_CHOICES,
         # initial=0
     )
-    time=forms.ChoiceField(
+    time = forms.ChoiceField(
         label='時間',
-        required=False, #入力項目を必須項目ではなく、任意の入力項目にする=false
+        required=False,  # 入力項目を必須項目ではなく、任意の入力項目にする=false
         widget=forms.RadioSelect,
-        choices= TIME_CHOICES,
+        choices=TIME_CHOICES,
     )
 
     class Meta:
         model = Record
         fields = ('category', 'time')
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     for field in self.fields.values():
-    #         # widget.attrs htmlで表示されるclass設定をしている
-    #         self.fields['category'].widget.attrs = {'class': 'form-check-input','id':'inlineCheckbox1'}
-    #         self.fields['time'].widget.attrs = {'class': 'form-check-input','id':'inlineCheckbox1'}
 
-
-
-
-# class AdvancedSearchForm(forms.ModelForm):
-#     valueofres = forms.ChoiceField (label="res", choices = ((0, 0),(2.2, 2.2)), required= False)
-#     class Meta:
-#         model=Search #or whatever object
-
-
-    # category.widget.attrs.update({'class': 'form-check-input'})
-    # time.widget.attrs.update({'class': 'form-check-input'})
-
-# class AdvancedSearchForm(forms.ModelForm):
-#     valueofres = forms.ChoiceField (label="res", choices = ((0, 0),(2.2, 2.2)), required= False)
-#     class Meta:
-#         model=Search #or whatever object
-
+class TestForm(forms.ModelForm):
+    """テスト結果追加フォーム"""
+    class Meta:
+        model = Test
+        fields = '__all__'
+        widgets = {
+            'date': AdminDateWidget(),  # インポートしたウィジェットを使う指示
+        }

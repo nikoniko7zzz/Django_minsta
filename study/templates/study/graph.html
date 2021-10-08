@@ -3,10 +3,15 @@
 
 
 
+
 {% block content %}
+
 <!-- ここにグラフが入る -->
 {% autoescape off %}
-{{ graph }}
+{{ graph_heatmap }}
+{{ graph_line }}
+
 <!-- HTMLコードの文字列が格納されたコンテキスト -->
 {% endautoescape %}
+
 {% endblock %}

@@ -6,7 +6,8 @@
 
 {% block content %}
 
-<a href="{% url 'study:record_creat' %}">登録</a>
+<a href="{% url 'study:record_creat' %}">勉強時間登録</a>
+<a href="{% url 'study:test_creat' %}">テスト結果登録</a>
 <!-- もし空じゃなければ中身の処理を実施 -->
 {% if record_list %}
 <table>

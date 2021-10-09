@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from django.contrib import admin
 from django.urls import path, include
+import dj_database_url
 
 import os
 import sys #bootstrao用
@@ -28,10 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fjj!29uml7e+w6@mx9d+g&%s_4qs(@a&b2=d3swc!gscjm2+#a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+# ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 # ALLOWED_HOSTS = ['*']
 # Application definition
 
@@ -91,13 +93,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# pythonanywhere用
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# heroku用
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'minsta',
+        'USER': 'matsuo',
+        'PASSWORD': '0925kuni',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -172,6 +186,11 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
     }
 
+# heroku用
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
 
 #
 # Github https: // github.com/nikoniko7zzz/Django_aione.git
@@ -193,4 +212,7 @@ if DEBUG:
 # (kuucham.pythonanywhere.com)$ python manage.py collectstatic
 
 # pa_autoconfigure_django.py --python=3.8 https://github.com/nikoniko7zzz/Django_minsta.git --nuke
+
+
+# python==3.9.7
 

@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-fjj!29uml7e+w6@mx9d+g&%s_4qs(@a&b2=d3swc!gscjm2+#a
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
+# ◆◆◆↑ローカル開発時切り替える↓◆◆◆◆
 DEBUG = False
 
 # ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
@@ -41,7 +42,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 AUTH_USER_MODEL = 'register.User'
 
 INSTALLED_APPS = [
-    'django.contrib.admin',  # 自作のユーザーモデルを使うのでコメントアウト
+    'django.contrib.admin',  # （設定時のみ）自作のユーザーモデルを使うのでコメントアウト
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -83,6 +84,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'study.context_processors.common',  # context_processors.pyの変数を読み込む
             ],
+            'builtins': [
+                'django_bootstrap5.templatetags.django_bootstrap5', # 追加
+            ],
+
+
         },
     },
 ]
@@ -93,25 +99,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# pythonanywhere用
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-# heroku用
+# pythonanywhere用 & ローカル用 /////////
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'minsta',
-        'USER': 'matsuo',
-        'PASSWORD': '0925kuni',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# ◆◆◆↑ローカル開発時切り替える↓◆◆◆◆
+
+# heroku用 /////////////
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'minsta',
+#         'USER': 'matsuo',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -215,4 +223,8 @@ DATABASES['default'].update(db_from_env)
 
 
 # python==3.9.7
+
+# heroku
+# Creating ⬢ minsta7... done
+# https://minsta7.herokuapp.com/ | https://git.heroku.com/minsta7.git
 

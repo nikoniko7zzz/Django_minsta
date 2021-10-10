@@ -14,6 +14,7 @@ from pathlib import Path
 from django.contrib import admin
 from django.urls import path, include
 import dj_database_url
+import django_heroku
 
 import os
 import sys #bootstrao用
@@ -194,7 +195,9 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
     }
 
-# heroku用
+# heroku用////////////
+django_heroku.settings(locals())
+
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 

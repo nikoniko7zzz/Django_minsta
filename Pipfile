@@ -18,6 +18,7 @@ django-debug-toolbar = "*"
 plotly = "*"
 numpy = "*"
 pandas = "*"
+django-pandas = "*"
 
 [dev-packages]
 

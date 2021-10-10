@@ -50,4 +50,3 @@ typing-extensions @ file:///tmp/build/80754af9/typing_extensions_1631814937681/w
 virtualenv==20.8.1
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 whitenoise==5.3.0
-psycopg2==2.7.6.1

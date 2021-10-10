@@ -16,6 +16,8 @@ Django = "==3.2.8"
 django-bootstrap5 = "*"
 django-debug-toolbar = "*"
 plotly = "*"
+numpy = "*"
+pandas = "*"
 
 [dev-packages]
 

@@ -100,26 +100,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # pythonanywhere用 & ローカル用 /////////
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # ◆◆◆↑ローカル開発時切り替える↓◆◆◆◆
 
 # heroku用 /////////////
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'minsta',
-        'USER': 'matsuo',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'minsta',
+#         'USER': 'matsuo',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -227,4 +227,8 @@ DATABASES['default'].update(db_from_env)
 # heroku
 # Creating ⬢ minsta7... done
 # https://minsta7.herokuapp.com/ | https://git.heroku.com/minsta7.git
+
+
+
+# /Users/niko/opt/anaconda3/envs/djangoenv/lib/python3.9/site-packages
 

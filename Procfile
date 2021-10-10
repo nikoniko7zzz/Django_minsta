@@ -1,1 +1,1 @@
-web: gunicorn minsta.wsgi
+web: gunicorn config.wsgi

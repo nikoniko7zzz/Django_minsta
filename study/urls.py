@@ -1,6 +1,7 @@
 from django.urls import path
 from .import views
 
+
 app_name = 'study'
 
 urlpatterns = [
@@ -20,5 +21,7 @@ urlpatterns = [
     path('test_creat/', views.TestCreatView,
          name='test_creat'),  # 作成画面(テスト結果入力画面)
 
-
 ]
+
+# heroku上でエラー500の時に内容を表示する
+handler500 = views.my_customized_server_error

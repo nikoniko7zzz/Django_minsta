@@ -23,6 +23,20 @@ from django_pandas.io import read_frame
 import plotly.express as px  # 折線グラフで追加
 from plotly.subplots import make_subplots #グラフの融合
 
+# heroku用 エラー500の時に内容を表示させる//////////////////////////////////
+from django.views.decorators.csrf import requires_csrf_token
+from django.http import HttpResponseServerError
+
+@requires_csrf_token
+def my_customized_server_error(request, template_name='500.html'):
+    import sys
+    from django.views import debug
+    error_html = debug.technical_500_response(request, *sys.exc_info()).content
+    return HttpResponseServerError(error_html)
+# heroku用 エラー500の時に内容を表示させる//////////////////////////////////
+
+
+
 
 # render 単純なテンプレートとしてHttpResponseをreturnするときのショートカット
 # reverse url.pyで決めた名前を解析する関数

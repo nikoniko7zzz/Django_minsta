@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # ＃WhiteNoiseを優先して、Django独自の静的ファイル処理を無効にします。
+    # ＃gunicornと `。/ manage.pyrunserver`の間の一貫性が向上しました。見る：
+    # ＃http：//whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
+    'whitenoise.runserver_nostatic', #add
     'django.contrib.staticfiles',
     'register.apps.RegisterConfig',
     'study.apps.StudyConfig',
@@ -56,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #add
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -196,6 +201,11 @@ if DEBUG:
     }
 
 # heroku用////////////
+#簡略化された静的ファイルの提供。
+#https：//warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE  =  'whitenoise.storage.CompressedManifestStaticFilesStorage' #add
+
+#Django-Herokuをアクティブ化します。
 django_heroku.settings(locals())
 
 db_from_env = dj_database_url.config(conn_max_age=500)

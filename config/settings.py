@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # ＃WhiteNoiseを優先して、Django独自の静的ファイル処理を無効にします。
     # ＃gunicornと `。/ manage.pyrunserver`の間の一貫性が向上しました。見る：
     # ＃http：//whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
-    # 'whitenoise.runserver_nostatic', #add
+    'whitenoise.runserver_nostatic', #add
     'django.contrib.staticfiles',
     'register.apps.RegisterConfig',
     'study.apps.StudyConfig',

@@ -28,6 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = ''
+SECRET_KEY = 'django-insecure-fjj!29uml7e+w6@mx9d+g&%s_4qs(@a&b2=d3swc!gscjm2+#a'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -187,7 +189,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # heroku用//////////////////
 if not DEBUG:
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = os.environ[SECRET_KEY]
     import django_heroku
     django_heroku.settings(locals())
 

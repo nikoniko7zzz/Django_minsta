@@ -23,5 +23,5 @@ urlpatterns = [
 
 ]
 
-# heroku上でエラー500の時に内容を表示する
-handler500 = views.my_customized_server_error
+# # heroku上でエラー500の時に内容を表示する
+# handler500 = views.my_customized_server_error

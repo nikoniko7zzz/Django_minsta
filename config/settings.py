@@ -203,7 +203,8 @@ if DEBUG:
 # heroku用////////////
 #簡略化された静的ファイルの提供。
 #https：//warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE  =  'whitenoise.storage.CompressedManifestStaticFilesStorage' #add
+# STATICFILES_STORAGE  =  'whitenoise.storage.CompressedManifestStaticFilesStorage' #add
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 #Django-Herokuをアクティブ化します。
 django_heroku.settings(locals())

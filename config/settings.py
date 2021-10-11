@@ -145,13 +145,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'ja'
-
 TIME_ZONE = 'Asia/Tokyo'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -255,8 +251,10 @@ DATABASES['default'].update(db_from_env)
 # heroku
 # Creating ⬢ minsta7... done
 # https://minsta7.herokuapp.com/ | https://git.heroku.com/minsta7.git
-
+# eployed to Heroku!!
+# https://minsta-kuucham.herokuapp.com/
 
 
 # /Users/niko/opt/anaconda3/envs/djangoenv/lib/python3.9/site-packages
+
 

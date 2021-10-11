@@ -90,8 +90,6 @@ TEMPLATES = [
             'builtins': [
                 'django_bootstrap5.templatetags.django_bootstrap5', # 追加
             ],
-
-
         },
     },
 ]
@@ -183,10 +181,10 @@ LOGOUT_REDIRECT_URL = 'register:top'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # heroku用//////////////////
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']

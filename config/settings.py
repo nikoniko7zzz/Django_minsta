@@ -14,7 +14,7 @@ from pathlib import Path
 from django.contrib import admin
 from django.urls import path, include
 import dj_database_url
-import django_heroku
+# import django_heroku
 
 import os
 import sys #bootstrao用
@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = ''
-SECRET_KEY = 'django-insecure-fjj!29uml7e+w6@mx9d+g&%s_4qs(@a&b2=d3swc!gscjm2+#a'
+# SECRET_KEY = 'django-insecure-fjj!29uml7e+w6@mx9d+g&%s_4qs(@a&b2=d3swc!gscjm2+#a'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # ＃WhiteNoiseを優先して、Django独自の静的ファイル処理を無効にします。
     # ＃gunicornと `。/ manage.pyrunserver`の間の一貫性が向上しました。見る：
     # ＃http：//whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
-    'whitenoise.runserver_nostatic', #add
+    # 'whitenoise.runserver_nostatic', #add
     'django.contrib.staticfiles',
     'register.apps.RegisterConfig',
     'study.apps.StudyConfig',
@@ -72,11 +72,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('', include('register.urls')),
-# ]
 
 TEMPLATES = [
     {
@@ -166,12 +161,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "static"),
+# )
 
 
 # Default primary key field type
@@ -188,31 +183,46 @@ LOGOUT_REDIRECT_URL = 'register:top'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # heroku用//////////////////
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
 if not DEBUG:
-    SECRET_KEY = os.environ[SECRET_KEY]
+    SECRET_KEY = os.environ['SECRET_KEY']
     import django_heroku
     django_heroku.settings(locals())
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
+
+
+
+# if not DEBUG:
+#     SECRET_KEY = os.environ[SECRET_KEY]
+#     import django_heroku
+#     django_heroku.settings(locals())
+
+# db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'].update(db_from_env)
 # heroku用//////////////////
 
 
 
-if DEBUG:
-    def show_toolbar(request):
-        return True
+# if DEBUG:
+#     def show_toolbar(request):
+#         return True
 
-    INSTALLED_APPS += (
-        'debug_toolbar',
-    )
-    MIDDLEWARE += (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-    )
-    # ここで表示する内容を設定できます↓↓基本的にはこれでok
-    DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': show_toolbar,
-    }
+#     INSTALLED_APPS += (
+#         'debug_toolbar',
+#     )
+#     MIDDLEWARE += (
+#         'debug_toolbar.middleware.DebugToolbarMiddleware',
+#     )
+#     # ここで表示する内容を設定できます↓↓基本的にはこれでok
+#     DEBUG_TOOLBAR_CONFIG = {
+#         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+#     }
 
 # heroku用////////////
 #簡略化された静的ファイルの提供。

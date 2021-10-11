@@ -183,10 +183,10 @@ LOGOUT_REDIRECT_URL = 'register:top'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # heroku用//////////////////
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     pass
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -196,15 +196,6 @@ if not DEBUG:
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
 
-
-
-# if not DEBUG:
-#     SECRET_KEY = os.environ[SECRET_KEY]
-#     import django_heroku
-#     django_heroku.settings(locals())
-
-# db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-# DATABASES['default'].update(db_from_env)
 # heroku用//////////////////
 
 

@@ -14,7 +14,7 @@ from pathlib import Path
 from django.contrib import admin
 from django.urls import path, include
 import dj_database_url
-# import django_heroku
+import django_heroku
 
 import os
 import sys #bootstrao用

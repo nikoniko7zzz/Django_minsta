@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages  # ラジオ
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 
 # グラフ用///////////////////////////////
 import plotly.graph_objects as go
@@ -42,19 +43,36 @@ from plotly.subplots import make_subplots #グラフの融合
 # reverse url.pyで決めた名前を解析する関数
 # reverse_lazy reverseをクラスベースビューのクラス変数として書くときに利用
 
-class IndexView(generic.ListView):
-    # リスト表示用
-    model = Post
-    paginate_by = 10
 
-    def get_queryset(self):
-        queryset = Post.objects.order_by('-created_at')  # -で降順
-        keyword = self.request.GET.get('keyword')
-        if keyword:
-            queryset = queryset.filter(
-                Q(title__icontains=keyword) | Q(text__icontains=keyword)
-            )
-        return queryset
+
+# class IndexView(TemplateView):
+#     template_name = 'study/index.html'
+
+def IndexView(request):
+    # params = {'message': 'newです'}
+    params = {'message': '', 'form': None}
+    if request.method == 'POST':
+        form = RecordCreateForm(request.POST)
+        if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
+            post = form.save(commit=False)
+            post.author = request.user  # ログインユーザーをformに入れている
+            post.save()
+            print('時間を作成しました。')
+            # print(post)
+            return redirect('study:record_list')
+        else:
+            params['message'] = '再入力してください'
+            params['form'] = form
+    else:
+        params['form'] = RecordCreateForm()
+    return render(request, 'study/index.html', params)
+
+
+
+
+
+
+
 
 
 # カテゴリ検索
@@ -114,7 +132,6 @@ def PostNewView(request):
     else:
         params['form'] = PostCreateForm()
     return render(request, 'study/post_input.html', params)
-    # return render(request, 'study/post_input.html', params)
 
 
 # 一覧画面
@@ -137,24 +154,24 @@ class RecordDeleteView(generic.DeleteView):
     success_url = reverse_lazy("study:record_list")
 
 
-def RecordCreatView(request):
-    # params = {'message': 'newです'}
-    params = {'message': '', 'form': None}
-    if request.method == 'POST':
-        form = RecordCreateForm(request.POST)
-        if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
-            post = form.save(commit=False)
-            post.author = request.user  # ログインユーザーをformに入れている
-            post.save()
-            print('時間を作成しました。')
-            # print(post)
-            return redirect('study:record_list')
-        else:
-            params['message'] = '再入力してください'
-            params['form'] = form
-    else:
-        params['form'] = RecordCreateForm()
-    return render(request, 'study/record_input.html', params)
+# def RecordCreatView(request):
+#     # params = {'message': 'newです'}
+#     params = {'message': '', 'form': None}
+#     if request.method == 'POST':
+#         form = RecordCreateForm(request.POST)
+#         if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
+#             post = form.save(commit=False)
+#             post.author = request.user  # ログインユーザーをformに入れている
+#             post.save()
+#             print('時間を作成しました。')
+#             # print(post)
+#             return redirect('study:record_list')
+#         else:
+#             params['message'] = '再入力してください'
+#             params['form'] = form
+#     else:
+#         params['form'] = RecordCreateForm()
+#     return render(request, 'study/record_input.html', params)
 
 # /////////////////////////////////////////////////////////////
 # /  テスト結果登録画面  //////////////////////////////////////
@@ -262,8 +279,8 @@ def GraphView(request):
     #     # layout = go.Layout(
     fig.update_layout(
         # title='Study day',
-        width=1000,
-        height=300,
+        width=480,
+        height=350,
         template='plotly_dark',
 
     )
@@ -313,8 +330,8 @@ def GraphView(request):
         showlegend=True, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
         # xaxis_type="linear",
         # yaxis_type="log", # X軸はリニアスケール、Y軸はログスケールに
-        width=1000,
-        height=500, # 図の高さを幅を指定
+        width=480,
+        height=350, # 図の高さを幅を指定
         template='plotly_dark',
         )
 

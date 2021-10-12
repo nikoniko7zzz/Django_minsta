@@ -1,13 +1,17 @@
-{% extends 'study/base.html' %}
+{% extends 'study/index.html' %}
 
 {% block content %}
 
 <!-- ここにグラフが入る -->
-{% autoescape off %}
-{{ graph_heatmap }}
-{{ graph_line }}
+<div class="d-flex justify-content-evenly">
+  <div>
+    {% autoescape off %}
+    {{ graph_heatmap }}
+    {{ graph_line }}
 
-<!-- HTMLコードの文字列が格納されたコンテキスト -->
-{% endautoescape %}
+    <!-- HTMLコードの文字列が格納されたコンテキスト -->
+    {% endautoescape %}
+  </div>
+</div>
 
 {% endblock %}

@@ -5,89 +5,49 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
-  {% block extra_head %}{% endblock %}
 
   <!--  plotly //////////////////////////////////////////////////  -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-
-
-
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/sanitize.css' %}">
 
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+
+  {% block extra_head %}{% endblock %}
 
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 
-
   <title>minsta</title>
+  <style>
+    h1 {
+      color: red;
+    }
+
+    label {
+      color: white;
+    }
+
+    p {
+      color: #81d4fa;
+    }
+  </style>
 </head>
 
-<body style="background-color: rgba(201, 210, 221, 0.25)">
-  <!-- ヘッダー -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand ms-5" href="{% url 'register:top' %}">minsta</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'study:index' %}">Home</a>
-          </li>
-          <!-- スーパーユーザーか判断 -->
-          {% if user.is_superuser %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-          </li>
-          {% endif %}
+<body style="background-color:rgb(17, 17, 17);">
+  <div class="col-sm-12">
+    {% include 'study/header.html' %}
 
-          <!-- ログイン済みか判断 -->
-          {% if user.is_authenticated %}
-          <li>
-            <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
-          </li>
-          <li>
-            <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
-          </li>
-          <li>
-            <a class="nav-item nav-link" href="{% url 'register:logout' %}">LOG OUT</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-item nav-link" href="{% url 'register:login' %}">LOG IN</a>
-          </li>
-          {% endif %}
-        </ul>
-        <!-- <form class="d-flex" method="GET" action="{% url 'study:index' %}">
-          <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
-          <button class="btn btn-outline-dark" type="submit">Search</button>
-        </form> -->
-      </div>
-    </div>
-  </nav>
+    {% include 'study/top.html' %}
 
-  <!-- メイン -->
-  <!-- 右側 -->
-  <!-- <div class=" container col-s-12"> -->
-  {% include 'study/top.html' %}
-  {% include 'study/record_input.html' %}
+    {% block content %}
+    {% endblock %}
 
-
-  <!-- 中央 -->
-  <!-- <div class="container col-md-6 mb-3 mt-5"> -->
-  <!-- <div class="container col-md-9 mb-3 mt-5"> -->
-  <!-- {% block content %} -->
-  <!-- {% endblock %} -->
-  <!-- </div> -->
-
+    {% include 'study/footer.html' %}
 
   </div>
 
@@ -103,92 +63,7 @@
     </script>
 
 
-
-
-
-
   <!-- <script type="text/javascript" src="{% static 'js/script.js' %}"></script> -->
-
-
-
-
-
-
-
-  <script>
-    // タイマーの設定///////////////////////////////////////////////
-    var status = 0; // 0:停止中 1:動作中
-    var time = 0;
-    var startBtn = document.getElementById("startBtn");
-    var timerLabel = document.getElementById('timerLabel');
-
-    // STARTボタン
-    function start() {
-      // 動作中にする
-      status = 1;
-      // スタートボタンを押せないようにする
-      startBtn.disabled = true;
-
-      timer();
-    }
-
-    // STOPボタン
-    function stop() {
-      // 停止中にする
-      status = 0;
-      // スタートボタンを押せるようにする
-      startBtn.disabled = false;
-    }
-
-    // RESETボタン
-    function reset() {
-      // 停止中にする
-      status = 0;
-      // タイムを0に戻す
-      time = 0;
-      // タイマーラベルをリセット
-      timerLabel.innerHTML = '00:00';
-      // スタートボタンを押せるようにする
-      startBtn.disabled = false;
-    }
-
-    function timer() {
-      // ステータスが動作中の場合のみ実行
-      if (status == 1) {
-        setTimeout(function () {
-          time++;
-
-          // 分・秒・ミリ秒を計算
-          var min = Math.floor(time / 100 / 60);
-          var sec = Math.floor(time / 100);
-          var mSec = time % 100;
-
-          if (min < 10) min = "0" + min;
-          if (sec >= 60) sec = sec % 60;
-          if (sec < 10) sec = "0" + sec;
-
-          // タイマーラベルを更新
-          timerLabel.innerHTML = min + ":" + sec;
-
-          // 再びtimer()を呼び出す
-          timer();
-        }, 10);
-      }
-    }
-
-    document.onkeydown = function (event) {
-      if (event) {
-        if (event.keyCode == 32 || event.which == 32) {
-          if (status == 1) {
-            stop();
-          } else if (status == 0) {
-            start();
-          }
-        }
-      }
-    };
-  </script>
-
 </body>
 
 </html>

@@ -6,7 +6,7 @@ app_name = 'study'
 
 urlpatterns = [
      # path('', views.IndexView.as_view(), name='index'),
-     path('', views.IndexView, name='index'),# 作成画面(時間レコード)
+     path('', views.RecordInputView, name='index'),# 作成画面(時間レコード)
      #     path('category/<int:pk>/', views.CategoryView.as_view(),
      #          name='category'),  # 教科選択した後の表示リスト
      #     path('detail/<int:pk>/', views.DetailView.as_view(), name='detail'),
@@ -21,9 +21,8 @@ urlpatterns = [
      path('r^/record_delete/<int:pk>/', views.RecordDeleteView.as_view(),
           name='record_delete'),  # 削除画面(時間レコード)
      path('graph/', views.GraphView, name='graph'),
-     path('test_creat/', views.TestCreatView,
-          name='test_creat'),  # 作成画面(テスト結果入力画面)
-# ///////////////
+     path('two_input/', views.TwoInputView,
+          name='two_input'),  # 作成画面(テスト結果入力画面)
 ]
 
 

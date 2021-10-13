@@ -1,10 +1,13 @@
+{% extends 'study/index.html' %}
+
+{% block content %}
 <p>{{ message }}</p>
 {% csrf_token %}
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center mx-5 ">
   <form class="ui form" action="" method="POST">
     {% csrf_token %}
-    <div>
+    <div class=>
       <p>教科</p>
       {% for radiobutton in form.category %}
       {{ radiobutton }}
@@ -19,3 +22,4 @@
     <button type="submit" class="btn btn-dark" name="save_and_edit">保存して編集を続ける</button> -->
   </form>
 </div>
+{% endblock %}

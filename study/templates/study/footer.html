@@ -1,7 +1,9 @@
-<nav class="navbar fixed-bottom navbar-dark bg-dark">
-  <div class="d-flex d-flex justify-content-around">
-    <div class="mr-10"><a class="btn btn-outline-light" href="{% url 'study:record_list' %}" role="button">一　覧</a></div>
-    <div class="mr-10"><a class="btn btn-outline-light" href="{% url 'study:two_input' %}" role="button">入　力</a></div>
-    <div><a class="btn btn-outline-light" href="{% url 'study:graph' %}" role="button">グラフ</a></div>
+<div class="container">
+  <div class="row justify-content-evenly">
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
+      <div><a class="btn btn-outline-light" href="{% url 'study:record_list' %}" role="button">一　覧</a></div>
+      <div><a class="btn btn-outline-light" href="{% url 'study:two_input' %}" role="button">入　力</a></div>
+      <div><a class="btn btn-outline-light" href="{% url 'study:graph' %}" role="button">グラフ</a></div>
+    </nav>
   </div>
-</nav>
+</div>

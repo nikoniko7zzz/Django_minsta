@@ -100,7 +100,16 @@ class TestForm(forms.ModelForm):
     """テスト結果追加フォーム"""
     class Meta:
         model = Test
-        fields = '__all__'
+        fields = ('japanese', 'math','english', 'science', 'social_studies', 'date')
         widgets = {
             'date': AdminDateWidget(),  # インポートしたウィジェットを使う指示
         }
+
+
+
+
+# from django.contrib.admin.widgets import AdminDateWidget
+# from django.forms.fields import DateField
+
+# class MyForm(Form):
+#     my_field = DateField(widget=AdminDateWidget)

@@ -73,7 +73,7 @@ class Test(models.Model):
         verbose_name='理科', blank=True, null=True)
     social_studies = models.IntegerField(
         verbose_name='社会', blank=True, null=True)
-    date = models.DateField('いつまでに', blank=True,
+    date = models.DateField('日時', blank=True,
                             null=True)  # このDateFieldが対象です。
 
     author = models.ForeignKey(

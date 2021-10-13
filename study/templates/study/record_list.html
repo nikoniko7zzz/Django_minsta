@@ -1,34 +1,33 @@
-{% extends 'study/base.html' %}
+{% extends 'study/index.html' %}
 
 {% block content %}
-
-<a href="{% url 'study:record_creat' %}">勉強時間登録</a>
-<a href="{% url 'study:test_creat' %}">テスト結果登録</a>
-<!-- もし空じゃなければ中身の処理を実施 -->
-{% if record_list %}
-<table>
-  <tr>
-    <td>教科</td>
-    <td>時間</td>
-    <td>日時</td>
-    <td>ユーザー</td>
-    <td>削除ボタン</td>
-  </tr>
-  {% for record in record_list %}
-  <tr>
-    <td><a href="">{{ record.category }}</a></td>
-    <td>{{ record.time }}</td>
-    <td>{{ record.created_at }}</td>
-    <td>{{ record.author }}</td>
-    <td><button type="submit"><a href="delete/{{ record.id }}">>>>削除する</a></button></td>
-    <!-- <td><button type="submit"><a href="{% url 'study:record_delete' pk=record.pk %}">>>>削除する</a></button></td> -->
-    <!-- <td><a href="/todos/{{ todo.todo_id }}/">{{ record.todo_id }}</a></td> -->
-    <!-- <td><a href="/todos/delete/{{ todo.todo_id }}/">削除</a></td> -->
-  </tr>
-  {% endfor %}
-</table>
-{% else %}
-<p>No todos are available.</p>
-{% endif %}
+<div class="container-sm">
+  <!-- もし空じゃなければ中身の処理を実施 -->
+  {% if record_list %}
+  <table>
+    <tr>
+      <td>教科</td>
+      <td>時間</td>
+      <td>日時</td>
+      <td>ユーザー</td>
+      <td>削除ボタン</td>
+    </tr>
+    {% for record in record_list %}
+    <tr>
+      <td><a href="">{{ record.category }}</a></td>
+      <td>{{ record.time }}</td>
+      <td>{{ record.created_at }}</td>
+      <td>{{ record.author }}</td>
+      <td><button type="submit"><a href="delete/{{ record.id }}">>>>削除する</a></button></td>
+      <!-- <td><button type="submit"><a href="{% url 'study:record_delete' pk=record.pk %}">>>>削除する</a></button></td> -->
+      <!-- <td><a href="/todos/{{ todo.todo_id }}/">{{ record.todo_id }}</a></td> -->
+      <!-- <td><a href="/todos/delete/{{ todo.todo_id }}/">削除</a></td> -->
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No todos are available.</p>
+  {% endif %}
+</div>
 
 {% endblock %}

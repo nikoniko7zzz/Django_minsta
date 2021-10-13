@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages  # ラジオ
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 
 # グラフ用///////////////////////////////
 import plotly.graph_objects as go
@@ -42,19 +43,25 @@ from plotly.subplots import make_subplots #グラフの融合
 # reverse url.pyで決めた名前を解析する関数
 # reverse_lazy reverseをクラスベースビューのクラス変数として書くときに利用
 
-class IndexView(generic.ListView):
-    # リスト表示用
-    model = Post
-    paginate_by = 10
 
-    def get_queryset(self):
-        queryset = Post.objects.order_by('-created_at')  # -で降順
-        keyword = self.request.GET.get('keyword')
-        if keyword:
-            queryset = queryset.filter(
-                Q(title__icontains=keyword) | Q(text__icontains=keyword)
-            )
-        return queryset
+def RecordInputView(request):
+    # params = {'message': 'newです'}
+    params = {'message': '', 'form': None}
+    if request.method == 'POST':
+        form = RecordCreateForm(request.POST)
+        if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
+            post = form.save(commit=False)
+            post.author = request.user  # ログインユーザーをformに入れている
+            post.save()
+            print('時間を作成しました。')
+            # print(post)
+            return redirect('study:graph')
+        else:
+            params['message'] = '再入力してください'
+            params['form'] = form
+    else:
+        params['form'] = RecordCreateForm()
+    return render(request, 'study/record_input.html', params)
 
 
 # カテゴリ検索
@@ -114,7 +121,6 @@ def PostNewView(request):
     else:
         params['form'] = PostCreateForm()
     return render(request, 'study/post_input.html', params)
-    # return render(request, 'study/post_input.html', params)
 
 
 # 一覧画面
@@ -137,33 +143,33 @@ class RecordDeleteView(generic.DeleteView):
     success_url = reverse_lazy("study:record_list")
 
 
-def RecordCreatView(request):
-    # params = {'message': 'newです'}
-    params = {'message': '', 'form': None}
-    if request.method == 'POST':
-        form = RecordCreateForm(request.POST)
-        if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
-            post = form.save(commit=False)
-            post.author = request.user  # ログインユーザーをformに入れている
-            post.save()
-            print('時間を作成しました。')
-            # print(post)
-            return redirect('study:record_list')
-        else:
-            params['message'] = '再入力してください'
-            params['form'] = form
-    else:
-        params['form'] = RecordCreateForm()
-    return render(request, 'study/record_input.html', params)
+# def RecordCreatView(request):
+#     # params = {'message': 'newです'}
+#     params = {'message': '', 'form': None}
+#     if request.method == 'POST':
+#         form = RecordCreateForm(request.POST)
+#         if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
+#             post = form.save(commit=False)
+#             post.author = request.user  # ログインユーザーをformに入れている
+#             post.save()
+#             print('時間を作成しました。')
+#             # print(post)
+#             return redirect('study:record_list')
+#         else:
+#             params['message'] = '再入力してください'
+#             params['form'] = form
+#     else:
+#         params['form'] = RecordCreateForm()
+#     return render(request, 'study/record_input.html', params)
 
 # /////////////////////////////////////////////////////////////
 # /  テスト結果登録画面  //////////////////////////////////////
 # /////////////////////////////////////////////////////////////
-def TestCreatView(request):
+def TwoInputView(request):
     context = {
         'test_form': TestForm()  # base.htmlの変数になる
     }
-    return render(request, "study/test_input.html", context)
+    return render(request, "study/two_input.html", context)
 
 # /////////////////////////////////////////////////////////////
 # /  グラフ表示画面      //////////////////////////////////////
@@ -245,7 +251,8 @@ def GraphView(request):
                 side='top')  # カラーバーのタイトルをつける位置（デフォルトはtop）
         ),
         colorscale=[
-            [0, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
+            [0, 'rgb(17, 17, 17)'],  # NaNに該当する値を区別する
+            [0.01, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
             [1, 'rgb(255,20,147)']]))
     # ))
 
@@ -262,8 +269,8 @@ def GraphView(request):
     #     # layout = go.Layout(
     fig.update_layout(
         # title='Study day',
-        width=1000,
-        height=300,
+        width=450,
+        height=350,
         template='plotly_dark',
 
     )
@@ -293,30 +300,38 @@ def GraphView(request):
     # test_df2.dtypes データの型の確認
 
     fig_line = px.line(test_df2, x='date', y=[
-        'japanese', 'math', 'english', 'science', 'social_studies'], color_discrete_sequence=['blue', 'purple', 'yellow', 'red', 'green'], title="折線ぐらふ")
+        'japanese', 'math', 'english', 'science', 'social_studies'], color_discrete_sequence=['#ffff7a', '#ff77af', '#7affbc', '#7a7aff', '#ffbc7a'])
 
     fig_line.update_xaxes(
-        # title="", # X軸タイトルを指定
+        title=None, # X軸タイトルを指定
         # range=(base+datetime.timedelta(days=-60),base), # X軸の最大最小値を指定
         rangeslider={"visible":True}, # X軸に range slider を表示（下図参照）
         )
 
     fig_line.update_yaxes(
-        # title="ランキング", # Y軸タイトルを指定
+        title=None, # Y軸タイトルを指定
         autorange = 'reversed', # y軸を逆にする ランキング上位が上表示にした
         # scaleanchor="x",
         # scaleratio=1, # Y軸のスケールをX軸と同じに（plt.axis("equal")
         )
 
     fig_line.update_layout(
-        title="ランキング", # グラフタイトルを設定
         showlegend=True, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
         # xaxis_type="linear",
         # yaxis_type="log", # X軸はリニアスケール、Y軸はログスケールに
-        width=1000,
-        height=500, # 図の高さを幅を指定
+        width=450,
+        height=350, # 図の高さを幅を指定
         template='plotly_dark',
+        legend=dict(xanchor='left',
+                    yanchor='bottom',
+                    x=0.02,
+                    y=0.9,
+                    orientation='h',
+                    title=None)
         )
+
+
+
 
 
     plot_fig_line = fig_line.to_html(include_plotlyjs='cdn',

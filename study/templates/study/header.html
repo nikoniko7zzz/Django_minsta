@@ -1,0 +1,46 @@
+<!-- ヘッダー -->
+
+<nav class="navbar sticky-top navbar-dark bg-dark">
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm"> -->
+  <div class="container-fluid">
+    <a class="navbar-brand ms-5" href="{% url 'register:top' %}">minsta</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'study:index' %}">Home</a>
+        </li>
+        <!-- スーパーユーザーか判断 -->
+        {% if user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+        </li>
+        {% endif %}
+
+        <!-- ログイン済みか判断 -->
+        {% if user.is_authenticated %}
+        <li>
+          <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
+        </li>
+        <li>
+          <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
+        </li>
+        <li>
+          <a class="nav-item nav-link" href="{% url 'register:logout' %}">LOG OUT</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-item nav-link" href="{% url 'register:login' %}">LOG IN</a>
+        </li>
+        {% endif %}
+      </ul>
+      <!-- <form class="d-flex" method="GET" action="{% url 'study:index' %}">
+          <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword">
+          <button class="btn btn-outline-dark" type="submit">Search</button>
+        </form> -->
+    </div>
+  </div>
+</nav>

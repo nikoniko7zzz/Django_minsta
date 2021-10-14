@@ -165,11 +165,25 @@ class RecordDeleteView(generic.DeleteView):
 # /////////////////////////////////////////////////////////////
 # /  テスト結果登録画面  //////////////////////////////////////
 # /////////////////////////////////////////////////////////////
+@login_required
 def TwoInputView(request):
-    context = {
-        'test_form': TestForm()  # base.htmlの変数になる
-    }
-    return render(request, "study/two_input.html", context)
+    # params = {'message': 'newです'}
+    params = {'message': '', 'test_form': None}
+    if request.method == 'POST':
+        form = TestForm(request.POST)
+        if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
+            post = form.save(commit=False)
+            post.author = request.user  # ログインユーザーをformに入れている
+            post.save()
+            print('テスト結果を記録しました。')
+            # print(post)
+            return redirect('study:graph')
+        else:
+            params['message'] = '再入力してください'
+            params['test_form'] = form
+    else:
+        params['test_form'] = TestForm()
+    return render(request, 'study/two_input.html', params)
 
 # /////////////////////////////////////////////////////////////
 # /  グラフ表示画面      //////////////////////////////////////
@@ -240,8 +254,6 @@ def GraphView(request):
             len=1.1,  # カラーバーの長さを0.8に（デフォルトは1）
             lenmode='fraction',
             outlinewidth=0,
-            # xanchor = 'right',  # 凡例の表示場所の設定
-            # yanchor = 'middle',
             # outlinecolor='gray',  # カラーバーの枠線の色
             # outlinewidth=1,  # カラーバーの枠線の太さ
             # bordercolor='gray',  # カラーバーとラベルを含むカラーバー自体の枠線の色
@@ -269,8 +281,8 @@ def GraphView(request):
     #     # layout = go.Layout(
     fig.update_layout(
         # title='Study day',
-        width=450,
-        height=350,
+        width=400,
+        height=300,
         template='plotly_dark',
 
     )
@@ -297,10 +309,15 @@ def GraphView(request):
     test_data = Test.objects.all()
     test_df = read_frame(test_data)
     test_df2 = test_df.sort_values('date', ascending=False)
+
     # test_df2.dtypes データの型の確認
 
-    fig_line = px.line(test_df2, x='date', y=[
-        'japanese', 'math', 'english', 'science', 'social_studies'], color_discrete_sequence=['#ffff7a', '#ff77af', '#7affbc', '#7a7aff', '#ffbc7a'])
+    # y=subject[::-1],
+    fig_line = px.line(
+        test_df2, #データ
+        x='date',
+        y=['japanese', 'math', 'english', 'science', 'social_studies'],
+        color_discrete_sequence=['#ffff7a', '#ff77af', '#7affbc', '#7a7aff', '#ffbc7a'])
 
     fig_line.update_xaxes(
         title=None, # X軸タイトルを指定
@@ -319,8 +336,8 @@ def GraphView(request):
         showlegend=True, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
         # xaxis_type="linear",
         # yaxis_type="log", # X軸はリニアスケール、Y軸はログスケールに
-        width=450,
-        height=350, # 図の高さを幅を指定
+        width=400,
+        height=500, # 図の高さを幅を指定
         template='plotly_dark',
         legend=dict(xanchor='left',
                     yanchor='bottom',

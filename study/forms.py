@@ -104,12 +104,3 @@ class TestForm(forms.ModelForm):
         widgets = {
             'date': AdminDateWidget(),  # インポートしたウィジェットを使う指示
         }
-
-
-
-
-# from django.contrib.admin.widgets import AdminDateWidget
-# from django.forms.fields import DateField
-
-# class MyForm(Form):
-#     my_field = DateField(widget=AdminDateWidget)

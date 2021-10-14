@@ -29,8 +29,18 @@
 <div class="container" style="width: 250px;">
   <a href="{% url 'study:index' %}">学習時間入力</a><br>
   <P>テスト結果入力</P>
-  {{ test_form }}
+  <form class="ui form" action="" method="POST">
+    {% csrf_token %}
+    {{ test_form }}
+    <div class="d-grid mx-auto mt-10">
+      <button type=" submit" class="btn btn-dark">　 　保　存　 　</button>
+    </div>
+  </form>
 </div>
+
+
+
+
 
 <!-- <h3 style="text-align: center">時間を登録する</h3>
 

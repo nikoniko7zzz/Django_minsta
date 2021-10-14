@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-center mx-5 ">
   <form class="ui form" action="" method="POST">
     {% csrf_token %}
-    <div class=>
+    <div>
       <p>教科</p>
       {% for radiobutton in form.category %}
       {{ radiobutton }}
@@ -17,7 +17,9 @@
       {{ radiobutton }}
       {% endfor %}
     </div>
-    <button type=" submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
+    <div class="d-grid mx-auto mt-10">
+      <button type=" submit" class="btn btn-dark">　 　保　存　 　</button>
+    </div>
     <!-- <button type="submit" class="btn btn-dark" name="save_and_add">保存してもう一つ追加</button>
     <button type="submit" class="btn btn-dark" name="save_and_edit">保存して編集を続ける</button> -->
   </form>

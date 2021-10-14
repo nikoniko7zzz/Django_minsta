@@ -12,80 +12,47 @@
 <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
 <script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
 <!-- end for admin widgets -->
-<style>
-  input {
-    margin-right: 50px;
-  }
 
-  a,
-  span {
-    color: lightgreen;
+<style>
+  /* django calendar用 */
+  #calendarbox0 {
+    z-index: 1051;
+    position: relative;
+    top: 300px;
+    left: 100px;
   }
 </style>
+
+
 {% endblock %}
 
-
+<!-- style="width: 250px;" -->
 {% block content %}
-<div class="container" style="width: 250px;">
-  <a href="{% url 'study:index' %}">学習時間入力</a><br>
-  <P>テスト結果入力</P>
-  <form class="ui form" action="" method="POST">
+<div class="container">
+
+
+  <p><a href="{% url 'study:index' %}">学習時間入力</a></p>
+  <P>テスト結果(順位)入力</P>
+
+  <form method="POST" class="post-form">
+    {{ stock_form.non_field_errors }}
+    {% for field in test_form %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+      {{ field }}
+      <br />
+      <p style="line-height: 0.5;">&nbsp;</p> <!-- 空白行の意味 -->
+      {{ field.errors }}
+    </div>
+    {% endfor %}
     {% csrf_token %}
-    {{ test_form }}
-    <div class="d-grid mx-auto mt-10">
-      <button type=" submit" class="btn btn-dark">　 　保　存　 　</button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        キャンセル
+      </button>
+      <button type="submit" class="save btn btn-danger">追加する</button>
     </div>
   </form>
 </div>
-
-
-
-
-
-<!-- <h3 style="text-align: center">時間を登録する</h3>
-
-<p>{{ message }}</p>
-{% csrf_token %}
-
-<div class="eleven wide column">
-  <div class="ui segment">
-    <div class="content">
-      <form class="ui form" action="" method="POST">
-        {% csrf_token %}
-        <div>
-          <p>教科</p>
-          {% for radiobutton in form.category %}
-          {{ radiobutton }}
-          {% endfor %}
-          <p>時間</p>
-          {% for radiobutton in form.time %}
-          {{ radiobutton }}
-          {% endfor %}
-        </div>
-        <button type=" submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
-        <button type="submit" class="btn btn-dark" name="save_and_add">保存してもう一つ追加</button>
-        <button type="submit" class="btn btn-dark" name="save_and_edit">保存して編集を続ける</button>
-      </form>
-    </div>
-  </div>
-</div> -->
-
-
-
-
-
-<!-- <label for="exampleFormControlInput1" class="form-label">教科</label>
-  <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">{{PostCreateForm.category}}
-  <div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label">問題</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{PostCreateForm.title}}</textarea>
-  </div>
-  <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label">答え</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{PostCreateForm.text}}</textarea>
-  </div>
-  <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
-  <button type="submit" class="btn btn-dark">続けて作成する</button> -->
-</form>
 
 {% endblock %}

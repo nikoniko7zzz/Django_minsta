@@ -249,7 +249,7 @@ def GraphView(request):
         # # x=(1, 7),  # 縦軸ラベルに表示する値、10刻み
         # # opacity=0.5,  # マップの透明度を0.5に
         colorbar=dict(
-            thickness=25,
+            thickness=10,
             thicknessmode='pixels',
             len=1.1,  # カラーバーの長さを0.8に（デフォルトは1）
             lenmode='fraction',
@@ -281,11 +281,16 @@ def GraphView(request):
     #     # layout = go.Layout(
     fig.update_layout(
         # title='Study day',
-        width=400,
-        height=300,
+        width=380,
+        height=200,
         template='plotly_dark',
-
+        margin=dict(     # グラフ領域の余白設定
+            l=15, r=30, t=20, b=40,
+            pad = 0,         # グラフから軸のラベルまでのpadding
+            autoexpand=True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
+        )
     )
+
     fig.update_traces(
         # xaxis=dict(showgrid=False),
         # yaxis=dict(
@@ -312,7 +317,6 @@ def GraphView(request):
 
     # test_df2.dtypes データの型の確認
 
-    # y=subject[::-1],
     fig_line = px.line(
         test_df2, #データ
         x='date',
@@ -336,24 +340,26 @@ def GraphView(request):
         showlegend=True, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
         # xaxis_type="linear",
         # yaxis_type="log", # X軸はリニアスケール、Y軸はログスケールに
-        width=400,
-        height=500, # 図の高さを幅を指定
+        width=380,
+        height=400, # 図の高さを幅を指定
         template='plotly_dark',
-        legend=dict(xanchor='left',
-                    yanchor='bottom',
-                    x=0.02,
-                    y=0.9,
-                    orientation='h',
-                    title=None)
+        legend=dict(
+            xanchor='left',
+            yanchor='bottom',
+            x=0.02,
+            y=0.9,
+            orientation='h',
+            title=None,
+        ),
+        margin = dict(     # グラフ領域の余白設定
+            l=15, r=30, t=50, b=40,
+            pad=0,         # グラフから軸のラベルまでのpadding
+            autoexpand = True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
         )
-
-
-
-
+    )
 
     plot_fig_line = fig_line.to_html(include_plotlyjs='cdn',
                                  full_html=False).encode().decode('unicode-escape')
-
 
     # /  heatmapとライングラフを返す  ////////////////////////////////////////////
     return render(request, "study/graph.html", {

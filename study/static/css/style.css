@@ -1,17 +1,24 @@
-/* #timerLabel {
-    color: white;
-    font-size: 2em;
-    line-height: 0.1em;
-    text-align:center;
-} */
-/* .myButton {
-    width: 80px;
-    height: 50px;
-    border: none;
-    border-radius: 6px;
-    background-color: skyblue;
-    font-size: 16px;
+h1 {
+    color: red;
 }
-.title, .myButton {
-    color: midnightblue;
-} */
+
+label {
+    color: white;
+}
+
+p {
+    color: white;
+}
+
+a,
+span {
+color: lightgreen;
+}
+
+/* django calendar用 */
+#calendarbox0 {
+z-index: 1051;
+position: relative;
+top:300px;
+left:100px;
+}

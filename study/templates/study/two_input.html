@@ -13,15 +13,6 @@
 <script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
 <!-- end for admin widgets -->
 
-<style>
-  /* django calendar用 */
-  #calendarbox0 {
-    z-index: 1051;
-    position: relative;
-    top: 300px;
-    left: 100px;
-  }
-</style>
 
 
 {% endblock %}
@@ -41,15 +32,15 @@
       <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
       {{ field }}
       <br />
-      <p style="line-height: 0.5;">&nbsp;</p> <!-- 空白行の意味 -->
+      <p style="line-height: 0.2;">&nbsp;</p> <!-- 空白行の意味 -->
       {{ field.errors }}
     </div>
     {% endfor %}
     {% csrf_token %}
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+      <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">
         キャンセル
-      </button>
+      </button> -->
       <button type="submit" class="save btn btn-danger">追加する</button>
     </div>
   </form>

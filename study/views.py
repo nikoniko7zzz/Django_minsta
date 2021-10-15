@@ -232,7 +232,7 @@ def GraphView(request):
     # comb_df3 = comb_df2.sort_values('date_str', ascending=False).fillna(0)
     comb_df3 = comb_df2.fillna(0)
 
-    subject = ['国語', '数学', '英語', '理科', '社会']
+    subject = ['国', '数', '英', '理', '社']
 
     # z = np.random.poisson(size=(len(subject), len(dates)))
     z = comb_df3
@@ -265,8 +265,9 @@ def GraphView(request):
         colorscale=[
             [0, 'rgb(17, 17, 17)'],  # NaNに該当する値を区別する
             [0.01, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
-            [1, 'rgb(255,20,147)']]))
-    # ))
+            [1, 'rgb(255,20,147)']
+        ]
+    ))
 
     # plot.append(d)
 
@@ -282,10 +283,11 @@ def GraphView(request):
     fig.update_layout(
         # title='Study day',
         width=380,
-        height=200,
+        height=210,
         template='plotly_dark',
+        plot_bgcolor = '#212529',
         margin=dict(     # グラフ領域の余白設定
-            l=15, r=30, t=20, b=40,
+            l=15, r=30, t=30, b=10,
             pad = 0,         # グラフから軸のラベルまでのpadding
             autoexpand=True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
         )
@@ -311,16 +313,18 @@ def GraphView(request):
 # /  ライングラフ  ////////////////////////////////////////////
 
     # Testデータの加工///
-    test_data = Test.objects.all()
-    test_df = read_frame(test_data)
-    test_df2 = test_df.sort_values('date', ascending=False)
+    test_data = Test.objects.all() #テストデータ
+    test_df = read_frame(test_data) #dfにする
+    test_df1 = test_df.rename(
+        columns={'japanese': '国', 'math': '数', 'english': '英', 'science': '理', 'social_studies': '社'})
+    test_df2 = test_df1.sort_values('date', ascending=False)
 
     # test_df2.dtypes データの型の確認
 
     fig_line = px.line(
         test_df2, #データ
         x='date',
-        y=['japanese', 'math', 'english', 'science', 'social_studies'],
+        y=['国', '数', '英', '理', '社'],
         color_discrete_sequence=['#ffff7a', '#ff77af', '#7affbc', '#7a7aff', '#ffbc7a'])
 
     fig_line.update_xaxes(
@@ -332,6 +336,7 @@ def GraphView(request):
     fig_line.update_yaxes(
         title=None, # Y軸タイトルを指定
         autorange = 'reversed', # y軸を逆にする ランキング上位が上表示にした
+        # range=(base+datetime.timedelta(days=-60),base), # X軸の最大最小値を指定
         # scaleanchor="x",
         # scaleratio=1, # Y軸のスケールをX軸と同じに（plt.axis("equal")
         )
@@ -341,18 +346,19 @@ def GraphView(request):
         # xaxis_type="linear",
         # yaxis_type="log", # X軸はリニアスケール、Y軸はログスケールに
         width=380,
-        height=400, # 図の高さを幅を指定
+        height=320, # 図の高さを幅を指定
         template='plotly_dark',
+        plot_bgcolor = '#212529',
         legend=dict(
             xanchor='left',
             yanchor='bottom',
-            x=0.02,
-            y=0.9,
+            x=0.02, #左下を(0,0)、右上を(1,1)
+            y=1,
             orientation='h',
             title=None,
         ),
         margin = dict(     # グラフ領域の余白設定
-            l=15, r=30, t=50, b=40,
+            l=15, r=30, t=60, b=40,
             pad=0,         # グラフから軸のラベルまでのpadding
             autoexpand = True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
         )
@@ -367,6 +373,16 @@ def GraphView(request):
         "graph_line": plot_fig_line
     })
 
+
+def sample(request):
+    if request.method == "POST":
+        if "start_button" in request.POST:
+        # 以下にstart_buttonがクリックされた時の処理を書いていく
+          print("スタートボタンを押した")
+          return redirect('study:record_input')
+        elif "finish_button" in request.POST:
+        # 以下にfinish_buttonがクリックされた時の処理を書いてく
+          print("ストップボタンを押した")
 
 
 

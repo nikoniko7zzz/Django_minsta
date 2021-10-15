@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin import widgets
 from .models import Comment, Post, Record, Test
 from django.contrib.admin.widgets import AdminDateWidget  # カレンダー形式で入力
 
@@ -81,6 +82,7 @@ class RecordCreateForm(forms.ModelForm):
         label='教科',
         required=False,  # 入力項目を必須項目ではなく、任意の入力項目にする=false
         widget=forms.RadioSelect,
+        # widget=forms.RadioSelect(attrs={'class': 'radiobutton'}),
         choices=CATEGORY_CHOICES,
         # initial=0
     )

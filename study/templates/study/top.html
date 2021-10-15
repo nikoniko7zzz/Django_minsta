@@ -1,32 +1,18 @@
 <div class="container">
   <h1 class="display-3" style="text-align:center;">minsta!</h1>
-  <p class="lead" style="text-align:center; "> みんなでSTUDY</p>
+  <!-- <p class="lead" style="text-align:center; "> みんなでSTUDY</p> -->
 
   <!-- ログイン済みか判断 -->
   {% if user.is_authenticated %}
-  <p style="text-align:center;">{{ user.first_name }}がログイン中</p>
+  <p style="text-align:center;">Let' study</p>
   {% else %}
   <p style="text-align:center;">ログインしてください</p>
-  <a class="nav-item nav-link" href="{% url 'register:login' %}">LOG IN</a>
+  <div class="modal-footer">
+    <div><a class="btn btn-light" href=href="{% url 'register:login' %}" role="button">LOG IN</a></div>
+  </div>
+
+
   {% endif %}
 
+
 </div>
-
-<!-- <div>
-    <form class="" action="" method="post" enctype="multipart/form-data">
-      <div class="d-flex justify-content-around">
-        <button class='btn btn-dark' type="checkbox" name="category" value="国語">国</button>
-        <button class='btn btn-dark' type="checkbox" name="category" value="数学">数</button>
-        <button class='btn btn-dark' type="checkbox" name="category" value="英語">英</button>
-        <button class='btn btn-dark' type="checkbox" name="category" value="理科">理</button>
-        <button class='btn btn-dark' type="checkbox" name="category" value="社会">社</button>
-      </div>
-
-      <p id="timerLabel" style="color: white; font-size: 50px; text-align: center">00:00</p>
-      <div class="d-flex justify-content-around">
-        <input type="button" class="btn btn-dark" name="start" onclick="start()" value="START" id="startBtn">
-        <input type="submit" class="btn btn-dark" name="stop" onclick="stop()" value="STOP">
-        <input type="button" class="btn btn-dark" onclick="reset()" value="RESET">
-      </div>
-    </form>
-  </div> -->

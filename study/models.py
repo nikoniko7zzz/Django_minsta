@@ -64,16 +64,16 @@ class Record(models.Model):
 class Test(models.Model):
     '''テスと結果の保存'''
     japanese = models.IntegerField(
-        verbose_name='国語', blank=True, null=True)
+        verbose_name='国語 ', blank=True, null=True)
     math = models.IntegerField(
-        verbose_name='数学', blank=True, null=True)
+        verbose_name='数学 ', blank=True, null=True)
     english = models.IntegerField(
-        verbose_name='英語', blank=True, null=True)
+        verbose_name='英語 ', blank=True, null=True)
     science = models.IntegerField(
-        verbose_name='理科', blank=True, null=True)
+        verbose_name='理科 ', blank=True, null=True)
     social_studies = models.IntegerField(
-        verbose_name='社会', blank=True, null=True)
-    date = models.DateField('日時', blank=True,
+        verbose_name='社会 ', blank=True, null=True)
+    date = models.DateField('日時 ', blank=True,
                             null=True)  # このDateFieldが対象です。
 
     author = models.ForeignKey(

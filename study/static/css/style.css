@@ -10,10 +10,21 @@ p {
     color: white;
 }
 
-a,
-span {
-color: lightgreen;
+/* #id_category_0,
+#id_category_1,
+#id_category_2, */
+
+/* .radiobutton {
+    display: none;
 }
+label {
+    background-color: skyblue;
+    padding: 10px 20px;
+}
+.radiobutton:checked + label {
+    background-color: pink;
+} */
+
 
 /* django calendar用 */
 #calendarbox0 {

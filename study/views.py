@@ -358,7 +358,7 @@ def GraphView(request):
             title=None,
         ),
         margin = dict(     # グラフ領域の余白設定
-            l=15, r=30, t=60, b=40,
+            l=15, r=30, t=40, b=40,
             pad=0,         # グラフから軸のラベルまでのpadding
             autoexpand = True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
         )

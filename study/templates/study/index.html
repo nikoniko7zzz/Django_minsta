@@ -29,10 +29,20 @@
   <div class="col-sm-12">
     {% include 'study/header.html' %}
 
-    {% include 'study/top.html' %}
-
+    <div class="container">
+      <h1 class="display-3" style="text-align:center;">minsta!</h1>
+    </div>
+    {% if user.is_authenticated %}
+    <!-- ログイン済みか判断 -->
     {% block content %}
     {% endblock %}
+
+    {% else %}
+    <p style="text-align:center;">ログインしてください</p>
+    <div class="modal-footer">
+      <div><a class="btn btn-light" href="{% url 'register:login' %}" role="button">LOG IN</a></div>
+    </div>
+    {% endif %}
 
     {% include 'study/footer.html' %}
 

@@ -174,8 +174,16 @@ LOGIN_URL = 'register:login'
 LOGIN_REDIRECT_URL = 'register:top'
 LOGOUT_REDIRECT_URL = 'register:top'
 
-# メールをコンソールに表示する
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# メールをコンソールに表示する 開発用
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# メールサーバーへの接続設定
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'spam@gmail.com'
+EMAIL_HOST_PASSWORD = 'gmailパスワード'
+EMAIL_USE_TLS = True
 
 # heroku用//////////////////
 try:

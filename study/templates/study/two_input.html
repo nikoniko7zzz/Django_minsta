@@ -31,30 +31,32 @@
 
   <!-- <p><a href="{% url 'study:index' %}">学習時間入力</a></p> -->
   <!-- <P>テスト結果(点数)入力</P> -->
-  <div class="col text-center">
-    <button type="" class="save btn btn-secondary mr-10 col-3" href="">テスト結果(点数)入力</button>
-    <button type="" class="save btn btn-secondary col-3"><a href="{% url 'study:index' %}">学習時間入力</a></button>
+  <div class="col text-center mb-10">
+    <button type="" class="save btn btn-secondary mr-10 col-sm-5" href="">テスト点数入力</button>
+    <button type="" class="save btn btn-secondary col-sm-5"><a href="{% url 'study:index' %}">学習時間 入力</a></button>
   </div>
-
-  <form method="POST" class="post-form">
-    {{ stock_form.non_field_errors }}
-    {% for field in test_form %}
-    <div class="form-group">
-      <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-      {{ field }}
-      <br />
-      <p style="line-height: 0.1;">&nbsp;</p> <!-- 空白行の意味 -->
-      {{ field.errors }}
-    </div>
-    {% endfor %}
-    {% csrf_token %}
-    <div class="modal-footer">
-      <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">
-        キャンセル
-      </button> -->
-      <button type="submit" class="save btn btn-danger">追加する</button>
-    </div>
-  </form>
+  <p style="line-height: 0.1;">&nbsp;</p> <!-- 空白行の意味 -->
+  <div>
+    <form method="POST" class="post-form">
+      {{ stock_form.non_field_errors }}
+      {% for field in test_form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field }}
+        <br />
+        <p style="line-height: 0.1;">&nbsp;</p> <!-- 空白行の意味 -->
+        {{ field.errors }}
+      </div>
+      {% endfor %}
+      {% csrf_token %}
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          キャンセル
+        </button> -->
+        <button type="submit" class="save btn btn-danger">追加する</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 {% endblock %}

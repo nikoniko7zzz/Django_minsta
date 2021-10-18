@@ -27,9 +27,15 @@ label {
 
 
 /* django calendar用 */
-#calendarbox0 {
-z-index: 1051;
-position: relative;
-top:300px;
-left:100px;
+/* #calendarbox0 {
+    z-index: 1051;
+    position: relative;
+    top:200px;
+    right:100px;
+} */
+.calendarbox  {
+    display: block;
+    position: absolute;
+    right: 40px;
+    top: 40px;
 }

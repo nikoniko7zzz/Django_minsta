@@ -106,3 +106,4 @@ class TestForm(forms.ModelForm):
         widgets = {
             'date': AdminDateWidget(),  # インポートしたウィジェットを使う指示
         }
+

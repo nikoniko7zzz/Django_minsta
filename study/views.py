@@ -44,8 +44,6 @@ from plotly.subplots import make_subplots #グラフの融合
 # reverse url.pyで決めた名前を解析する関数
 # reverse_lazy reverseをクラスベースビューのクラス変数として書くときに利用
 
-def TopView(request):
-    return render(request, 'study/top.html')
 
 def RecordInputView(request):
     # params = {'message': 'newです'}

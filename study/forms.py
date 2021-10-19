@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.admin import widgets
 from .models import Comment, Post, Record, Test
 from django.contrib.admin.widgets import AdminDateWidget  # カレンダー形式で入力
-from bootstrap_datepicker_plus import DatePickerInput
 
 # ◆◆◆◆◆◆◆◆◆↓↓↓今回実装なし↓↓↓◆◆◆◆◆◆◆◆◆
 # class PostCreateForm(forms.ModelForm):

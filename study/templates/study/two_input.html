@@ -1,9 +1,8 @@
 {% extends 'study/index.html' %}
-
-
 {% load static %}
 
 {% block extra_head %}
+
 <!-- for admin widgets カレンダーで使う -->
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
@@ -13,24 +12,11 @@
 <script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
 <!-- end for admin widgets -->
 
-
-
-
-
-<script>
-  documents.getElementById("calendarbox0").style.top = "100px";
-  documents.getElementById("calendarbox0").style.left = "100px";
-
-</script>
-
 {% endblock %}
 
-<!-- style="width: 250px;" -->
 {% block content %}
-<div class="container">
+<div class="container" style="width: 360px;">
 
-  <!-- <p><a href="{% url 'study:index' %}">学習時間入力</a></p> -->
-  <!-- <P>テスト結果(点数)入力</P> -->
   <div class="col text-center mb-10">
     <button type="" class="save btn btn-secondary mr-10 col-sm-5" href="">テスト点数入力</button>
     <button type="" class="save btn btn-secondary col-sm-5"><a href="{% url 'study:index' %}">学習時間 入力</a></button>
@@ -38,6 +24,7 @@
   <p style="line-height: 0.1;">&nbsp;</p> <!-- 空白行の意味 -->
   <div>
     <form method="POST" class="post-form">
+      {% csrf_token %}
       {{ stock_form.non_field_errors }}
       {% for field in test_form %}
       <div class="form-group">
@@ -48,8 +35,16 @@
         {{ field.errors }}
       </div>
       {% endfor %}
-      {% csrf_token %}
-      <div class="modal-footer">
+
+      <!-- <div class="button" type="submit">
+        <a href="#">
+          追加する
+          <span class="shift">›</span>
+        </a>
+        <div class="mask"></div>
+      </div> -->
+
+      <div class="d-flex justify-content-center">
         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">
           キャンセル
         </button> -->

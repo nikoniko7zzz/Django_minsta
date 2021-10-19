@@ -1,15 +1,14 @@
-documents.getElementByClassName("calendarbox").style.top = "100px";
-documents.getElementByClassName("calendarbox").style.left = "100px";
+// top.html loginボタン用  ↓↓↓↓↓↓↓//////////////////////////////
 
-// element.style {
-//   display: block;
-//   position: absolute;
-//   left: 100px;
-//   top: 400px;
-// }
+const body = document.body;
+const btn = document.querySelectorAll('.button')[0];
 
-// document.getElementByClassName("calendarbox").onclick = function () {
-//   // ここに#buttonをクリックしたら発生させる処理を記述する
-//   style.top = "100px";
-//   style.left = "100px";
-// };
+btn.addEventListener('mouseenter', () => {
+  body.classList.add('show');
+});
+
+btn.addEventListener('mouseleave', () => {
+  body.classList.remove('show');
+});
+
+// top.html loginボタン用  ↑↑↑↑↑↑↑//////////////////////////////

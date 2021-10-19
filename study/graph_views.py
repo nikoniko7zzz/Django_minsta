@@ -1,3 +1,6 @@
+# グラフ作成用 テストファイル
+
+
 from re import X
 from django.db.models import Q
 from django.http.response import HttpResponse  # Qオブジェクトは、モデルのデータの中からor検索をする

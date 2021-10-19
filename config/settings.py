@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'register.apps.RegisterConfig',
     'study.apps.StudyConfig',
     'django_bootstrap5',
+    'bootstrap_datepicker_plus', #カレンダー入力
 ]
 
 MIDDLEWARE = [
@@ -94,6 +95,10 @@ TEMPLATES = [
         },
     },
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery':True,
+}
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

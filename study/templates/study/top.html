@@ -1,18 +1,30 @@
-<div class="container">
-  <h1 class="display-3" style="text-align:center;">minsta!</h1>
-  <!-- <p class="lead" style="text-align:center; "> みんなでSTUDY</p> -->
+<div class="container" style="width: 360px;">
+  <div style="height: 400px;">
+    <!-- <svg viewBox="0 0 300 100">
+      <symbol id="s-text">
+        <text text-anchor="middle" x="50%" y="80%">Minsta</text>
+      </symbol>
 
-  <!-- ログイン済みか判断 -->
-  {% if user.is_authenticated %}
-  <p style="text-align:center;">Let' study</p>
-  {% else %}
-  <p style="text-align:center;">ログインしてください</p>
-  <div class="modal-footer">
-    <div><a class="btn btn-light" href="{% url 'register:login' %}" role="button">LOG IN</a></div>
+      <g class="g-ants">
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+      </g>
+    </svg> -->
+    <h1 style="font-size: 105px;">Minsta!</h1>
+
   </div>
 
 
-  {% endif %}
+  <div class="button">
+    <a href="{% url 'register:login' %}">
+      LOG IN
+      <span class="shift">›</span>
+    </a>
+    <div class="mask"></div>
+  </div>
 
 
 </div>

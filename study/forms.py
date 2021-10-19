@@ -2,60 +2,39 @@ from django import forms
 from django.contrib.admin import widgets
 from .models import Comment, Post, Record, Test
 from django.contrib.admin.widgets import AdminDateWidget  # カレンダー形式で入力
+from bootstrap_datepicker_plus import DatePickerInput
 
-
-class PostCreateForm(forms.ModelForm):
-    """問題投稿フォーム"""
-
-    class Meta:
-        # 表示するモデルクラスのフィールドを定義 入力不要は必要ない
-        model = Post
-        fields = ('category', 'title', 'text')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            # widget.attrs htmlで表示されるclass設定をしている
-            self.fields['category'].widget.attrs = {
-                'class': 'form-select mb-3'}
-            self.fields['title'].widget.attrs = {'class': 'form-control mb-3'}
-            self.fields['text'].widget.attrs = {'class': 'form-control mb-3'}
-
-
-class CommentCreateForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['class'] = 'form-control'
-
-    class Meta:
-        model = Comment
-        fields = ('name', 'text')
-
-
-# class RecordCreateForm(forms.ModelForm):
-#     """勉強時間"""
+# ◆◆◆◆◆◆◆◆◆↓↓↓今回実装なし↓↓↓◆◆◆◆◆◆◆◆◆
+# class PostCreateForm(forms.ModelForm):
+#     """問題投稿フォーム"""
 
 #     class Meta:
 #         # 表示するモデルクラスのフィールドを定義 入力不要は必要ない
-#         model = Record
-#         fields = ('category', 'start_stop')
-
-# class RecordCreateForm(forms.ModelForm):///////////////////
-#     """時間投稿フォーム"""
-
-#     class Meta:
-#         # 表示するモデルクラスのフィールドを定義 入力不要は必要ない
-#         model = Record
-#         fields = ('category', 'time')
+#         model = Post
+#         fields = ('category', 'title', 'text')
 
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(*args, **kwargs)
 #         for field in self.fields.values():
 #             # widget.attrs htmlで表示されるclass設定をしている
-#             self.fields['category'].widget=forms.RadioSelect
-#             self.fields['time'].widget.attrs = {'class': 'form-select mb-3'}
+#             self.fields['category'].widget.attrs = {
+#                 'class': 'form-select mb-3'}
+#             self.fields['title'].widget.attrs = {'class': 'form-control mb-3'}
+#             self.fields['text'].widget.attrs = {'class': 'form-control mb-3'}
+
+
+# class CommentCreateForm(forms.ModelForm):
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         for field in self.fields.values():
+#             field.widget.attrs['class'] = 'form-control'
+
+#     class Meta:
+#         model = Comment
+#         fields = ('name', 'text')
+# ◆◆◆◆◆◆◆◆◆↑↑↑今回実装なし↑↑↑◆◆◆◆◆◆◆◆◆
+
 
 CATEGORY_CHOICES = [
     ('国語', '国語'),
@@ -77,7 +56,7 @@ TIME_CHOICES = [
 
 
 class RecordCreateForm(forms.ModelForm):
-
+    """勉強時間追加フォーム"""
     category = forms.ChoiceField(
         label='教科',
         required=False,  # 入力項目を必須項目ではなく、任意の入力項目にする=false
@@ -104,6 +83,7 @@ class TestForm(forms.ModelForm):
         model = Test
         fields = ('date', 'japanese', 'math','english', 'science', 'social_studies')
         widgets = {
-            'date': AdminDateWidget(),  # インポートしたウィジェットを使う指示
+            'date': AdminDateWidget(),  # インポートしたadminウィジェット用
+            # 'date': DatePickerInput(format='%Y-%m-%d') #bootstrapカレンダー
         }
 

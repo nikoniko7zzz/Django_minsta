@@ -181,8 +181,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # メールサーバーへの接続設定
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'spam@gmail.com'
-EMAIL_HOST_PASSWORD = 'gmailパスワード'
+EMAIL_HOST_USER = '****@gmail.com'
+EMAIL_HOST_PASSWORD = '********'
 EMAIL_USE_TLS = True
 
 # heroku用//////////////////

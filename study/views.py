@@ -406,8 +406,14 @@ def TwoInputView(request):
 @login_required
 def GraphView(request):
 
-    # recordデータの加工///
+    # データが入っていないときは、入力ページに飛ばす
     record_data = Record.objects.filter(author=request.user).all()
+    test_data = Test.objects.filter(author=request.user).all() #テストデータ
+    if record_data.count() == 0 and test_data.count() == 0:
+        return redirect('study:two_input')
+
+
+    # recordデータの加工///
     record_df = read_frame(record_data, fieldnames=[
                            'author', 'created_at', 'category', 'time'])
     record_df1 = record_df.replace(
@@ -505,8 +511,8 @@ def GraphView(request):
             #     )
             # ),
             # fig.update_traces(
-            ygap=2,  # y軸の隙間
-            xgap=2 # x軸の隙間
+            ygap=1,  # y軸の隙間
+            xgap=1 # x軸の隙間
             # ),
             # update_xaxes(
             #     title=None, # X軸タイトルを指定

@@ -102,7 +102,7 @@ class TestForm(forms.ModelForm):
     """テスト結果追加フォーム"""
     class Meta:
         model = Test
-        fields = ('japanese', 'math','english', 'science', 'social_studies', 'date')
+        fields = ('date', 'japanese', 'math','english', 'science', 'social_studies')
         widgets = {
             'date': AdminDateWidget(),  # インポートしたウィジェットを使う指示
         }

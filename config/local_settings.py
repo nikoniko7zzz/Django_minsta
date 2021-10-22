@@ -18,5 +18,4 @@ DATABASES = {
 EMAIL_HOST_USER = 'matsuokuniko7@gmail.com'
 EMAIL_HOST_PASSWORD = '0925kuni'
 
-
 DEBUG = True

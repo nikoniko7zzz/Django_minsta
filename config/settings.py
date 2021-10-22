@@ -175,8 +175,8 @@ LOGIN_REDIRECT_URL = 'register:top'
 LOGOUT_REDIRECT_URL = 'register:top'
 
 # メールをコンソールに表示する 開発用
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # メールサーバーへの接続設定
 EMAIL_HOST = 'smtp.gmail.com'
@@ -278,3 +278,4 @@ DATABASES['default'].update(db_from_env)
 # /Users/niko/opt/anaconda3/envs/djangoenv/lib/python3.9/site-packages
 
 
+# send_mail('testmail'), 'test-message', 'matsuokuniko7@gmail.com', 'development39mail@gmail.com', html_message='message')

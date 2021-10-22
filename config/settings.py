@@ -175,8 +175,8 @@ LOGIN_REDIRECT_URL = 'register:top'
 LOGOUT_REDIRECT_URL = 'register:top'
 
 # メールをコンソールに表示する 開発用
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # メールサーバーへの接続設定
 EMAIL_HOST = 'smtp.gmail.com'

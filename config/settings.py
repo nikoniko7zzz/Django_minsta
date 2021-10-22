@@ -28,8 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = ''
-# SECRET_KEY = 'django-insecure-fjj!29uml7e+w6@mx9d+g&%s_4qs(@a&b2=d3swc!gscjm2+#a'
+# SECRET_KEY = ''            #local_setting.pyに記載
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -182,8 +181,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # メールサーバーへの接続設定
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '****@gmail.com'
-EMAIL_HOST_PASSWORD = '********'
+# EMAIL_HOST_USER = '****@gmail.com'  #local_setting.pyに記載
+# EMAIL_HOST_PASSWORD = '********'    #local_setting.pyに記載
 EMAIL_USE_TLS = True
 
 # heroku用//////////////////

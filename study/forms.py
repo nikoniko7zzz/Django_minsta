@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.admin import widgets
 from .models import Comment, Post, Record, Test
 from django.contrib.admin.widgets import AdminDateWidget  # カレンダー形式で入力
+# from django.forms import MultiWidget #カレンダーに使う
 
 # ◆◆◆◆◆◆◆◆◆↓↓↓今回実装なし↓↓↓◆◆◆◆◆◆◆◆◆
 # class PostCreateForm(forms.ModelForm):
@@ -75,6 +76,8 @@ class RecordCreateForm(forms.ModelForm):
         model = Record
         fields = ('category', 'time')
 
+class DatePickWidget(forms.DateInput): #カレンダー用
+    input_type="date"
 
 class TestForm(forms.ModelForm):
     """テスト結果追加フォーム"""
@@ -82,7 +85,10 @@ class TestForm(forms.ModelForm):
         model = Test
         fields = ('date', 'japanese', 'math','english', 'science', 'social_studies')
         widgets = {
-            'date': AdminDateWidget(),  # インポートしたadminウィジェット用
+            'date': DatePickWidget(attrs={'style': 'background-color:white;'}),
+            # 'date': AdminDateWidget(),  # インポートしたadminウィジェット用
             # 'date': DatePickerInput(format='%Y-%m-%d') #bootstrapカレンダー
         }
+
+
 

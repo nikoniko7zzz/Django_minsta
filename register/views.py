@@ -20,6 +20,7 @@ from .forms import (LoginForm, UserCreateForm, UserUpdateForm,
                     MyPasswordChangeForm, MyPasswordResetForm, MySetPasswordForm)
 from django.urls import reverse_lazy
 
+User = get_user_model()
 
 class Top(generic.TemplateView):
     template_name = 'register/top.html'
@@ -36,7 +37,6 @@ class Logout(LogoutView):
     template_name = 'register/top.html'
 
 
-User = get_user_model()
 
 
 class UserCreate(generic.CreateView):
@@ -74,7 +74,6 @@ class UserCreate(generic.CreateView):
 class UserCreateDone(generic.TemplateView):
     # ユーザー仮登録したよ
     template_name = 'register/user_create_done.html'
-
 
 class UserCreateComplete(generic.TemplateView):
     # メール内URLアクセス後のユーザー本登録

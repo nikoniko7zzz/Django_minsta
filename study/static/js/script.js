@@ -1,3 +1,4 @@
+// 今回は不採用
 // top.html loginボタン用  ↓↓↓↓↓↓↓//////////////////////////////
 
 const body = document.body;

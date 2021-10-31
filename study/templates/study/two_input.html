@@ -2,56 +2,62 @@
 {% load static %}
 
 {% block extra_head %}
-
-<!-- for admin widgets カレンダーで使う -->
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
-<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
-{{ test_form.media }}
-<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
-<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
-<!-- end for admin widgets -->
-
 {% endblock %}
 
 {% block content %}
-<div class="container" style="width: 360px;">
-
-  <div class="col text-center mb-10">
-    <button type="" class="save btn btn-secondary mr-10 col-sm-5" href="">テスト点数入力</button>
-    <button type="" class="save btn btn-secondary col-sm-5"><a href="{% url 'study:index' %}">学習時間 入力</a></button>
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <div class="button">
+      <a href="" style="color: #da3c41;">
+        Test
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+    <div class="button">
+      <a href="{% url 'study:index' %}">
+        Time
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
   </div>
-  <p style="line-height: 0.1;">&nbsp;</p> <!-- 空白行の意味 -->
-  <div>
-    <form method="POST" class="post-form">
+</div>
+
+
+
+<div class="container">
+  <form method="POST" class="post-form">
+    <div class="mt-4 mb-4">
       {% csrf_token %}
       {{ stock_form.non_field_errors }}
       {% for field in test_form %}
-      <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-        {{ field }}
-        <br />
-        <p style="line-height: 0.1;">&nbsp;</p> <!-- 空白行の意味 -->
-        {{ field.errors }}
+      <div class="container">
+        <div class="cp_iptxt">
+          {{ field }}
+          <label>{{ field.label }}</label>
+          <span class="focus_line"></span>
+          {{ field.errors }}
+        </div>
       </div>
       {% endfor %}
-
-      <!-- <div class="button" type="submit">
-        <a href="#">
-          追加する
+    </div>
+    <!-- <p>偏差値を入力してください</p> -->
+    <div class="button">
+      <button type="submit">
+        <a href="">
+          O K
           <span class="shift">›</span>
         </a>
-        <div class="mask"></div>
-      </div> -->
+      </button>
+      <div class="mask"></div>
+    </div>
+    <!-- <div class="text-center">
+      <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
+    </div> -->
 
-      <div class="d-flex justify-content-center">
-        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          キャンセル
-        </button> -->
-        <button type="submit" class="save btn btn-danger">追加する</button>
-      </div>
-    </form>
-  </div>
+  </form>
 </div>
+<!-- </div> -->
 
 {% endblock %}

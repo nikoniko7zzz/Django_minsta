@@ -1,0 +1,55 @@
+<!-- 問題入力ページ -->
+
+{% extends 'study/index.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <div class="button">
+      <a href="" style="color: #da3c41;">
+        Write
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+    <div class="button">
+      <a href="{% url 'study:post_list' %}">
+        Learn
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- novalidate フォームの入力内容の検証を無効にする -->
+<p>{{ message }}</p>
+<div class="eleven wide column container">
+  <div class="ui segment">
+    <div class="content">
+      <form class="ui form" action="" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">{{field.label_tag}}{{field}}</div>
+        {% endfor %}
+
+        <div class="button" type="submit">
+          <button type="submit">
+            <a href="">
+              O K
+              <span class="shift">›</span>
+            </a>
+          </button>
+          <div class="mask"></div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
+
+{% endblock %}

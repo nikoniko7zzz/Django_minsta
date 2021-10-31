@@ -1,22 +1,27 @@
 from re import X
 from django.db.models import Q
+from django.http import request
 from django.http.response import HttpResponse  # Qオブジェクトは、モデルのデータの中からor検索をする
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
-from .forms import RecordCreateForm, TestForm
+from plotly import graph_objs
+from .forms import RecordCreateForm, TestForm, PostCreateForm
 from .models import Post, Category, Comment, Record, Test
+from register.models import User
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib import messages  # ラジオ
 from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 # グラフ用///////////////////////////////
 import plotly.graph_objects as go
 # import plotly.express as px
 import pandas as pd
 import datetime
+# from datetime import datetime, date, time
+import pytz
 import numpy as np
 import plotly.io as pio
 import plotly.offline as po
@@ -68,20 +73,20 @@ def RecordInputView(request):
 
 # ◆◆◆◆◆◆◆◆◆↓↓↓今回実装なし↓↓↓◆◆◆◆◆◆◆◆◆
 # カテゴリ検索
-# class CategoryView(generic.ListView):
-#     # カテゴリ別のリスト
-#     model = Post
-#     paginate_by = 10
+class CategoryView(generic.ListView):
+    # カテゴリ別のリスト
+    model = Post
+    paginate_by = 10
 
-#     def get_queryset(self):
-#         """
-#         category = get_object_or_404(Category, pk=self.kwargs['pk'])
-#         queryset = Post.objects.order_by('-created_at').filter(category=category)
-#         """
-#         category_pk = self.kwargs['pk']
-#         queryset = Post.objects.order_by(
-#             '-created_at').filter(category__pk=category_pk)
-#         return queryset
+    def get_queryset(self):
+        """
+        category = get_object_or_404(Category, pk=self.kwargs['pk'])
+        queryset = Post.objects.order_by('-created_at').filter(category=category)
+        """
+        category_pk = self.kwargs['pk']
+        queryset = Post.objects.order_by(
+            '-created_at').filter(category__pk=category_pk)
+        return queryset
 
 
 # class DetailView(generic.DetailView):
@@ -101,24 +106,41 @@ def RecordInputView(request):
 #         return redirect('study:detail', pk=post_pk)
 
 
-# @login_required
-# def PostNewView(request):
-#     # params = {'message': 'newです'}
-#     params = {'message': '', 'form': None}
-#     if request.method == 'POST':
-#         form = PostCreateForm(request.POST)
-#         if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
-#             post = form.save(commit=False)
-#             post.author = request.user  # ログインユーザーをformに入れている
-#             post.save()
-#             print('問題を作成しました。')
-#             # return redirect('new')
-#         else:
-#             params['message'] = '再入力してください'
-#             params['form'] = form
-#     else:
-#         params['form'] = PostCreateForm()
-#     return render(request, 'study/post_input.html', params)
+
+
+@login_required
+def PostNewView(request):
+    # params = {'message': 'newです'}
+    params = {'message': '', 'form': None}
+    if request.method == 'POST':
+        form = PostCreateForm(request.POST)
+        if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
+            post = form.save(commit=False)
+            post.author = request.user  # ログインユーザーをformに入れている
+            post.save()
+            print('問題を作成しました。')
+            return redirect('study:post_list')
+        else:
+            params['message'] = '再入力してください'
+            params['form'] = form
+    else:
+        params['form'] = PostCreateForm()
+    return render(request, 'study/post_input.html', params)
+
+class PostListView(generic.ListView):
+    model = Post
+    paginate_by = 10
+    template_name = "study/post_list.html"
+
+    def get_queryset(self):
+        queryset = Post.objects.order_by('-created_at')
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            queryset = queryset.filter(
+                Q(title__icontains=keyword) | Q(text__icontains=keyword)
+            )
+        return queryset
+
 
 # ◆◆◆◆◆◆◆◆◆↑↑↑今回実装なし↑↑↑◆◆◆◆◆◆◆◆◆
 
@@ -381,12 +403,141 @@ def TwoInputView(request):
 
 
 
+# @login_required
+# def GraphView(request):
 
 
-# # Stacked Subplots with Shared X-Axes ///////////
+#     # データが入っていないときは、入力ページに飛ばす
+#     record_data = Record.objects.filter(author=request.user).all()
+
+#     record_df = read_frame(record_data, fieldnames=[
+#                            'author', 'created_at', 'category', 'time'])
+#     record_df = record_df.replace(
+#         {'国語': '1', '数学': '2', '英語': '3', '理科': '4', '社会': '5'})
+#     record_df['date'] = record_df['created_at'].dt.strftime(
+#         "%Y-%m-%d")  # 日付の加工//
+#     record_df["date"] = pd.to_datetime(record_df["date"])
+#     record_df['time'] = record_df['time'].astype(int)  # 時間の加工
+#     record_df = record_df.drop(['created_at', 'author'], axis=1)  # 列の削除
+#     # category        date  time
+#     # 0         1  2021-10-02        30
+#     # 1         2  2021-10-02        40
+#     # 2         3  2021-10-02       100
+#     # 3         1  2021-10-01       100
+
+
+#     # ログインユーザー作成日を取得
+#     result = User.objects.get(id=request.user.id)
+#     user_date = result.date_joined
+#     # print(result.date_joined)
+#     # print(type(result.date_joined))
+#     # user_date = datetime.datetime.date(result.date_joined)
+#     # print(user_date)
+#     # print(type(user_date))
+#     # user_date = datetime.datetime.strptime(user_date, '%Y-%m-%d')
+
+#     print('user_date= ', user_date)
+#     print(type(user_date))
+
+
+#     test_df = Test.objects.filter(author=request.user).all()
+#     test_df = read_frame(test_df)
+#     # print('test_df= ',test_df)
+#     test_df = test_df.rename(
+#         columns={'japanese': '1', 'math': '2', 'english': '3', 'science': '4', 'social_studies': '5'})
+#     # test_df["date"] = pd.to_datetime(test_df["date"], format='%Y-%m-%d')
+#     # test_df["date"] = pd.to_datetime(test_df["date"])
+#     # test_df["date"] = test_df["date"].strftime('%Y-%m-%d')
+
+#     # x = np.datetime64('2010-06-01T00:00:00.000000000')
+#     # x = pd.to_datetime(x)
+#     # x.strftime('%Y-%m-%d')
+
+#     # print(test_df["date"])
+#     # print(test_df["date"].dtypes)
+#     test_df = test_df.sort_values('date', ascending=False)
+#     # id   1   2   3   4   5        date                   author
+#     # 14  20  80  80  80  80  80  2021-11-07  matsuokuniko7@gmail.com
+#     # 13  19  88  90  99  90  88  2021-10-31  matsuokuniko7@gmail.com
+#     # df[-5:]
+#     # df['stock'].values[0])
+#     # loc[[0, 2], 'id']
+#     # data['val1'][-2]
+#     # df['stock'].values[0])
+#     d = test_df['date'].values[-1]
+
+#     tstr = '2012-12-29 13:49:37'
+# tdatetime = dt.strptime(tstr, '%Y-%m-%d %H:%M:%S')
+#     print('d=',d)
+#     d = date(2020, 4, 20)
+#     dt = datetime.combine(d, time())
+#     print(pytz.timezone('Asia/Tokyo').localize(dt))
+#     dt = datetime.combine(d, time())
+#     print(pytz.timezone('Asia/Tokyo').localize(dt))
+#     # test_df_old_date1 = datetime.datetime.strptime(test_df_old_date, "%d/%m/%Y %H:%M:%S")
+#     # test_df_old_date = datetime.datetime(test_df_old_date)
+#     datetime.combine(d, time())
+#     print('test_df_old_date= ', test_df_old_date)
+#     print(type(test_df_old_date))
+
+
+#     base = datetime.datetime.today()  # 今日の日付
+#     # グラフ作成の一番古い日を選ぶ
+#     if user_date - test_df_old_date >= 0:
+#         last_day = base - user_date
+#     else:
+#         last_day = base - test_df_old_date
+
+#     dates = base - np.arange(last_day) * datetime.timedelta(days=1) #グラフ作成の一番古い日〜今日までの日付
+
+#     dates_df = pd.DataFrame({'date': dates, 'category':'1', 'time_int':int(0)}) #日付データ作成
+#     dates_df_5cate = pd.DataFrame([
+#                             [base, '1', int(0)],
+#                             [base, '2', int(0)],
+#                             [base, '3', int(0)],
+#                             [base, '4', int(0)],
+#                             [base, '5', int(0)]],
+#                             columns=['date', 'category', 'time_int'])
+
+#     base_df = pd.concat([dates_df, dates_df_5cate])
+#     #             date category  time_int
+#     # 0  2021-10-25        1         0
+#     # 1  2021-10-24        1         0
+#     # 2  2021-10-23        1         0
+#     # 3  2021-10-22        1         0
+#     # 0  2021-10-25        2         0
+#     # 1  2021-10-25        3         0
+#     # 2  2021-10-25        4         0
+#     # 3  2021-10-25        5         0
+
+
+#     # 結合表作成
+#     # record_df3 = pd.concat([record_df2, base_df]).sort_values('date')
+
+#     record_df3 = pd.merge(record_df2, base_df, how='outer')  # 結合
+#     record_df3['date_str'] = record_df3['date'].astype(str)
+#     # record_df4 = record_df3.sort_values('date_str')
+
+#     record_df4 = record_df3.pivot_table(
+#         index='date_str', columns='category', values='time_int', aggfunc='sum')  # クロス集計表の作成
+#     record_df5 = record_df4.fillna(0)
+#     # category        1      2      3      4      5
+#     # date_str
+#     # 2021-09-01    0.0    0.0    0.0   90.0    0.0
+#     # 2021-09-10   40.0    0.0    0.0    0.0    0.0
+#     # 2021-09-13    0.0    0.0    0.0    0.0   60.0
+
+#     subject = ['国', '数', '英', '理', '社']
+
+#     # z = np.random.poisson(size=(len(subject), len(dates)))
+#     heatmap_z = record_df5
+#     x = dates[::-1]  # 逆順にする 今日を左にする
+
+
+
+    # # Stacked Subplots with Shared X-Axes ///////////
 @login_required
 def GraphView(request):
-
     # データが入っていないときは、入力ページに飛ばす
     record_data = Record.objects.filter(author=request.user).all()
     test_data = Test.objects.filter(author=request.user).all() #テストデータ
@@ -513,35 +664,6 @@ def GraphView(request):
     test_df1 = test_df.rename(
         columns={'japanese': '国', 'math': '数', 'english': '英', 'science': '理', 'social_studies': '社'})
     test_df2 = test_df1.sort_values('date', ascending=False)
-
-    # test_df2.dtypes データの型の確認
-
-#     fig_two.add_trace(dict{
-#         go.Scatter(px.line(
-#             data:[{
-#             test_df2, #データ
-#             x='date',
-#             y=['国', '数', '英', '理', '社']}],
-#             # color_discrete_sequence=['#ffff7a']
-#         )),
-#     },
-
-#     fig = dict({
-#     "data": [{"type": "bar",
-#               "x": [1, 2, 3],
-#               "y": [1, 3, 2]}],
-#     "layout": {"title": {"text": "A Figure Specified By Python Dictionary"}}
-# })
-
-
-    # fig_two.add_trace(px.line(test_df2, x=['date'], y=['国']),
-
-    # fig_two.add_trace(px.line(
-    #         test_df2, #データ
-    #         x=['date'],
-    #         y=[['国'], ['数'], ['英'], ['理'], ['社']],
-    #         # color_discrete_sequence=['#ffff7a', '#ff77af', '#7affbc', '#7a7aff', '#ffbc7a']
-    #     ),
 
 
 

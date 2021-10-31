@@ -1,9 +1,28 @@
 {% extends 'study/index.html' %}
 
 {% block content %}
-<p>{{ message }}</p>
-{% csrf_token %}
-<div class="container" style="width: 360px;">
+<div class="container mb-3">
+  <div class="d-flex justify-content-between">
+    <div class="button">
+      <a href="{% url 'study:two_input' %}">
+        Test
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+    <div class="button">
+      <a style="color: #da3c41;">
+        Time
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <p>{{ message }}</p> -->
+<div class="container">
   <div class="d-flex justify-content-center p-2">
     <form class="ui form" action="" method="POST">
       {% csrf_token %}
@@ -19,9 +38,17 @@
         {% endfor %}
         <p style="line-height: 0.9;">&nbsp;</p> <!-- 空白行の意味 -->
       </div>
-      <div class="d-flex justify-content-center">
-        <button type="submit" class="save btn btn-danger">追加する</button>
+
+      <div class="button">
+        <button type="submit">
+          <a href="">
+            O K
+            <span class="shift">›</span>
+          </a>
+        </button>
+        <div class="mask"></div>
       </div>
+
 
     </form>
   </div>

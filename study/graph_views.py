@@ -1,5 +1,5 @@
 # グラフ作成用 テストファイル
-
+# python manage.py shell
 
 from re import X
 from django.db.models import Q
@@ -19,12 +19,12 @@ from django.contrib.auth.models import User
 import plotly.graph_objects as go
 # import plotly.express as px
 import pandas as pd
+from django_pandas.io import read_frame
 import datetime
 import numpy as np
 import plotly.io as pio
 import plotly.offline as po
 import plotly.figure_factory as ff
-from django_pandas.io import read_frame
 import plotly.express as px  # 折線グラフで追加
 from plotly.subplots import make_subplots #グラフの融合
 

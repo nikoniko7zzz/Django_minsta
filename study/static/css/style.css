@@ -1,79 +1,25 @@
+body{
+	font-family: Roboto, "Yu Gothic Medium", YuGothic,  sans-serif;
+}
+
+
+
 h1 {
-    color: red;
+    color: #ff3d3d;
 }
 
 label {
-    color: white;
+    color: #fff;
 }
 
 p {
-    color: white;
+    color: #fff;
 }
 
-/* #id_category_0,
-#id_category_1,
-#id_category_2, */
 
-/* .radiobutton {
-    display: none;
-}
-label {
-    background-color: skyblue;
-    padding: 10px 20px;
-}
-.radiobutton:checked + label {
-    background-color: pink;
-} */
-
-
-
-/* top.html ロゴ用 ↓↓↓↓↓↓↓////////////////////////////// */
-/* svg {
-    display: block;
-    font: 5.5em 'Minsta';
-    width: 300px;
-    height: 100px;
-    margin: 0 auto;
-}
-
-.text-copy {
-    fill: none;
-    stroke: white;
-    stroke-dasharray: 6% 29%;
-    stroke-width: 3px;
-    stroke-dashoffset: 0%;
-    animation: stroke-offset 5.5s infinite linear;
-}
-
-.text-copy:nth-child(1){
-  stroke: #4D163D;
-  animation-delay: -1;
-}
-
-.text-copy:nth-child(2){
-  stroke: #840037;
-  animation-delay: -2s;
-}
-
-.text-copy:nth-child(3){
-  stroke: #BD0034;
-  animation-delay: -3s;
-}
-
-.text-copy:nth-child(4){
-  stroke: #BD0034;
-  animation-delay: -4s;
-}
-
-.text-copy:nth-child(5){
-  stroke: #FDB731;
-  animation-delay: -5s;
-}
-
-@keyframes stroke-offset{
-  100% {stroke-dashoffset: -35%;}
-} */
-/* top.html ロゴ用 ↑↑↑↑↑↑↑↑////////////////////////////// */
+/* ■■■■■■■■■■■ */
+/*      黒いボタン用      */
+/* ■■■■■■■■■■■ */
 
 .button {
   background-color: transparent;
@@ -82,7 +28,7 @@ label {
   letter-spacing: 0.2125rem;
   line-height: 1;
   overflow: hidden;
-  padding: 20px 30px;
+  padding: 15px 30px;
   position: relative;
   text-align: center;
   text-transform: uppercase;
@@ -149,11 +95,193 @@ label {
 body.show {
   background-color: #282828;
 }
-/*
-.button:hover {
-  background-image: url('http://.com/img/codepen/savvy.jpg');
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
+/* ■■■■■■■■■■■■■■■■■■ */
+/*      問題入力フォーマット用          */
+/* ■■■■■■■■■■■■■■■■■■ */
+
+
+
+
+
+/* ■■■■■■■■■■■■■■■■■■ */
+/*      問題ナビバー用                  */
+/* ■■■■■■■■■■■■■■■■■■ */
+#g-nav {
+    display: table;
+    width: 100%;
+    font-weight: bold;
+    padding-left: 0;
 }
-*/
+.nav-item {
+    display: table-cell;
+    list-style-type: none;
+    text-align: center;
+}
+.nav-item a {
+    position: relative;
+    display: block;
+    color: #fff;/* 文字色 */
+    padding: 15px 0;
+    text-decoration: none;
+}
+.nav-item a::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;/* 下線の幅 */
+    height: 3px;
+    background-color: #da3c41;
+    margin: 5px auto 0;
+    opacity: 0;
+    transition: 0.2s;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+.nav-item a:hover::after {
+    -webkit-transform: translate(-50%, -5px);
+    transform: translate(-50%, -5px);
+    opacity: 1;
+}
+/* ■■■■■■■■■■■■■■■■■■ */
+/*      問題矢印用                  */
+/* ■■■■■■■■■■■■■■■■■■ */
+.visually-hidde {
+    color: black;
+    z-index: 1;
+}
+.carousel-control-next-icon {
+    color: black;
+}
+
+
+/* ■■■■■■■■■■■■■■■■■■ */
+/*      テスト結果  タブ用              */
+/* ■■■■■■■■■■■■■■■■■■ */
+.testTab {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  background-color: #fff !important;
+  margin: 0 !important;
+}
+.testTab__item {
+  flex: 1;
+}
+.testTab__link {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+}
+.testTab__link:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.4s ease-out;
+}
+.testTab__link:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.4s ease-out;
+}
+.testTab__link.on:before {
+  width: 50%;
+}
+.testTab__link.on:after {
+  width: 50%;
+}
+
+
+
+
+
+/* ■■■■■■■■■■■■■■■■■■ */
+/*      テスト結果  入力フォーム用      */
+/* ■■■■■■■■■■■■■■■■■■ */
+.cp_iptxt {
+	position: relative;
+	width: 100%;
+	margin: 10px 0%;
+}
+.cp_iptxt input[type='number'] {
+	font: 15px/24px sans-serif;
+  font-size: 24px;
+  color: #fff;
+	box-sizing: border-box;
+	width: 100%;
+	letter-spacing: 1px;
+	padding-left: 6em;
+}
+.cp_iptxt input[type='number']:focus {
+	outline: none;
+}
+.ef {
+	padding: 4px 0;
+	border: 0;
+	border-bottom: 1px solid #1b2538;
+	background-color: transparent;
+}
+.ef ~ .focus_line {
+	position: absolute;
+	z-index: 99;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+}
+.ef ~ .focus_line:before,
+.ef ~ .focus_line:after {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	content: '';
+	transition: 0.4s;
+	background-color: #da3c41;
+}
+.ef ~ .focus_line:after {
+	right: 0;
+	left: auto;
+}
+.ef:focus ~ .focus_line:before,
+.ef:focus ~ .focus_line:after,
+.cp_iptxt.ef ~ .focus_line:before,
+.cp_iptxt.ef ~ .focus_line:after {
+	width: 50%;
+	transition: 0.4s;
+}
+.ef ~ label {
+	position: absolute;
+	z-index: -1;
+	top: 12px;
+	left: 0;
+	width: 100%;
+	transition: 0.3s;
+	letter-spacing: 0.5px;
+	color: #fff;
+}
+.ef:focus ~ label,
+.cp_iptxt.ef ~ label {
+	font-size: 16px;
+	top: -3px;
+	transition: 0.3s;
+	color: #da3c41;
+}
+/* ■■■■■■■■■■■■■■■■■■ */
+/*    勉強時間  時間入力フォーム用      */
+/* ■■■■■■■■■■■■■■■■■■ */

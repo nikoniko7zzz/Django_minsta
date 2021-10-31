@@ -13,6 +13,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/sanitize.css' %}">
 
+
   <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" -->
   <!-- integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
 
@@ -30,25 +31,29 @@
   <title>minsta</title>
 </head>
 
+
 <body style="background-color:rgb(17, 17, 17);">
-  <div class=" col-sm-12">
-    <div class="mb-5">
-      {% include 'study/header.html' %}
-    </div>
-    <!-- <div class="container">
+  <!-- <div class=" col-sm-12"> -->
+  <div class="mb-5">
+    {% include 'study/header.html' %}
+  </div>
+  <!-- <div class="container">
       <h1 class="display-3" style="text-align:center;">minsta!</h1>
     </div> -->
-    {% if user.is_authenticated %}
-    <!-- ログイン済みか判断 -->
+  {% if user.is_authenticated %}
+  <!-- ログイン済みか判断 -->
+
+  <!-- メインコンテンツ -->
+  <div class="container col-sm-6">
     {% block content %}
     {% endblock %}
 
     {% else %}
     {% include 'study/top.html' %}
     <!-- <p style="text-align:center;">ログインしてください</p>
-    <div class="modal-footer">
-      <div><a class="btn btn-light" href="{% url 'register:login' %}" role="button">LOG IN</a></div>
-    </div> -->
+      <div class="modal-footer">
+        <div><a class="btn btn-light" href="{% url 'register:login' %}" role="button">LOG IN</a></div>
+      </div> -->
     {% endif %}
 
     {% include 'study/footer.html' %}

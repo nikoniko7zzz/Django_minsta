@@ -1,0 +1,99 @@
+{% extends 'study/index.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <div class="button">
+      <a href="{% url 'study:new' %}">
+        Write
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+    <div class="button">
+      <a href="" style="color: #da3c41;">
+        Learn
+        <span class="shift">›</span>
+      </a>
+      <div class="mask"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <ul id="g-nav">
+    {% for category in category_list %}
+    <li class="nav-item"><a href="{% url 'study:category' category.pk %}">{{ category}}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" style="height:200px; background-color: #212529;">
+      <div class="d-flex align-items-center justify-content-center" style="height:200px; padding: 60px;">
+        <h1 style=" color:#999">スタート</h1>
+      </div>
+    </div>
+    {% for post in post_list %}
+    <div class="carousel-item" style="height:200px; background-color: #212529;">
+      <div class="d-flex align-items-center justify-content-center" style="height:200px; padding: 60px;">
+        <h3 style="color:#999">{{ post.title }}</h3>
+      </div>
+    </div>
+    <div class="carousel-item" style="height:200px; background-color: #212529;">
+      <div class="d-flex align-items-center justify-content-center" style="height:200px; padding: 60px;">
+        <h3 style="color:#999">{{ post.text }}</h3>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </a>
+</div>
+
+
+<!-- <div id="carouselExampleControls" class="carousel slide shadow-lg" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" style="height:300px; background-color: #f8f9fa;">
+      <div class="carousel-caption d-flex align-items-center justify-content-center">
+        <h1 style="color:black">スタート</h1>
+      </div>
+    </div>
+    {% for post in post_list %}
+    <div class="carousel-item" style="height:300px; background-color: #f8f9fa;">
+      <div class="carousel-caption d-flex align-items-center justify-content-center">
+        <h4 style="color:black">{{ post.title }}</h4> -->
+<!-- <h4>{{ post.created_at }}</h4> -->
+<!-- </div>
+    </div>
+    <div class="carousel-item" style="height:300px; background-color: #f8f9fa;">
+      <div class="carousel-caption d-flex align-items-center justify-content-center">
+        <h4 style="color:black">{{ post.text }}</h4>
+      </div>
+    </div>
+    {% endfor %}
+  </div> -->
+
+<!-- <a class=" carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </a> -->
+</div>
+
+
+{# {% include 'study/page.html' %} #}
+
+{% endblock %}

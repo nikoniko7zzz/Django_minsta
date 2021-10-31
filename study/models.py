@@ -58,7 +58,7 @@ class Record(models.Model):
 
     def __str__(self):
         # '教科 - 時間' のように返す
-        return '{} - {}'.format(self.category, self.time)
+        return '{} - {} - {} - {}'.format(self.category, self.time, self.created_at, self.author)
 
 
 class Test(models.Model):
@@ -75,9 +75,9 @@ class Test(models.Model):
         verbose_name='社会 ', blank=True, null=True)
     date = models.DateField('日時 ', blank=True,
                             null=True)  # このDateFieldが対象です。
-
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField('作成日', default=timezone.now)
 
     def __str__(self):
         # '日付 - ユーザー' のように返す

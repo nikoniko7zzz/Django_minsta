@@ -1,0 +1,31 @@
+{% extends 'study/index.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+
+<!-- <div class="container" style="width: 400px;"> -->
+<div class="text-center">
+  <h3 style="color:white;">Study</h3>
+</div>
+
+
+<div class="button">
+  <a href="{% url 'study:new' %}">
+    WRITE
+    <span class="shift">›</span>
+  </a>
+  <div class="mask"></div>
+</div>
+<div class="button">
+  <a href="{% url 'study:post_list' %}">
+    LEARN
+    <span class="shift">›</span>
+  </a>
+  <div class="mask"></div>
+</div>
+
+
+<!-- </div> -->
+
+{% endblock %}

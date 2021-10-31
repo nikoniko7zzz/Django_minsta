@@ -5,22 +5,27 @@ from django.contrib.admin.widgets import AdminDateWidget  # カレンダー形�
 # from django.forms import MultiWidget #カレンダーに使う
 
 # ◆◆◆◆◆◆◆◆◆↓↓↓今回実装なし↓↓↓◆◆◆◆◆◆◆◆◆
-# class PostCreateForm(forms.ModelForm):
-#     """問題投稿フォーム"""
+class PostCreateForm(forms.ModelForm):
+    """問題投稿フォーム"""
 
-#     class Meta:
-#         # 表示するモデルクラスのフィールドを定義 入力不要は必要ない
-#         model = Post
-#         fields = ('category', 'title', 'text')
+    class Meta:
+        # 表示するモデルクラスのフィールドを定義 入力不要は必要ない
+        model = Post
+        fields = ('category', 'title', 'text')
 
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         for field in self.fields.values():
-#             # widget.attrs htmlで表示されるclass設定をしている
-#             self.fields['category'].widget.attrs = {
-#                 'class': 'form-select mb-3'}
-#             self.fields['title'].widget.attrs = {'class': 'form-control mb-3'}
-#             self.fields['text'].widget.attrs = {'class': 'form-control mb-3'}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            # widget.attrs htmlで表示されるclass設定をしている
+            self.fields['category'].widget.attrs = {
+                'class': 'form-select mb-3',
+                'style': 'background-color:#212529; color:#999;'}
+            self.fields['title'].widget.attrs = {
+                'class': 'form-control mb-3',
+                'style': 'background-color:#212529; color:#999;'}
+            self.fields['text'].widget.attrs = {
+                'class': 'form-control mb-3',
+                'style': 'background-color:#212529; color:#999;'}
 
 
 # class CommentCreateForm(forms.ModelForm):
@@ -85,10 +90,19 @@ class TestForm(forms.ModelForm):
         model = Test
         fields = ('date', 'japanese', 'math','english', 'science', 'social_studies')
         widgets = {
-            'date': DatePickWidget(attrs={'style': 'background-color:white;'}),
+            # 'date': DatePickWidget,
+            'date': DatePickWidget(attrs={'style': 'background-color:#aaaaaa;'}),
+            'japanese' : forms.NumberInput(attrs={'class':'ef'}),
+            'math' : forms.NumberInput(attrs={'class':'ef'}),
+            'english' : forms.NumberInput(attrs={'class':'ef'}),
+            'science' : forms.NumberInput(attrs={'class':'ef'}),
+            'social_studies' : forms.NumberInput(attrs={'class':'ef'}),
             # 'date': AdminDateWidget(),  # インポートしたadminウィジェット用
             # 'date': DatePickerInput(format='%Y-%m-%d') #bootstrapカレンダー
         }
-
-
+        # japanese = forms.NumberInput(attrs={'style':'placeholder:"国語";'}),
+        # math = forms.NumberInput(attrs={'style':'placeholder:"数学";'}),
+        # english = forms.NumberInput(attrs={'style':'placeholder:"英語";'}),
+        # science = forms.NumberInput(attrs={'style':'placeholder:"理科";'}),
+        # social_studies = forms.NumberInput(attrs={'style':'placeholder:"社会";'}),
 

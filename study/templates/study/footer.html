@@ -2,9 +2,13 @@
   <div class="row justify-content-evenly">
     <nav class="navbar fixed-bottom navbar-dark bg-dark">
       <!-- <div><a class="btn btn-outline-light" href="{% url 'study:record_list' %}" role="button">一　覧</a></div> -->
-      <div><a class="btn btn-light" href="{% url 'study:two_input' %}" role="button">入　力</a></div>
-      <div><a class="btn btn-light" href="{% url 'study:graph' %}" role="button">グラフ</a></div>
-      <!-- <div><a class="btn btn-outline-light" href="" role="button">みんな</a></div> -->
+      <div><a style="width: 80px;" class="btn btn-outline-light" href="{% url 'study:new' %}" role="button">Learn</a>
+      </div>
+      <div><a style="width: 80px;" class="btn btn-outline-light" href="{% url 'study:two_input' %}"
+          role="button">Record</a></div>
+      <div><a style="width: 80px;" class="btn btn-outline-light" href="{% url 'study:graph' %}" role="button">Graph</a>
+      </div>
+      <div><a style="width: 80px;" class="btn btn-outline-light" href="" role="button">Every</a></div>
     </nav>
   </div>
 </div>

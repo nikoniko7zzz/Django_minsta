@@ -661,6 +661,10 @@ def GraphView(request):
     # Testデータの加工///
     test_data = Test.objects.filter(author=request.user).all() #テストデータ
     test_df = read_frame(test_data) #dfにする
+    test_df = read_frame(test_data, fieldnames=[
+                        #    'author', 'created_at', 'category', 'time'])
+                           'japanese', 'math', 'english', 'science', 'social_studies', 'date', 'author', 'created_at'])
+
     test_df1 = test_df.rename(
         columns={'japanese': '国', 'math': '数', 'english': '英', 'science': '理', 'social_studies': '社'})
     test_df2 = test_df1.sort_values('date', ascending=False)

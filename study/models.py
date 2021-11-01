@@ -47,9 +47,8 @@ class Comment(models.Model):
 class Record(models.Model):
     '''勉強した時間の保存'''
     category = models.CharField(
-        verbose_name='教科', blank=True, null=True, max_length=10)
-    time = models.CharField(verbose_name="分", blank=True,
-                            null=True,  max_length=10)
+        verbose_name='教科', max_length=10)
+    time = models.CharField(verbose_name="分", max_length=10)
     created_at = models.DateTimeField('作成日', default=timezone.now)
     # created_at = models.DateField('いつ', blank=True, null=True)
     # on_delete = models.PROTECT カテゴリモデルと紐づいているから削除できない
@@ -64,17 +63,16 @@ class Record(models.Model):
 class Test(models.Model):
     '''テスと結果の保存'''
     japanese = models.IntegerField(
-        verbose_name='国語 ', blank=True, null=True)
+        verbose_name='国語 ')
     math = models.IntegerField(
-        verbose_name='数学 ', blank=True, null=True)
+        verbose_name='数学 ')
     english = models.IntegerField(
-        verbose_name='英語 ', blank=True, null=True)
+        verbose_name='英語 ')
     science = models.IntegerField(
-        verbose_name='理科 ', blank=True, null=True)
+        verbose_name='理科 ')
     social_studies = models.IntegerField(
-        verbose_name='社会 ', blank=True, null=True)
-    date = models.DateField('日時 ', blank=True,
-                            null=True)  # このDateFieldが対象です。
+        verbose_name='社会 ')
+    date = models.DateField('日時 ')  # このDateFieldが対象です。
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField('作成日', default=timezone.now)

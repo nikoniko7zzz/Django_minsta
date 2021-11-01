@@ -173,11 +173,15 @@ class RecordDeleteView(generic.DeleteView):
 def TwoInputView(request):
     # params = {'message': 'newです'}
     params = {'message': '', 'test_form': None}
+    print('twoinputスタート')
     if request.method == 'POST':
         form = TestForm(request.POST)
+        print('テストフォームを受け取りました。')
         if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
             post = form.save(commit=False)
+            print('テスト結果を受け取りました。')
             post.author = request.user  # ログインユーザーをformに入れている
+            print('ログインユーザーを受け取りました。')
             post.save()
             print('テスト結果を記録しました。')
             # print(request.user.username)

@@ -61,7 +61,9 @@ class Record(models.Model):
 
 
 class Test(models.Model):
-    '''テスと結果の保存'''
+    '''テスト結果の保存'''
+    # 偏差値
+    # tscore_
     japanese = models.IntegerField(
         verbose_name='国語 ')
     math = models.IntegerField(
@@ -72,6 +74,22 @@ class Test(models.Model):
         verbose_name='理科 ')
     social_studies = models.IntegerField(
         verbose_name='社会 ')
+    # tscore_overall = models.IntegerField(
+    #     verbose_name='総合 ')
+    # # 学年順位
+    # rank_japanese = models.IntegerField(
+    #     verbose_name='国語 ')
+    # rank_math = models.IntegerField(
+    #     verbose_name='数学 ')
+    # rank_english = models.IntegerField(
+    #     verbose_name='英語 ')
+    # rank_science = models.IntegerField(
+    #     verbose_name='理科 ')
+    # rank_social_studies = models.IntegerField(
+    #     verbose_name='社会 ')
+    # rank_overall = models.IntegerField(
+    #     verbose_name='総合 ')
+
     date = models.DateField('日時 ')  # このDateFieldが対象です。
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

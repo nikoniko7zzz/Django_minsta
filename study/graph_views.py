@@ -43,40 +43,55 @@ def GraphView(request):
 
 # ■■■■■■データが入っていないときは、入力ページに飛ばす■■■■■■
     record_data = Record.objects.filter(author=request.user).all()
-    test_data = Test.objects.filter(author=request.user).all() #テストデータ
+    test_data = Test.objects.filter(author=request.user).all()
     if record_data.count() == 0 and test_data.count() == 0:
         return redirect('study:two_input')
 
-
+    #  今日の日付を取得
+    base = datetime.datetime.today()
+    print('base= ', base)
 
 # ■■■■■■ 勉強時間入力データの加工 ■■■■■■
-    record_data = Record.objects.filter(author=request.user).all()
-
-    record_df = read_frame(record_data, fieldnames=[
-                           'author', 'created_at', 'category', 'time'])
-    record_df = record_df.replace(
-        {'国語': '1', '数学': '2', '英語': '3', '理科': '4', '社会': '5'})
-    record_df['date'] = pd.to_datetime(record_df['created_at'].dt.strftime("%Y-%m-%d"))
-    record_df['time'] = record_df['time'].astype(int)  # 時間の加工
-    record_df = record_df.drop(['created_at', 'author'], axis=1)  # 列の削除
+    # record_data = Record.objects.filter(author=request.user).all()
+    if record_data.count() >0:
+        record_df = read_frame(record_data, fieldnames=[
+                            'author', 'created_at', 'category', 'time'])
+        record_df = record_df.replace(
+            {'国語': '1', '数学': '2', '英語': '3', '理科': '4', '社会': '5'})
+        record_df['date'] = pd.to_datetime(record_df['created_at'].dt.strftime("%Y-%m-%d"))
+        record_df['time'] = record_df['time'].astype(int)  # 時間の加工
+        record_df = record_df.drop(['created_at', 'author'], axis=1)  # 列の削除
+        print('record_df=',record_df)
     # category  time       date
     # 0        1    30 2021-11-01
     # 1        4    60 2021-11-01
     # 2        1    30 2021-11-01
 
-
 # ■■■■■■ テスト結果入力データの加工 ■■■■■■
-    test_df = Test.objects.filter(author=request.user).all()
-    test_df = read_frame(test_df)
-    test_df = test_df.rename(
-        columns={'japanese': '国語', 'math': '数学', 'english': '英語', 'science': '理科', 'social_studies': '社会'})
-    test_df['date'] = pd.to_datetime(test_df['date']).dt.tz_localize(None) #timezone:UTCを無くす
-    test_df = test_df.drop(['created_at', 'author'], axis=1)
-    test_df = test_df.sort_values('date', ascending=False) # 日付で並び替え 古いのが下
-    #    id  国語  数学  英語  理科  社会       date
-    # 3   9  75  65  55  45  35 2021-10-24
-    # 1   7  72  62  52  42  32 2021-10-17
-    # 0   6  70  60  50  40  30 2021-10-10
+    # test_df = Test.objects.filter(author=request.user).all()
+    test_df_nan = pd.DataFrame([
+                        [0, np.nan, np.nan, np.nan, np.nan, np.nan, base]],
+                        columns=['id', '国', '数', '英', '理', '社', 'date'])
+
+    print('test_df_nan= ',test_df_nan)
+
+    if test_data.count() >0:
+        test_df = read_frame(test_data)
+        test_df = test_df.rename(
+            columns={'japanese': '国', 'math': '数', 'english': '英', 'science': '理', 'social_studies': '社'})
+        test_df['date'] = pd.to_datetime(test_df['date']).dt.tz_localize(None) #timezone:UTCを無くす
+        test_df = test_df.drop(['created_at', 'author'], axis=1)
+        # test_df = test_df.sort_values('date', ascending=False) # 日付で並び替え 古いのが下
+        print('test_df= ', test_df)
+        #    id  国  数  英  理  社       date
+        # 3   9  75  65  55  45  35 2021-10-24
+        # 1   7  72  62  52  42  32 2021-10-17
+        # 0   6  70  60  50  40  30 2021-10-10
+        test_df = pd.concat([test_df, test_df_nan]).sort_values('date', ascending=False) # 日付で並び替え 古いのが下(降順)
+
+    else:
+        test_df = test_df_nan
+    print('test_df= ', test_df)
 
 # ■■■■■■ グラフの表示日数計算＆データ作成用 ■■■■■■
     # 1. テスト結果入力の古い日付を取得
@@ -84,7 +99,7 @@ def GraphView(request):
     print('テスト結果入力の古い日付を取得=', old_test_day)
 
     # 2. 今日の日付を取得
-    base = datetime.datetime.today()
+    # 50行目で取得
 
     # 3. ログインユーザー作成日を取得
     result = User.objects.get(id=request.user.id)
@@ -112,14 +127,14 @@ def GraphView(request):
     # dates_df['time_int'] = int(0)  # 日付データにいったん時間をを作成
 
     # 日付データに国語、ゼロ時間を入れる
-    dates_df = pd.DataFrame({'date': dates, 'category':'1', 'time':int(0)})
+    dates_df = pd.DataFrame({'date': dates, 'category':'1', 'time':np.nan})
     # 今日の日付で5教科をゼロ時間でデータを入れる（初期の5教科入力前の表示枠もれを防ぐ）
     dates_df_5cate = pd.DataFrame([
-                            [base, '1', int(0)],
-                            [base, '2', int(0)],
-                            [base, '3', int(0)],
-                            [base, '4', int(0)],
-                            [base, '5', int(0)]],
+                            [base, '1', np.nan],
+                            [base, '2', np.nan],
+                            [base, '3', np.nan],
+                            [base, '4', np.nan],
+                            [base, '5', np.nan]],
                             columns=['date', 'category', 'time'])
 
     base_df = pd.concat([dates_df, dates_df_5cate])
@@ -136,14 +151,12 @@ def GraphView(request):
 
 # ■■■■■■ クロス集計表の作成 ■■■■■■
     # dfを縦に結合
-    record_df = pd.concat([record_df, base_df]).sort_values('date')
-    record_df['date'] = pd.to_datetime(record_df['date']).dt.strftime("%Y-%m-%d")
-    # (record_df['created_at'].dt.strftime("%Y-%m-%d"))
-    # print('dfを縦に結合後のrecord_df= ',record_df)
-#     record_df3 = pd.merge(record_df2, base_df, how='outer')  # 結合
-#     record_df3['date_str'] = record_df3['date'].astype(str)
-#     # record_df4 = record_df3.sort_values('date_str')
+    if record_data.count() ==0:
+        record_df = dates_df_5cate
+    else:
+        record_df = pd.concat([record_df, base_df]).sort_values('date')
 
+    record_df['date'] = pd.to_datetime(record_df['date']).dt.strftime("%Y-%m-%d")
     record_df = record_df.pivot_table(
         index='category', columns='date', values='time', aggfunc='sum')  # クロス集計表の作成
     record_df = record_df.reindex(index=['5', '4', '3', '2', '1'])
@@ -156,16 +169,29 @@ def GraphView(request):
 # ■■■■■■■■■■■■■■■■■■■■■■■■
 # ■          グラフ表示用 plotly作成           ■
 # ■■■■■■■■■■■■■■■■■■■■■■■■
+        # 基本グラフの設定
+        # heatmapを基本グラフに追加
+        # 折線グラフ(偏差値)を基本グラフに追加
+        # 折線グラフ(学年順位)を基本グラフに追加
+        # グラフのレイアウト設定
+        # htmlに表示する設定
 
-    # グラフ作成    /////////////////////////////////////////////
+# ■■■■■■ 基本グラフの設定 ■■■■■■
+        # 1段目 heatmap
+        # 2段目 折線グラフ(学年順位)
+        # 3段目 折線グラフ(偏差値)
+
+
     fig_two = make_subplots(
         rows=2, cols=1,
         shared_xaxes=True,
         vertical_spacing=0.02,
     )
 
-    fig_two.add_trace(
+    # ＊赤線が出ているが、問題なく動く
 
+# ■■■■■■ heatmapの設定 ■■■■■■
+    fig_two.add_trace(
         go.Heatmap(
             x=record_df.columns.values,
             y=subject[::-1],
@@ -191,55 +217,23 @@ def GraphView(request):
                     side='top')  # カラーバーのタイトルをつける位置（デフォルトはtop）
             ),
             colorscale=[
-                # [0, '#212529'],  # NaNに該当する値を区別する
                 [0, '#202020'],  # NaNに該当する値を区別する
                 [0.01, 'rgb(255,255,255)'],  # NaNに該当する値を灰色にして区別する
                 [1, 'rgb(255,20,147)']
             ],
-            # update_layout(
-            #     # title='Study time',
-            #     width=380,
-            #     height=210,
-            #     template='plotly_dark',
-            #     plot_bgcolor = '#212529',
-            #     margin=dict(     # グラフ領域の余白設定
-            #         l=15, r=30, t=30, b=10,
-            #         pad = 0,         # グラフから軸のラベルまでのpadding
-            #         autoexpand=True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
-            #     )
-            # ),
-            # fig.update_traces(
             ygap=2,  # y軸の隙間
             xgap=2 # x軸の隙間
-            # ),
-            # update_xaxes(
-            #     title=None, # X軸タイトルを指定
-            #     # range=(base+datetime.timedelta(days=-60),base), # X軸の最大最小値を指定
-            #     rangeslider={"visible":True}),# X軸に range slider を表示（下図参照）
-        ),
+            # yaxis=(
+            #     range=(0, 120),
 
+        ),
         row=1,col=1
     )
 
-
-# /  ライングラフ  ////////////////////////////////////////////
-
-    # Testデータの加工///
-    test_data = Test.objects.filter(author=request.user).all() #テストデータ
-    test_df = read_frame(test_data) #dfにする
-    test_df = read_frame(test_data, fieldnames=[
-                        #    'author', 'created_at', 'category', 'time'])
-                           'japanese', 'math', 'english', 'science', 'social_studies', 'date', 'author', 'created_at'])
-
-    test_df1 = test_df.rename(
-        columns={'japanese': '国', 'math': '数', 'english': '英', 'science': '理', 'social_studies': '社'})
-    test_df2 = test_df1.sort_values('date', ascending=False)
-
-
-
+# ■■■■■■ 折線グラフ(学年順位) ■■■■■■
     fig_two.add_trace(go.Scatter(
             name='国語',
-            x=test_df2['date'], y=test_df2['国'], mode="lines+markers",
+            x=test_df['date'], y=test_df['国'], mode="lines+markers",
             marker=dict(color='#ffff00'),
             showlegend=True,
         ),
@@ -247,74 +241,40 @@ def GraphView(request):
     )
     fig_two.add_trace(go.Scatter(
             name='数学',
-            x=test_df2['date'], y=test_df2['数'], mode="lines+markers",
+            x=test_df['date'], y=test_df['数'], mode="lines+markers",
             marker=dict(color='#7f00f0'),
         ),
         row=2, col=1
     )
     fig_two.add_trace(go.Scatter(
             name='英語',
-            x=test_df2['date'], y=test_df2['英'], mode="lines+markers",
+            x=test_df['date'], y=test_df['英'], mode="lines+markers",
             marker=dict(color='#ff0000'),
         ),
         row=2, col=1
     )
     fig_two.add_trace(go.Scatter(
             name='理科',
-            x=test_df2['date'], y=test_df2['理'], mode="lines+markers",
+            x=test_df['date'], y=test_df['理'], mode="lines+markers",
             marker=dict(color='#0000ff'),
         ),
         row=2, col=1
     )
     fig_two.add_trace(go.Scatter(
             name='社会',
-            x=test_df2['date'], y=test_df2['社'], mode="lines+markers",
+            x=test_df['date'], y=test_df['社'], mode="lines+markers",
             marker=dict(color='#00ff00'),
         ),
         row=2, col=1
     )
 
-        # test_df2, #データ
-        # x='date',
-        # y=['国', '数', '英', '理', '社'],
-        # color_discrete_sequence=['#ffff7a', '#ff77af', '#7affbc', '#7a7aff', '#ffbc7a'],
-        # update_xaxes(
-        #     title=None, # X軸タイトルを指定
-        #     # range=(base+datetime.timedelta(days=-60),base), # X軸の最大最小値を指定
-        #     rangeslider={"visible":True}, # X軸に range slider を表示（下図参照）
-        # ),
-        # update_yaxes(
-        #     title=None, # Y軸タイトルを指定
-        #     autorange = 'reversed', # y軸を逆にする ランキング上位が上表示にした
-        # ),
-        # update_layout(
-        #     showlegend=True, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
-        #     # xaxis_type="linear",
-        #     # yaxis_type="log", # X軸はリニアスケール、Y軸はログスケールに
-        #     # width=380,
-        #     # height=320, # 図の高さを幅を指定
-        #     template='plotly_dark',
-        #     plot_bgcolor = '#212529',
-        #     legend=dict(
-        #         xanchor='left',
-        #         yanchor='bottom',
-        #         x=0.02, #左下を(0,0)、右上を(1,1)
-        #         y=1,
-        #         orientation='h',
-        #         title=None,
-        #     ),
-        #     margin = dict(     # グラフ領域の余白設定
-        #         l=15, r=30, t=40, b=40,
-        #         pad=0,         # グラフから軸のラベルまでのpadding
-        #         autoexpand = True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
-        #     ),
-        # ),
-
+# ■■■■■■ グラフのレイアウト設定 ■■■■■■
     fig_two.update_layout(
-        # title='Study time',
         width=380,
         # height=210,
         showlegend=False, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
+        # yaxis=(dict(
+        #     range=(0, 120))),
         template='plotly_dark',
         plot_bgcolor = '#212529',
         margin=dict(     # グラフ領域の余白設定
@@ -322,18 +282,11 @@ def GraphView(request):
             pad = 0,         # グラフから軸のラベルまでのpadding
             autoexpand=True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
         ),
-        # xaxis=dict(
-        #     rangeslider=dict(
-        #         visible=True
-        #     ),
-        #     type="date"
-        # )
     )
-
+# ■■■■■■ htmlに表示する設定 ■■■■■■
     fig_two_graph = fig_two.to_html(include_plotlyjs='cdn',
                                  full_html=False).encode().decode('unicode-escape')
 
-    # /  heatmapとライングラフを返す  ////////////////////////////////////////////
     return render(request, "study/graph.html", {
         "graph_heatmap": fig_two_graph,
     })

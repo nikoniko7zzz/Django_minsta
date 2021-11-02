@@ -1,5 +1,6 @@
 from django.urls import path
 from .import views
+from .import graph_views
 
 
 app_name = 'study'
@@ -20,7 +21,7 @@ urlpatterns = [
           name='record_list'),  # リスト画面(時間レコード)
      path('r^/record_delete/<int:pk>/', views.RecordDeleteView.as_view(),
           name='record_delete'),  # 削除画面(時間レコード)
-     path('graph/', views.GraphView, name='graph'),
+     path('graph/', graph_views.GraphView, name='graph'),
      path('two_input/', views.TwoInputView,
           name='two_input'),  # 作成画面(テスト結果入力画面)
      # path('graph_everyone/', views.GraphEveryoneView,

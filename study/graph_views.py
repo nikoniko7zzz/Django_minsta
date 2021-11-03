@@ -78,7 +78,7 @@ def GraphView(request):
     if test_data.count() >0:
         test_df = read_frame(test_data)
         test_df = test_df.rename(
-            columns={'japanese': '国', 'math': '数', 'english': '英', 'science': '理', 'social_studies': '社'})
+            columns={'tscore_japanese': 't国', 'tscore_math': 't数', 'tscore_english': 't英', 'tscore_science': 't理', 'tscore_social_studies': 't社'})
         test_df['date'] = pd.to_datetime(test_df['date']).dt.tz_localize(None) #timezone:UTCを無くす
         test_df = test_df.drop(['created_at', 'author'], axis=1)
         # test_df = test_df.sort_values('date', ascending=False) # 日付で並び替え 古いのが下
@@ -117,7 +117,10 @@ def GraphView(request):
     print('last_day=', last_day)
 
     # 5. 今日からlast_dayまでのデータを作る
-    dates = base - np.arange(last_day+1) * datetime.timedelta(days=1)
+    if last_day == 0:
+        dates = base - np.arange(last_day+2) * datetime.timedelta(days=1)
+    else:
+        dates = base - np.arange(last_day+1) * datetime.timedelta(days=1)
     # dates_df = pd.DataFrame({'date': dates})
     # dates_df['category'] = int(1)  # 日付データにいったんカテゴリ列(国語)を作成
     # dates_df.loc[last_day] = [base, 2]  # 最後の行にデータ追加 カテゴリを用意

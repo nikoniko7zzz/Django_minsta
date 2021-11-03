@@ -88,21 +88,29 @@ class TestForm(forms.ModelForm):
     """テスト結果追加フォーム"""
     class Meta:
         model = Test
-        fields = ('date', 'japanese', 'math','english', 'science', 'social_studies')
+        fields = ('date',
+                'tscore_japanese', 'tscore_math','tscore_english', 'tscore_science', 'tscore_social_studies', 'tscore_overall',
+                'rank_japanese', 'rank_math','rank_english', 'rank_science', 'rank_social_studies', 'rank_overall')
         widgets = {
             # 'date': DatePickWidget,
             'date': DatePickWidget(attrs={'style': 'background-color:#aaaaaa;'}),
-            'japanese' : forms.NumberInput(attrs={'class':'ef'}),
-            'math' : forms.NumberInput(attrs={'class':'ef'}),
-            'english' : forms.NumberInput(attrs={'class':'ef'}),
-            'science' : forms.NumberInput(attrs={'class':'ef'}),
-            'social_studies' : forms.NumberInput(attrs={'class':'ef'}),
+
+            'tscore_japanese' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_math' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_english' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_science' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_social_studies' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_overall' : forms.NumberInput(attrs={'class':'ef'}),
+
+            'rank_japanese' : forms.NumberInput(attrs={'class':'ef'}),
+            'rank_math' : forms.NumberInput(attrs={'class':'ef'}),
+            'rank_english' : forms.NumberInput(attrs={'class':'ef'}),
+            'rank_science' : forms.NumberInput(attrs={'class':'ef'}),
+            'rank_social_studies' : forms.NumberInput(attrs={'class':'ef'}),
+            'rank_overall' : forms.NumberInput(attrs={'class':'ef'}),
+
             # 'date': AdminDateWidget(),  # インポートしたadminウィジェット用
             # 'date': DatePickerInput(format='%Y-%m-%d') #bootstrapカレンダー
         }
         # japanese = forms.NumberInput(attrs={'style':'placeholder:"国語";'}),
-        # math = forms.NumberInput(attrs={'style':'placeholder:"数学";'}),
-        # english = forms.NumberInput(attrs={'style':'placeholder:"英語";'}),
-        # science = forms.NumberInput(attrs={'style':'placeholder:"理科";'}),
-        # social_studies = forms.NumberInput(attrs={'style':'placeholder:"社会";'}),
 

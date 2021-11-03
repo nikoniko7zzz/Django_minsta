@@ -64,31 +64,31 @@ class Test(models.Model):
     '''テスト結果の保存'''
     # 偏差値
     # tscore_
-    japanese = models.IntegerField(
+    tscore_japanese = models.IntegerField(
         verbose_name='国語 ')
-    math = models.IntegerField(
+    tscore_math = models.IntegerField(
         verbose_name='数学 ')
-    english = models.IntegerField(
+    tscore_english = models.IntegerField(
         verbose_name='英語 ')
-    science = models.IntegerField(
+    tscore_science = models.IntegerField(
         verbose_name='理科 ')
-    social_studies = models.IntegerField(
+    tscore_social_studies = models.IntegerField(
         verbose_name='社会 ')
-    # tscore_overall = models.IntegerField(
-    #     verbose_name='総合 ')
-    # # 学年順位
-    # rank_japanese = models.IntegerField(
-    #     verbose_name='国語 ')
-    # rank_math = models.IntegerField(
-    #     verbose_name='数学 ')
-    # rank_english = models.IntegerField(
-    #     verbose_name='英語 ')
-    # rank_science = models.IntegerField(
-    #     verbose_name='理科 ')
-    # rank_social_studies = models.IntegerField(
-    #     verbose_name='社会 ')
-    # rank_overall = models.IntegerField(
-    #     verbose_name='総合 ')
+    tscore_overall = models.IntegerField(
+        verbose_name='総合 ')
+    # 学年順位
+    rank_japanese = models.IntegerField(
+        verbose_name='')
+    rank_math = models.IntegerField(
+        verbose_name='')
+    rank_english = models.IntegerField(
+        verbose_name='')
+    rank_science = models.IntegerField(
+        verbose_name='')
+    rank_social_studies = models.IntegerField(
+        verbose_name='')
+    rank_overall = models.IntegerField(
+        verbose_name='')
 
     date = models.DateField('日時 ')  # このDateFieldが対象です。
     author = models.ForeignKey(

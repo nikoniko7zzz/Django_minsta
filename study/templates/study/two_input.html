@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mb-3">
   <div class="d-flex justify-content-between">
     <div class="button">
       <a href="" style="color: #da3c41;">
@@ -24,25 +24,44 @@
   </div>
 </div>
 
-
-
 <div class="container">
   <form method="POST" class="post-form">
-    <div class="mt-4 mb-4">
-      {% csrf_token %}
-      {{ stock_form.non_field_errors }}
-      {% for field in test_form %}
-      <div class="container">
+    <!-- <div class="row"> -->
+    {% csrf_token %}
+    {{ stock_form.non_field_errors }}
+    {% for field in test_form %}
+    {% if forloop.first %}
+    <div class="container">
+      <div class="row mb-3">
+        {{ field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p style="text-align:center; margin: 0;">偏差値</p>
+      </div>
+      <div class="col">
+        <p style="text-align:center; margin: 0;">学年順位</p>
+      </div>
+    </div>
+    <!-- <div class="row" > -->
+    <!-- 偏差値 -->
+    <div class="testForm">
+      {% else %}
+      <div style="width: 150px;">
         <div class="cp_iptxt">
           {{ field }}
           <label>{{ field.label }}</label>
           <span class="focus_line"></span>
-          {{ field.errors }}
         </div>
       </div>
+      {% endif %}
       {% endfor %}
     </div>
-    <!-- <p>偏差値を入力してください</p> -->
+    <!-- </div> -->
+
+
     <div class="button">
       <button type="submit">
         <!-- <a href=""> -->
@@ -52,9 +71,6 @@
       </button>
       <div class="mask"></div>
     </div>
-    <!-- <div class="text-center">
-      <button type="submit" class="btn btn-dark mr-10">　 　保　存　 　</button>
-    </div> -->
 
   </form>
 </div>

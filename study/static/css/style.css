@@ -32,6 +32,7 @@ p {
   position: relative;
   text-align: center;
   text-transform: uppercase;
+  color: #ffffff80;
   transition:
     background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1),
     border 1s cubic-bezier(0.19, 1, 0.22, 1),
@@ -40,7 +41,7 @@ p {
 }
 
 .button a {
-  color: #969696;
+  color: #ffffff80;
   font-family: "Varela Round";
   text-decoration: none;
   white-space: nowrap;
@@ -212,10 +213,20 @@ body.show {
 /* ■■■■■■■■■■■■■■■■■■ */
 /*      テスト結果  入力フォーム用      */
 /* ■■■■■■■■■■■■■■■■■■ */
+
+.testForm {
+  display: flex;
+  flex-direction:column;
+  flex-wrap: wrap;
+  align-content: space-between;
+  height: 320px;
+}
+
+
 .cp_iptxt {
 	position: relative;
 	width: 100%;
-	margin: 10px 0%;
+	margin: 3px 0%;
 }
 .cp_iptxt input[type='number'] {
 	font: 15px/24px sans-serif;
@@ -224,7 +235,7 @@ body.show {
 	box-sizing: border-box;
 	width: 100%;
 	letter-spacing: 1px;
-	padding-left: 6em;
+	padding-left: 3em;
 }
 .cp_iptxt input[type='number']:focus {
 	outline: none;
@@ -282,6 +293,3 @@ body.show {
 	transition: 0.3s;
 	color: #da3c41;
 }
-/* ■■■■■■■■■■■■■■■■■■ */
-/*    勉強時間  時間入力フォーム用      */
-/* ■■■■■■■■■■■■■■■■■■ */

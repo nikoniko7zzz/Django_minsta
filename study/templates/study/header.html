@@ -24,18 +24,18 @@
 
         <!-- ログイン済みか判断 -->
         {% if user.is_authenticated %}
-        <li>
-          <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
         </li>
-        <li>
-          <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
         </li>
-        <li>
-          <a class="nav-item nav-link" href="{% url 'register:logout' %}">LOG OUT</a>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register:logout' %}">LOG OUT</a>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-item nav-link" href="{% url 'register:login' %}">LOG IN</a>
+          <a class="nav-link" href="{% url 'register:login' %}">LOG IN</a>
         </li>
         {% endif %}
       </ul>

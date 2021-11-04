@@ -70,15 +70,21 @@ def GraphView(request):
 # ■■■■■■ テスト結果入力データの加工 ■■■■■■
     # test_df = Test.objects.filter(author=request.user).all()
     test_df_nan = pd.DataFrame([
-                        [0, np.nan, np.nan, np.nan, np.nan, np.nan, base]],
-                        columns=['id', '国', '数', '英', '理', '社', 'date'])
+                        [0, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,
+                            np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, base]],
+                        columns=['id', 't国', 't数', 't英', 't理', 't社', 't総',
+                                        'r国', 'r数', 'r英', 'r理', 'r社', 'r総','date'])
 
     print('test_df_nan= ',test_df_nan)
 
     if test_data.count() >0:
         test_df = read_frame(test_data)
         test_df = test_df.rename(
-            columns={'tscore_japanese': 't国', 'tscore_math': 't数', 'tscore_english': 't英', 'tscore_science': 't理', 'tscore_social_studies': 't社'})
+            columns={'tscore_japanese': 't国', 'tscore_math': 't数', 'tscore_english': 't英',
+                        'tscore_science': 't理', 'tscore_social_studies': 't社', 'tscore_overall': 't総',
+                        'rank_japanese': 'r国', 'rank_math': 'r数', 'rank_english': 'r英',
+                        'rank_science': 'r理', 'rank_social_studies': 'r社', 'rank_overall': 'r総'})
+
         test_df['date'] = pd.to_datetime(test_df['date']).dt.tz_localize(None) #timezone:UTCを無くす
         test_df = test_df.drop(['created_at', 'author'], axis=1)
         # test_df = test_df.sort_values('date', ascending=False) # 日付で並び替え 古いのが下
@@ -185,30 +191,34 @@ def GraphView(request):
         # 3段目 折線グラフ(偏差値)
 
 
-    fig_two = make_subplots(
-        rows=2, cols=1,
+    fig_3 = make_subplots(
+        rows=3, cols=1,
         shared_xaxes=True,
         vertical_spacing=0.02,
+        # subplot_titles=dict(
+        #     text=('学習記録', '学年順位', '偏差値'),
+        # ),
     )
 
     # ＊赤線が出ているが、問題なく動く
 
 # ■■■■■■ heatmapの設定 ■■■■■■
-    fig_two.add_trace(
+    fig_3.add_trace(
         go.Heatmap(
             x=record_df.columns.values,
             y=subject[::-1],
             z=record_df,
+            # labels=dict(x="日", y="教科", color="分"),
 
             # # # x=(1, 7),  # 縦軸ラベルに表示する値、10刻み
             # # # opacity=0.5,  # マップの透明度を0.5に
             showlegend=True, # 凡例を強制的に表示
             colorbar_tickangle=-90, #目盛り数字の角度
-            colorbar_y=0.75, #たて位置
+            colorbar_y=0.85, #たて位置
             colorbar=dict(
                 thickness=10,
                 thicknessmode='pixels',
-                len=0.5,  # カラーバーの長さを0.8に（デフォルトは1）
+                len=0.33,  # カラーバーの長さを0.8に（デフォルトは1）
                 lenmode='fraction',
                 outlinewidth=0,
                 # outlinecolor='gray',  # カラーバーの枠線の色
@@ -234,50 +244,104 @@ def GraphView(request):
     )
 
 # ■■■■■■ 折線グラフ(学年順位) ■■■■■■
-    fig_two.add_trace(go.Scatter(
+    fig_3.add_trace(go.Scatter(
             name='国語',
-            x=test_df['date'], y=test_df['国'], mode="lines+markers",
+            x=test_df['date'], y=test_df['r国'], mode="lines+markers",
             marker=dict(color='#ffff00'),
             showlegend=True,
         ),
         row=2, col=1
     )
-    fig_two.add_trace(go.Scatter(
+    fig_3.add_trace(go.Scatter(
             name='数学',
-            x=test_df['date'], y=test_df['数'], mode="lines+markers",
+            x=test_df['date'], y=test_df['r数'], mode="lines+markers",
             marker=dict(color='#7f00f0'),
         ),
         row=2, col=1
     )
-    fig_two.add_trace(go.Scatter(
+    fig_3.add_trace(go.Scatter(
             name='英語',
-            x=test_df['date'], y=test_df['英'], mode="lines+markers",
-            marker=dict(color='#ff0000'),
+            x=test_df['date'], y=test_df['r英'], mode="lines+markers",
+            marker=dict(color='#00ffff'),
         ),
         row=2, col=1
     )
-    fig_two.add_trace(go.Scatter(
+    fig_3.add_trace(go.Scatter(
             name='理科',
-            x=test_df['date'], y=test_df['理'], mode="lines+markers",
+            x=test_df['date'], y=test_df['r理'], mode="lines+markers",
             marker=dict(color='#0000ff'),
         ),
         row=2, col=1
     )
-    fig_two.add_trace(go.Scatter(
+    fig_3.add_trace(go.Scatter(
             name='社会',
-            x=test_df['date'], y=test_df['社'], mode="lines+markers",
+            x=test_df['date'], y=test_df['r社'], mode="lines+markers",
             marker=dict(color='#00ff00'),
         ),
         row=2, col=1
     )
+    fig_3.add_trace(go.Scatter(
+            name='総合',
+            x=test_df['date'], y=test_df['r総'], mode="lines+markers",
+            marker=dict(color='#ff0000'),
+        ),
+        row=2, col=1
+    )
+
+
+
+# ■■■■■■ 折線グラフ(偏差値) ■■■■■■
+    fig_3.add_trace(go.Scatter(
+            name='国語',
+            x=test_df['date'], y=test_df['t国'], mode="lines+markers",
+            marker=dict(color='#ffff00'),
+            showlegend=True,
+        ),
+        row=3, col=1
+    )
+    fig_3.add_trace(go.Scatter(
+            name='数学',
+            x=test_df['date'], y=test_df['t数'], mode="lines+markers",
+            marker=dict(color='#7f00f0'),
+        ),
+        row=3, col=1
+    )
+    fig_3.add_trace(go.Scatter(
+            name='英語',
+            x=test_df['date'], y=test_df['t英'], mode="lines+markers",
+            marker=dict(color='#00ffff'),
+        ),
+        row=3, col=1
+    )
+    fig_3.add_trace(go.Scatter(
+            name='理科',
+            x=test_df['date'], y=test_df['t理'], mode="lines+markers",
+            marker=dict(color='#0000ff'),
+        ),
+        row=3, col=1
+    )
+    fig_3.add_trace(go.Scatter(
+            name='社会',
+            x=test_df['date'], y=test_df['t社'], mode="lines+markers",
+            marker=dict(color='#00ff00'),
+        ),
+        row=3, col=1
+    )
+    fig_3.add_trace(go.Scatter(
+            name='社会',
+            x=test_df['date'], y=test_df['t総'], mode="lines+markers",
+            marker=dict(color='#ff0000'),
+        ),
+        row=3, col=1
+    )
+
+
 
 # ■■■■■■ グラフのレイアウト設定 ■■■■■■
-    fig_two.update_layout(
+    fig_3.update_layout(
         width=380,
-        # height=210,
+        height=500,
         showlegend=False, # 凡例を強制的に表示（デフォルトでは複数系列あると表示）
-        # yaxis=(dict(
-        #     range=(0, 120))),
         template='plotly_dark',
         plot_bgcolor = '#212529',
         margin=dict(     # グラフ領域の余白設定
@@ -285,11 +349,66 @@ def GraphView(request):
             pad = 0,         # グラフから軸のラベルまでのpadding
             autoexpand=True,  # LegendやSidebarが被ったときに自動で余白を増やすかどうか
         ),
+
+        yaxis2=dict(
+            autorange='reversed',
+        ),
+
+        annotations=[{'font': {'size': 14},
+                     'showarrow': False,
+                     'text': '学習記録',
+                     'x': 0.05,
+                     'xref': 'paper',
+                     'y': 0.94,
+                     'yanchor': 'bottom',
+                     'yref': 'paper'},
+                    {'font': {'size': 14},
+                     'showarrow': False,
+                     'text': '学年順位',
+                     'x': 0.05,
+                     'xref': 'paper',
+                     'y': 0.6,
+                     'yanchor': 'bottom',
+                     'yref': 'paper'},
+                    {'font': {'size': 14},
+                     'showarrow': False,
+                     'text': '偏差値',
+                     'x': 0.05,
+                     'xref': 'paper',
+                     'y': 0.26,
+                     'yanchor': 'bottom',
+                     'yref': 'paper'}],
+        hovermode='closest',
     )
+    #     annotations=[{'font': {'size': 16},
+    #                  'showarrow': False,
+    #                  'text': '学習記録',
+    #                  'x': 0.05,
+    #                  'xref': 'paper',
+    #                  'y': 0.94,
+    #                  'yanchor': 'bottom',
+    #                  'yref': 'paper'},
+    #                 {'font': {'size': 16},
+    #                  'showarrow': False,
+    #                  'text': '学年順位',
+    #                  'x': 0.05,
+    #                  'xref': 'paper',
+    #                  'y': 0.6,
+    #                  'yanchor': 'bottom',
+    #                  'yref': 'paper'},
+    #                 {'font': {'size': 16},
+    #                  'showarrow': False,
+    #                  'text': '偏差値',
+    #                  'x': 0.05,
+    #                  'xref': 'paper',
+    #                  'y': 0.26,
+    #                  'yanchor': 'bottom',
+    #                  'yref': 'paper'}],
+    # )
 # ■■■■■■ htmlに表示する設定 ■■■■■■
-    fig_two_graph = fig_two.to_html(include_plotlyjs='cdn',
+    fig_3_graph = fig_3.to_html(include_plotlyjs='cdn',
                                  full_html=False).encode().decode('unicode-escape')
 
     return render(request, "study/graph.html", {
-        "graph_heatmap": fig_two_graph,
+        "graph_heatmap": fig_3_graph,
     })

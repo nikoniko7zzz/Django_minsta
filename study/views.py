@@ -176,14 +176,20 @@ def TwoInputView(request):
     print('twoinputスタート')
     if request.method == 'POST':
         form = TestForm(request.POST)
-        print('テストフォームを受け取りました。')
         if form.is_valid():  # フォームに入力された値にエラーがないかをバリデートする
             post = form.save(commit=False)
             print('テスト結果を受け取りました。')
+            # print('post= ', post)
+            post.tscore_overall = (
+                post.tscore_japanese + post.tscore_math + post.tscore_english + post.tscore_science
+                 + post.tscore_social_studies) / 5
             post.author = request.user  # ログインユーザーをformに入れている
             print('ログインユーザーを受け取りました。')
+
+            print('post.tscore_overall= ',post.tscore_overall)
             post.save()
             print('テスト結果を記録しました。')
+            # print('post= ',post)
             # print(request.user.username)
             # print(request.user.date_joined)
             # print(post)

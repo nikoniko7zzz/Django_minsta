@@ -1,3 +1,4 @@
+from collections import _OrderedDictKeysView
 from config.settings import STATIC_ROOT
 from django.db import models
 from django.utils import timezone
@@ -65,30 +66,31 @@ class Test(models.Model):
     # 偏差値
     # tscore_
     tscore_japanese = models.IntegerField(
-        verbose_name='国語 ')
+        verbose_name='')
     tscore_math = models.IntegerField(
-        verbose_name='数学 ')
+        verbose_name='')
     tscore_english = models.IntegerField(
-        verbose_name='英語 ')
+        verbose_name='')
     tscore_science = models.IntegerField(
-        verbose_name='理科 ')
+        verbose_name='')
     tscore_social_studies = models.IntegerField(
-        verbose_name='社会 ')
+        verbose_name='')
     tscore_overall = models.IntegerField(
-        verbose_name='総合 ')
+        verbose_name='')
     # 学年順位
+    # blank=True, null=True 空白保存OK
     rank_japanese = models.IntegerField(
-        verbose_name='')
+        verbose_name='国語', blank=True, null=True)
     rank_math = models.IntegerField(
-        verbose_name='')
+        verbose_name='数学', blank=True, null=True)
     rank_english = models.IntegerField(
-        verbose_name='')
+        verbose_name='英語', blank=True, null=True)
     rank_science = models.IntegerField(
-        verbose_name='')
+        verbose_name='理科', blank=True, null=True)
     rank_social_studies = models.IntegerField(
-        verbose_name='')
+        verbose_name='社会', blank=True, null=True)
     rank_overall = models.IntegerField(
-        verbose_name='')
+        verbose_name='総合', blank=True, null=True)
 
     date = models.DateField('日時 ')  # このDateFieldが対象です。
     author = models.ForeignKey(

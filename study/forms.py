@@ -88,19 +88,13 @@ class TestForm(forms.ModelForm):
     """テスト結果追加フォーム"""
     class Meta:
         model = Test
+        # 偏差値の総合はviewで計算をするのでform不要
         fields = ('date',
-                'tscore_japanese', 'tscore_math','tscore_english', 'tscore_science', 'tscore_social_studies', 'tscore_overall',
-                'rank_japanese', 'rank_math','rank_english', 'rank_science', 'rank_social_studies', 'rank_overall')
+                'rank_japanese', 'rank_math','rank_english', 'rank_science', 'rank_social_studies', 'rank_overall',
+                'tscore_japanese', 'tscore_math','tscore_english', 'tscore_science', 'tscore_social_studies')
         widgets = {
             # 'date': DatePickWidget,
             'date': DatePickWidget(attrs={'style': 'background-color:#aaaaaa;'}),
-
-            'tscore_japanese' : forms.NumberInput(attrs={'class':'ef'}),
-            'tscore_math' : forms.NumberInput(attrs={'class':'ef'}),
-            'tscore_english' : forms.NumberInput(attrs={'class':'ef'}),
-            'tscore_science' : forms.NumberInput(attrs={'class':'ef'}),
-            'tscore_social_studies' : forms.NumberInput(attrs={'class':'ef'}),
-            'tscore_overall' : forms.NumberInput(attrs={'class':'ef'}),
 
             'rank_japanese' : forms.NumberInput(attrs={'class':'ef'}),
             'rank_math' : forms.NumberInput(attrs={'class':'ef'}),
@@ -109,6 +103,11 @@ class TestForm(forms.ModelForm):
             'rank_social_studies' : forms.NumberInput(attrs={'class':'ef'}),
             'rank_overall' : forms.NumberInput(attrs={'class':'ef'}),
 
+            'tscore_japanese' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_math' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_english' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_science' : forms.NumberInput(attrs={'class':'ef'}),
+            'tscore_social_studies' : forms.NumberInput(attrs={'class':'ef'}),
             # 'date': AdminDateWidget(),  # インポートしたadminウィジェット用
             # 'date': DatePickerInput(format='%Y-%m-%d') #bootstrapカレンダー
         }

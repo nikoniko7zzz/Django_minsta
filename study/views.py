@@ -50,6 +50,9 @@ from plotly.subplots import make_subplots #グラフの融合
 # reverse_lazy reverseをクラスベースビューのクラス変数として書くときに利用
 
 
+
+
+
 def RecordInputView(request):
     # params = {'message': 'newです'}
     params = {'message': '', 'form': None}

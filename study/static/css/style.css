@@ -1,11 +1,10 @@
 body{
-	font-family: Roboto, "Yu Gothic Medium", YuGothic,  sans-serif;
+	font-family: Roboto, "Yu Gothic Medium", "游ゴシック Medium", YuGothic,  "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
 }
 
 
-
 h1 {
-    color: #ff3d3d;
+    color: #ff0000;
 }
 
 label {

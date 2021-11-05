@@ -30,6 +30,7 @@ urlpatterns = [
           views.PasswordResetConfirm.as_view(), name='password_reset_confirm'),
      path('password_reset/complete/', views.PasswordResetComplete.as_view(),
      name='password_reset_complete'),
+
      # path('email/change/', views.EmailChange.as_view(), name='email_change'),
      # path('email/change/done/', views.EmailChangeDone.as_view(), name='email_change_done'),
      # path('email/change/complete/<str:token>/', views.EmailChangeComplete.as_view(), name='email_change_complete'),

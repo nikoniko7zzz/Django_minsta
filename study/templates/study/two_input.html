@@ -8,7 +8,7 @@
 <div class="container mb-3">
   <div class="d-flex justify-content-between">
     <div class="button">
-      <a href="" style="color: #da3c41;">
+      <a href="" style="color: #ff0000;">
         Test
         <span class="shift">›</span>
       </a>
@@ -31,11 +31,12 @@
     {{ stock_form.non_field_errors }}
     {% for field in test_form %}
     {% if forloop.first %}
-    <div class="container">
-      <div class="row mb-3">
-        {{ field }}
-      </div>
+    <div class="cp_iptxt mb-3">
+      <label>{{ field.label }}</label>
+      {{ field }}
     </div>
+
+
 
     <div class="row">
       <div class="col">
